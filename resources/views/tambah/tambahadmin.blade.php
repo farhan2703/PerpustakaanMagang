@@ -50,9 +50,9 @@
                                 </div>
     
                                 <div class="form-group row mb-3">
-                                    <label for="username" class="col-sm-3 col-form-label">Username</label>
+                                    <label for="email" class="col-sm-3 col-form-label">email</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="username" name="username" required>
+                                        <input type="text" class="form-control" id="email" name="email" required>
                                     </div>
                                 </div>
     

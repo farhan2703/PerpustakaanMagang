@@ -60,7 +60,12 @@
                             <div class="row mb-3">
                                 <div class="col-sm-4 font-weight-bold">Status Ketersediaan:</div>
                                 <div class="col-sm-8">
-                                    <span class="badge bg-success">{{ $buku->status_ketersediaan }}</span>
+                                    @if($buku->stok > 0)
+                                      <span class="badge bg-success">{{ $buku->status_ketersediaan }}</span>
+                                  @else
+                                      <span class="badge bg-danger">Tidak tersedia</span>
+                                  @endif
+                                   
                                 </div>
                             </div>
                             <div class="row mb-3">

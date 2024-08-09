@@ -66,7 +66,7 @@
                             <tr>
                                 <th scope="row">{{ $loop->iteration }}</th>
                                 <td>{{ $admin->nama_admin }}</td>
-                                <td>{{ $admin->username }}</td>
+                                <td>{{ $admin->email }}</td>
                                 <td>{{ $admin->alamat }}</td>
                                 <td>{{ $admin->no_telepon }}</td>
                                 <td>{{ $admin->tanggal_lahir }}</td>
@@ -77,7 +77,13 @@
                                             <i class="bi bi-pencil-square"></i>
                                         </button>
                                     </form>
-                                    <a href="#" class="btn light btn-danger shadow btn-xs sharp mr-1"><i class="bi bi-trash"></i></a>
+                                    <form action="{{ route('admin_forcedelete', $admin->id_admin) }}" method="POST" style="display: inline;">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-danger shadow btn-xs sharp">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </form>
                                 </td>
                             </tr>
                             @endforeach

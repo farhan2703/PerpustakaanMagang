@@ -11,7 +11,7 @@ class CreateCobaAdminTable extends Migration
         Schema::create('admin', function (Blueprint $table) {
             $table->id('id_admin');
             $table->string('nama_admin', 100);
-            $table->string('username', 50);
+            $table->string('email', 50);
             $table->string('password', 255);
             $table->string('alamat', 250);
             $table->string('no_telepon', 20);
@@ -19,7 +19,7 @@ class CreateCobaAdminTable extends Migration
             $table->string('jenis_kelamin', 20);
             $table->unsignedBigInteger('id_member')->nullable();
             $table->unsignedBigInteger('id_buku')->nullable();
-            $table->foreign('id_member')->references('id_member')->on('member')->onDelete('cascade');
+            $table->foreign('id_member')->references('id_member')->on('members')->onDelete('cascade');
             $table->foreign('id_buku')->references('id_buku')->on('buku')->onDelete('cascade');
             $table->timestamps();
         });

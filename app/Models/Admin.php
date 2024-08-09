@@ -2,29 +2,36 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Spatie\Permission\Traits\HasRoles;
 
-class Admin extends Model
+class Admin extends Authenticatable
 {
-    use HasFactory;
+    use HasRoles;
 
-    protected $table = 'admin';
+    protected $table = 'admin'; // Nama tabel di database
+
     protected $fillable = [
         'nama_admin',
-        'username',
+        'email',
         'password',
         'alamat',
         'no_telepon',
         'tanggal_lahir',
         'jenis_kelamin',
-        'id_member',
-        'id_buku',
     ];
-    protected $primaryKey = 'id_admin';
-    
-    // Sembunyikan password dari array output (misalnya saat konversi ke JSON)
+
+    public $timestamps = true; // Jika model menggunakan timestamps
+
+    protected $primaryKey = 'id_admin'; // Custom primary key
+
     protected $hidden = [
-        'password',
+        'password', // Menyembunyikan password
     ];
+
+    // Mengambil password untuk otentikasi
+    public function getAuthPassword()
+    {
+        return $this->password;
+    }
 }
