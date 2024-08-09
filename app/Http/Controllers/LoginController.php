@@ -22,7 +22,7 @@ class LoginController extends Controller
         'password'=> 'required'
       ],[
         'email.required'=> 'Email wajib di isi',
-        
+
         'password.required'=> 'Password wajib di isi',
       ]);
 
@@ -37,15 +37,22 @@ class LoginController extends Controller
         return redirect('/login')->withErrors('Username dan Password yang dimasukkan tidak valid');
       }
     }
-     
-    function logout()
+    public function logout(Request $request)
     {
         Auth::logout();
-        return redirect ('/login')->with('Berhasil Logout');
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect('/login'); // Arahkan ke halaman login setelah logout
     }
+}
+    // function logout()
+    // {
+    //     Auth::logout();
+    //     return redirect ('/login')->with('Berhasil Logout');
+    // }
 
     // public function logout(){
     //     Auth::logout();
     //     return redirect ('/');
     // }
-}

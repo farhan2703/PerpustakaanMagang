@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head> 
+<head>
     @include('template.header')
 </head>
 
@@ -20,7 +20,7 @@
   <main id="main" class="main">
 
     <section class="section dashboard">
-      
+
     </section>
 
   </main><!-- End #main -->

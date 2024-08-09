@@ -15,7 +15,14 @@ class MemberSeeder extends Seeder
             'no_telepon' => '0859595593598',
             'email' => 'gilang32nugraha@gmail.com',
             'password' => Hash::make('123123123'),
-            
+
         ]);
+        $role = Role::create(['name' => 'Admin']);
+
+        $permissions = Permission::pluck('id','id')->all();
+
+        $role->syncPermissions($permissions);
+
+        $user->assignRole([$role->id]);
     }
 }

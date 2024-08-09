@@ -13,6 +13,8 @@ class Member extends Authenticatable
     // Nama tabel di database
     protected $table = 'members';
 
+    protected $guard_name = 'web';
+
     // Menentukan kolom primer jika bukan id
     protected $primaryKey = 'id_member'; // Sesuaikan dengan nama kolom primer di tabel Anda
 
@@ -20,7 +22,7 @@ class Member extends Authenticatable
     public $incrementing = false; // Ubah ke true jika menggunakan auto-increment
 
     // Jenis kolom primer
-    protected $keyType = 'string'; // Ubah ke 'int' jika menggunakan integer sebagai kolom primer
+    // protected $keyType = 'string'; // Ubah ke 'int' jika menggunakan integer sebagai kolom primer
 
     // Kolom yang dapat diisi
     protected $fillable = [
