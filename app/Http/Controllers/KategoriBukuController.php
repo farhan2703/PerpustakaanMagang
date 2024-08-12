@@ -45,7 +45,7 @@ class KategoriBukuController extends Controller
             $kategori = KategoriBuku::findOrFail($id_kategori);
             return view('edit.editkategoribuku', compact('kategori'));
         }
-    
+
         // Menyimpan perubahan kategori
         public function update(Request $request, $id_kategori)
         {
@@ -55,7 +55,7 @@ class KategoriBukuController extends Controller
                 'tanggal_dibuat' => 'required|date',
                 'tanggal_diperbarui' => 'nullable|date',
             ]);
-    
+
             $kategori = KategoriBuku::findOrFail($id_kategori);
             $kategori->update([
                 'nama_kategori' => $request->input('nama_kategori'),
@@ -63,7 +63,7 @@ class KategoriBukuController extends Controller
                 'tanggal_dibuat' => $request->input('tanggal_dibuat'),
                 'tanggal_diperbarui' => $request->input('tanggal_diperbarui'),
             ]);
-    
+
             return redirect()->route('halaman.kategoribuku')->with('success', 'Kategori buku berhasil diperbarui!');
         }
 
@@ -72,4 +72,5 @@ class KategoriBukuController extends Controller
         $kategoriBuku = KategoriBuku::findOrFail($id); // Mengambil detail kategori buku berdasarkan id
         return view('halaman.detail_kategoribuku', compact('kategoriBuku')); // Mengirim data kategori buku ke view
     }
+    
 }
