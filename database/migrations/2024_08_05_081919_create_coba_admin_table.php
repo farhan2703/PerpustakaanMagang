@@ -19,7 +19,7 @@ class CreateCobaAdminTable extends Migration
             $table->string('jenis_kelamin', 20);
             $table->unsignedBigInteger('id_member')->nullable();
             $table->unsignedBigInteger('id_buku')->nullable();
-            $table->foreign('id_member')->references('id_member')->on('members')->onDelete('cascade');
+            $table->foreign('id_member')->references('id_member')->on('member')->onDelete('cascade');
             $table->foreign('id_buku')->references('id_buku')->on('buku')->onDelete('cascade');
             $table->timestamps();
         });

@@ -47,7 +47,7 @@
                             <div class="d-flex justify-content-center py-4">
                                 <a href="{{ route('home') }}" class="logo d-flex align-items-center w-auto">
                                     <img src="assets/img/logo.png" alt="">
-                                    <span class="d-none d-lg-block">Perpustakaan</span>
+                                    <span class="d-none d-lg-block">NiceAdmin</span>
                                 </a>
                             </div><!-- End Logo -->
 
@@ -64,31 +64,31 @@
                                             <input type="text" name="name" class="form-control" id="yourName" required>
                                             <div class="invalid-feedback">Please, enter your name!</div>
                                         </div>
-
+                                    
                                         <div class="col-12">
                                             <label for="yourPhone" class="form-label">Your Phone Number</label>
                                             <input type="text" name="no_telepon" class="form-control" id="yourPhone" required>
                                             <div class="invalid-feedback">Please enter your phone number!</div>
                                         </div>
-
+                                    
                                         <div class="col-12">
                                             <label for="yourEmail" class="form-label">Your Email</label>
                                             <input type="email" name="email" class="form-control" id="yourEmail" required>
                                             <div class="invalid-feedback">Please enter a valid Email address!</div>
                                         </div>
-
+                                    
                                         <div class="col-12">
                                             <label for="yourPassword" class="form-label">Password</label>
                                             <input type="password" name="password" class="form-control" id="yourPassword" required>
                                             <div class="invalid-feedback">Please enter your password!</div>
                                         </div>
-
+                                    
                                         <div class="col-12">
                                             <label for="yourPasswordConfirmation" class="form-label">Confirm Password</label>
                                             <input type="password" name="password_confirmation" class="form-control" id="yourPasswordConfirmation" required>
                                             <div class="invalid-feedback">Please confirm your password!</div>
                                         </div>
-
+                                    
                                         <div class="col-12">
                                             <button class="btn btn-primary w-100" type="submit">Create Account</button>
                                         </div>
@@ -96,7 +96,7 @@
                                             <p class="small mb-0">Already have an account? <a href="{{ route('login') }}">Log in</a></p>
                                         </div>
                                     </form>
-
+                                    
                                 </div>
                             </div>
 

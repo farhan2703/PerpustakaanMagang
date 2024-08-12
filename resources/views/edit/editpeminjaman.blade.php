@@ -65,7 +65,7 @@
                     <div class="col-sm-9">
                         <select class="form-control" id="member_id" name="member_id" required>
                             <option value="">Pilih Member</option>
-                            @foreach($members as $member)
+                            @foreach($member as $member)
                                 <option value="{{ $member->id_member }}" {{ $member->id_member == $peminjamanPengembalian->member_id ? 'selected' : '' }}>{{ $member->nama }}</option>
                             @endforeach
                         </select>

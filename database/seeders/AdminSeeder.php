@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
-use App\Models\Member;
 use Illuminate\Support\Facades\Hash;
 
 class AdminSeeder extends Seeder
@@ -16,16 +15,15 @@ class AdminSeeder extends Seeder
      */
     public function run()
     {
-
-        $cuy = Member::create([
-            'nama' => 'Admin ihiy',
+        DB::table('admin')->insert([
+            'nama_admin' => 'Admin',
             'email' => 'admin@gmail.com',
             'password' => Hash::make('123123123'),
+            'alamat' => 'Jember',
             'no_telepon' => '085939392919',
+            'tanggal_lahir' => '1999-01-01',
+            'jenis_kelamin' => 'Laki-laki'
+            
         ]);
-
-        $member = Member::where('nama',$cuy->nama)->first();
-
-        $member->assignRole('Admin');
     }
 }

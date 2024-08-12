@@ -7,7 +7,7 @@ class CreateCobaMemberTable extends Migration
 {
     public function up()
     {
-        Schema::create('members', function (Blueprint $table) {
+        Schema::create('member', function (Blueprint $table) {
             $table->id('id_member');
             $table->string('nama', 100);
             $table->string('no_telepon', 20);

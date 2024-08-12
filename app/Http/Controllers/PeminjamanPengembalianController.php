@@ -27,8 +27,8 @@ class PeminjamanPengembalianController extends Controller
     {
         // Menampilkan form untuk membuat peminjaman baru
         $bukus = Buku::all();
-        $members = Member::all();
-        return view('tambah.tambahpeminjaman', compact('bukus', 'members'));
+        $member = Member::all();
+        return view('tambah.tambahpeminjaman', compact('bukus', 'member'));
     }
 
     public function store(Request $request)
@@ -36,7 +36,7 @@ class PeminjamanPengembalianController extends Controller
         // Validasi data input
         $request->validate([
             'buku_id' => 'required|exists:buku,id_buku',
-            'member_id' => 'required|exists:members,id_member',
+            'member_id' => 'required|exists:member,id_member',
             'tanggal_peminjaman' => 'required|date',
         ]);
 
@@ -54,8 +54,8 @@ class PeminjamanPengembalianController extends Controller
         // Menampilkan form untuk mengedit peminjaman yang ada
         $peminjamanPengembalian = PeminjamanPengembalian::findOrFail($id);
         $bukus = Buku::all();
-        $members = Member::all();
-        return view('edit.editpeminjaman', compact('peminjamanPengembalian', 'bukus', 'members'));
+        $member = Member::all();
+        return view('edit.editpeminjaman', compact('peminjamanPengembalian', 'bukus', 'member'));
     }
 
     public function update(Request $request, $id)
@@ -63,7 +63,7 @@ class PeminjamanPengembalianController extends Controller
     // Validasi data input
     $request->validate([
         'buku_id' => 'required|exists:buku,id_buku',
-        'member_id' => 'required|exists:members,id_member',
+        'member_id' => 'required|exists:member,id_member',
         'tanggal_peminjaman' => 'required|date',
         'tanggal_pengembalian' => 'nullable|date' // Validasi untuk tanggal pengembalian yang opsional
     ]);

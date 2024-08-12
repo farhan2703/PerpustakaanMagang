@@ -1,22 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    @include('template.header')
-</head>
-
-<body>
-
-    <!-- ======= Header ======= -->
-    <header id="header" class="header fixed-top d-flex align-items-center">
-        @include('template.headerbody')
-    </header><!-- End Header -->
-
-    <!-- ======= Sidebar ======= -->
-    <aside id="sidebar" class="sidebar">
-        @include('template.sidebar')
-    </aside><!-- End Sidebar -->
-
+    <head> 
+        @include('templatemember.header')
+    </head>
+    
+    <body>
+    
+      <!-- ======= Header ======= -->
+      <header id="header" class="header fixed-top d-flex align-items-center">
+        @include('templatemember.headerbody')
+        </header><!-- End Header -->
+    
+      <!-- ======= Sidebar ======= -->
+      <aside id="sidebar" class="sidebar">
+        @include('templatemember.sidebar')
+        </aside><!-- End Sidebar-->
+    
     <main id="main" class="main">
 
         <div class="pagetitle">

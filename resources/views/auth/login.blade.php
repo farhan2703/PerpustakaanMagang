@@ -43,7 +43,7 @@
               <div class="d-flex justify-content-center py-4">
                 <a href="{{ url('/') }}" class="logo d-flex align-items-center w-auto">
                   <img src="{{ asset('assets/img/logo.png') }}" alt="">
-                  <span class="d-none d-lg-block">Perpustakaan</span>
+                  <span class="d-none d-lg-block">NiceAdmin</span>
                 </a>
               </div><!-- End Logo -->
 
@@ -74,7 +74,7 @@
                         </ul>
                       </div>
                     @endif
-
+                    <form method="POST" action="{{ route('login.submit') }}">
                     <div class="col-12">
                       <label for="yourUsername" class="form-label">Username</label>
                       <div class="input-group has-validation">

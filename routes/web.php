@@ -7,10 +7,12 @@ use App\Http\Controllers\KategoriBukuController;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\PeminjamanPengembalianController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\LoginController;
 
 // Route untuk menampilkan form login
+// Route untuk menampilkan form login
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
+
+// Route untuk mengirimkan form login
 Route::post('/login', [AuthController::class, 'login'])->name('login.submit');
 
 // Route untuk menampilkan form register
@@ -24,19 +26,10 @@ Route::post('/register', [AuthController::class, 'register'])->name('register.su
 // Route untuk logout
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-// Dashboard routes
-Route::get('/admin/dashboard', function () {
-    return view('admin.dashboard');
-})->name('admin.dashboard')->middleware('auth:admin');
-
-Route::get('/member/dashboard', function () {
-    return view('member.dashboard');
-})->name('member.dashboard')->middleware('auth:member');
-
-Route::get('/member/dashboard', function () {
-    return view('halaman.member');
-})->name('halaman.member');
-
+// Route untuk dashboard member
+Route::get('/dashboard', function () {
+    return view('halaman.dashboard');
+})->name('halaman.dashboard')->middleware('auth');
 
 // Halaman utama
 Route::get('/', function () {
@@ -69,12 +62,10 @@ Route::post('/admin/store', [AdminController::class, 'store'])->name('admin.stor
 Route::get('/admin/edit/{id}', [AdminController::class, 'edit'])->name('admin.edit');
 Route::put('/admin/update/{id}', [AdminController::class, 'update'])->name('admin.update');
 Route::delete('/admin/{id}', [AdminController::class, 'forcedelete'])->name('admin_forcedelete');
-Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
 // Member dashboard route
-Route::get('/member/dashboard', [MemberController::class, 'dashboard'])->name('member.dashboard');
+Route::get('/dashboard', [MemberController::class, 'dashboard'])->name('halaman.dashboard');
 Route::get('/member', [MemberController::class, 'index'])->name('halaman.member');
-Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
 // Peminjaman routes
 Route::get('/peminjaman', [PeminjamanPengembalianController::class, 'indexPeminjaman'])->name('halaman.peminjaman');
@@ -94,5 +85,3 @@ Route::get('/pengembalian/create', [PeminjamanPengembalianController::class, 'cr
 
 // Rute untuk menyimpan data pengembalian baru
 Route::post('/pengembalian', [PeminjamanPengembalianController::class, 'storePengembalian'])->name('pengembalian.store');
-
-

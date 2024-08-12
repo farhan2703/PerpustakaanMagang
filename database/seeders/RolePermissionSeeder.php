@@ -17,6 +17,6 @@ class RolePermissionSeeder extends Seeder
         // Assign role and permission to a user
         $user = \App\Models\User::find(1);
         $user->assignRole('admin');
-        $adminRole->givePermissionTo('edit posts');
+        $user->givePermissionTo('edit posts');
     }
 }

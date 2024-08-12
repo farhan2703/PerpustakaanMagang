@@ -23,7 +23,7 @@ class CreatePeminjamanPengembalianTable extends Migration
 
             // Foreign keys
             $table->foreign('buku_id')->references('id_buku')->on('buku')->onDelete('cascade');
-            $table->foreign('member_id')->references('id_member')->on('members')->onDelete('cascade');
+            $table->foreign('member_id')->references('id_member')->on('member')->onDelete('cascade');
         });
     }
 
