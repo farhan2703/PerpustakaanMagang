@@ -17,6 +17,7 @@ class PermissionTableSeeder extends Seeder
             'dashboard',
            'kategori_buku',
            'master_buku',
+           'admin',
            'member',
            'peminjaman',
            'pengembalian',

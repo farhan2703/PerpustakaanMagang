@@ -47,13 +47,13 @@ class AuthController extends Controller
             'password' => 'required|string|min:8|confirmed',
         ]);
 
-        Member::create([
+        $member = Member::create([
             'nama' => $request->name,
             'no_telepon' => $request->no_telepon,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-        ]);
-
+            ]);
+            $member->assignRole('Member');
         return redirect()->route('login')->with('success', 'Account created successfully. Please log in.');
     }
     // /**

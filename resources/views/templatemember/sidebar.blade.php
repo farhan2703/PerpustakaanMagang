@@ -13,14 +13,15 @@
             <span>Buku</span>
         </a>
     </li>
-
+    @can('kategori_buku')
     <li class="nav-item">
         <a class="nav-link collapsed" href="{{ route('halaman.kategoribuku') }}">
             <i class="ri ri-bar-chart-horizontal-line"></i>
-            <span>Kategori Buku</span>
+            <span>Kategori Buku </span>
         </a>
     </li>
-
+    @endcan
+    @can('member')
     <li class="nav-heading">Akun</li>
     <li class="nav-item">
         <a class="nav-link collapsed" href="{{ route('halaman.admin') }}">
@@ -28,14 +29,15 @@
             <span>Admin</span>
         </a>
     </li>
-
+    @endcan
+    @can('member')
     <li class="nav-item">
         <a class="nav-link collapsed" href="{{ route('halaman.member') }}">
             <i class="bi bi-gem"></i>
             <span>Member</span>
         </a>
     </li>
-
+    @endcan
     <li class="nav-heading">Transaksi</li>
     <li class="nav-item">
         <a class="nav-link collapsed" href="{{ route('halaman.peminjaman') }}">

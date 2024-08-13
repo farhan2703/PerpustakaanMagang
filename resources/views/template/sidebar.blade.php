@@ -17,7 +17,7 @@
     <li class="nav-item">
         <a class="nav-link collapsed" href="{{ route('halaman.kategoribuku') }}">
             <i class="ri ri-bar-chart-horizontal-line"></i>
-            <span>Kategori Buku</span>
+            <span>Kategori </span>
         </a>
     </li>
 
