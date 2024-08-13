@@ -9,7 +9,7 @@ use App\Models\Member;
 use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
-{   
+{
     public function showLoginForm()
     {
         return view('auth.login');
@@ -120,4 +120,4 @@ class AuthController extends Controller
 
     //     return redirect()->route('login')->with('success', 'Account created successfully. Please log in.');
     // }
-} 
+}

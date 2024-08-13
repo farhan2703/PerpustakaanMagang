@@ -23,8 +23,11 @@ Route::get('/register', function () {
 // Route untuk mengirimkan form register
 Route::post('/register', [AuthController::class, 'register'])->name('register.submit');
 
-// Route untuk logout
+
+// Route  logout admin
+
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
 
 // Route untuk dashboard member
 Route::get('/dashboard', function () {
@@ -47,13 +50,6 @@ Route::get('/buku/edit/{id}', [BukuuController::class, 'edit'])->name('halaman.b
 Route::put('/buku/update/{id}', [BukuuController::class, 'update'])->name('halaman.buku.update');
 Route::delete('/buku/{id}', [BukuuController::class, 'forcedelete'])->name('buku.forcedelete');
 
-// Kategori Buku routes
-Route::get('kategoribuku', [KategoriBukuController::class, 'index'])->name('halaman.kategoribuku');
-Route::get('/addkategoribuku', [KategoriBukuController::class, 'create'])->name('addkategoribuku');
-Route::post('/kategoribuku', [KategoriBukuController::class, 'store'])->name('halaman.kategoribuku.store');
-Route::get('kategoribuku/{id}', [KategoriBukuController::class, 'detail'])->name('halaman.kategoribuku.detail');
-Route::get('/kategoribuku/{id_kategori}/edit', [KategoriBukuController::class, 'edit'])->name('halaman.kategoribuku.edit');
-Route::put('/kategoribuku/{id_kategori}', [KategoriBukuController::class, 'update'])->name('kategoribuku.update');
 
 // Admin routes
 Route::get('/admin', [AdminController::class, 'admin'])->name('halaman.admin');
@@ -85,3 +81,14 @@ Route::get('/pengembalian/create', [PeminjamanPengembalianController::class, 'cr
 
 // Rute untuk menyimpan data pengembalian baru
 Route::post('/pengembalian', [PeminjamanPengembalianController::class, 'storePengembalian'])->name('pengembalian.store');
+
+Route::group(['middleware' => ['permission:kategori_buku']], function () {
+// Kategori Buku routes
+Route::get('kategoribuku', [KategoriBukuController::class, 'index'])->name('halaman.kategoribuku');
+Route::get('/addkategoribuku', [KategoriBukuController::class, 'create'])->name('addkategoribuku');
+Route::post('/kategoribuku', [KategoriBukuController::class, 'store'])->name('halaman.kategoribuku.store');
+Route::get('kategoribuku/{id}', [KategoriBukuController::class, 'detail'])->name('halaman.kategoribuku.detail');
+Route::get('/kategoribuku/{id_kategori}/edit', [KategoriBukuController::class, 'edit'])->name('halaman.kategoribuku.edit');
+Route::put('/kategoribuku/{id_kategori}', [KategoriBukuController::class, 'update'])->name('kategoribuku.update');
+
+});

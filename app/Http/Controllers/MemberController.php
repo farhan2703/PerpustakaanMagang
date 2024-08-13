@@ -35,8 +35,9 @@ class MemberController extends Controller
     /**
      * Menampilkan dashboard member.
      */
-    public function dashboard()
+    public function dashboard(Request $request)
     {
+        dd(Auth::user()->nama);
         // Hanya member yang terautentikasi yang dapat mengakses dashboard ini
         return view('member.dashboard'); // Pastikan ada view member/dashboard.blade.php
     }

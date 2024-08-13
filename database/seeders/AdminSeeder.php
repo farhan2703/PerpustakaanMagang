@@ -18,12 +18,12 @@ class AdminSeeder extends Seeder
         DB::table('admin')->insert([
             'nama_admin' => 'Admin',
             'email' => 'admin@gmail.com',
-            'password' => Hash::make('123123123'),
+            'password' => Hash::make('q'),
             'alamat' => 'Jember',
             'no_telepon' => '085939392919',
             'tanggal_lahir' => '1999-01-01',
             'jenis_kelamin' => 'Laki-laki'
-            
+
         ]);
     }
 }

@@ -28,12 +28,15 @@ class RegisterController extends Controller
             'password' => 'required|min:6|confirmed',
         ]);
 
-        Member::create([
+      
+            $member = Member::create([
             'nama' => $request->nama,
             'no_telepon' => $request->no_telepon,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-        ]);
+            ]);
+
+        $member->assignRole('Member');
 
         return redirect()->route('login')->with('success', 'Registration successful. Please login.');
     }
