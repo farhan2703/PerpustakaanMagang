@@ -2,34 +2,70 @@
 
 namespace App\Http\Controllers;
 
-        // Import Excel
-use App\Exports\BukuExport;
-use App\Imports\BukuImportExcel;
+use App\Exports\ExportBuku;
+use App\Exports\ExportTemplate;
+use App\Imports\ImportBuku;
 use Illuminate\Http\Request;
 use App\Models\Buku;
 use App\Models\KategoriBuku;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redirect;
 use Maatwebsite\Excel\Facades\Excel;
+use Barryvdh\DomPDF\Facade\Pdf;
+use PhpOffice\PhpSpreadsheet\Writer\Pdf as WriterPdf;
+use Yajra\DataTables\DataTables;
 
 class BukuuController extends Controller
 {
-    public function buku()
+    public function dashboard()
     {
-        $Buku = Buku::paginate(10); // Mengambil data dengan pagination
-        return view('halaman.buku', compact('Buku')); // Mengirim data buku ke view
+        return view('member.dashboard');
+    }
+
+    public function buku(Request $request)
+    {
+        return view('halaman.buku');
+    }
+
+    public function tableBuku(Request $request)
+    {
+        if ($request->ajax()) {
+            $buku = Buku::select(['id_buku', 'judul', 'penulis', 'penerbit','tahun_terbit','status_ketersediaan','stok','kategori'])->get();
+
+            return DataTables::of($buku)
+                ->addIndexColumn() // Menambahkan indeks otomatis
+                ->addColumn('opsi', function ($row) {
+                    return '
+                        <div class="d-flex align-items-center">
+                            <form action="/buku/' . $row->id_buku . '" method="GET" class="mr-1">
+                                <button type="submit" class="btn btn-secondary btn-xs"><i class="bi bi-info-circle"></i></button>
+                            </form>
+                            <form action="/buku/' . $row->id_buku . '/edit_buku" method="GET" class="mr-1">
+                                <button type="submit" class="btn btn-warning btn-xs"><i class="bi bi-pencil-square"></i></button>
+                            </form>
+                            <form action="/buku/' . $row->id_buku . '/destroy" method="POST">
+                                ' . csrf_field() . '
+                                ' . method_field('DELETE') . '
+                                <button type="submit" class="btn btn-danger btn-xs"><i class="bi bi-trash"></i></button>
+                            </form>
+                        </div>
+                    ';
+                })
+                ->rawColumns(['opsi']) // Pastikan kolom ini dianggap sebagai HTML
+                ->make(true);
+        }
     }
 
     public function detail($id)
     {
-        $buku = Buku::findOrFail($id); // Mengambil detail buku berdasarkan id
-        return view('halaman.buku_detail', compact('buku')); // Mengirim data buku ke view
+        $buku = Buku::findOrFail($id);
+        return view('halaman.buku_detail', compact('buku'));
     }
 
     public function create()
     {
-        $kategoris = KategoriBuku::all(); // Gantilah 'Kategori' dengan model yang sesuai
-        return view('tambah.tambahbuku', compact('kategoris')); // Pastikan ada view tambahbuku.blade.php
+        $kategoris = KategoriBuku::all();
+        return view('tambah.tambahbuku', compact('kategoris'));
     }
 
     public function store(Request $request)
@@ -42,7 +78,9 @@ class BukuuController extends Controller
             'stok' => 'required|integer',
             'kategori' => 'required|string|max:255',
         ]);
+
         $status_ketersediaan = $request->stok > 0 ? 'Tersedia' : 'Tidak tersedia';
+
         Buku::create([
             'judul' => $request->input('judul'),
             'penulis' => $request->input('penulis'),
@@ -57,9 +95,10 @@ class BukuuController extends Controller
     }
 
     public function edit($id)
-    {$buku = Buku::findOrFail($id);
-        $kategoris = KategoriBuku::all(); // Ambil semua kategori dari database
-        return view('edit.editbuku', compact('buku', 'kategoris')); // Mengirim data buku ke view
+    {
+        $buku = Buku::findOrFail($id);
+        $kategoris = KategoriBuku::all();
+        return view('edit.editbuku', compact('buku', 'kategoris'));
     }
 
     public function update(Request $request, $id)
@@ -72,8 +111,8 @@ class BukuuController extends Controller
             'stok' => 'required|integer',
             'kategori' => 'required|string|max:255',
         ]);
-        $status_ketersediaan = $request->stok > 0 ? 'Tersedia' : 'Tidak tersedia';
 
+        $status_ketersediaan = $request->stok > 0 ? 'Tersedia' : 'Tidak tersedia';
 
         $buku = Buku::findOrFail($id);
         $buku->update([
@@ -102,36 +141,33 @@ class BukuuController extends Controller
         return Redirect::route('halaman.buku')->with('success', 'Buku berhasil dihapus.');
     }
 
-        public function bukuimportexcel(Request $request)
-        {
-            Log::info('Import process started');
-            $request->validate([
-                'file' => 'required|mimes:xlsx,xls,csv|max:2048',
-            ]);
+    public function export_excel()
+    {
+        return Excel::download(new ExportBuku, 'data_buku.xlsx');
+    }
+    public function export_template()
+    {
+        return Excel::download(new ExportTemplate, 'templateexcel.xlsx');
+    }
 
-            $file = $request->file('file');
-            $namafile = time() . '-' . $file->getClientOriginalName();
-            $file->move(public_path('databuku'), $namafile);
-            $filePath = public_path('databuku/' . $namafile);
+    public function export_pdf()
+    {
+        $buku = Buku::get();
+        $data = [
+            'title' => 'Data List Buku',
+            'date' => date('Y-m-d H:i:s'),
+            'buku' => $buku
+        ];
+        $pdf = Pdf::loadView('halaman.generate-buku-pdf', $data);
+        return $pdf->download('data-buku.pdf');
+    }
 
-            if (!file_exists($filePath)) {
-                Log::error('File not found');
-                return redirect()->back()->with('error', 'File tidak ditemukan.');
-            }
-
-            try {
-                Log::info('Deleting existing data');
-                Buku::query()->delete(); // Atau sesuai dengan kebutuhan Anda
-                Excel::import(new BukuImportExcel, $filePath);
-                unlink($filePath);
-                Log::info('Import successful');
-                return redirect('/buku')->with('success', 'Data berhasil ditambahkan.');
-            } catch (\Exception $e) {
-                Log::error('Import failed: ' . $e->getMessage());
-                return redirect()->back()->with('error', 'Terjadi kesalahan saat mengimpor data: ' . $e->getMessage());
-            }
-        }
-
-
-    
+    public function imporexceltbuku(Request $request)
+    {
+        $data = $request->file('file');
+        $namaFile = $data->getClientOriginalName();
+        $data->move('BukuData', $namaFile);
+        Excel::import(new ImportBuku, public_path('BukuData/' . $namaFile));
+        return redirect()->route('halaman.buku')->with('success', 'Buku berhasil diimpor.');
+    }
 }

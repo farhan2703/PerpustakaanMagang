@@ -40,73 +40,40 @@
                                 <i class="bi bi-plus"></i>
                             </a>
                         </div>
-                        
                         <h5>Daftar Peminjaman</h5>
-                        @if(session('success'))
-                            <div class="alert alert-success">
-                                {{ session('success') }}
+                            @if(session('success'))
+                                <div class="alert alert-success alert-dismissible fade show">
+                                    <strong>Success!</strong> {{ session('success') }}
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span><i class="mdi mdi-close"></i></span></button>
+                                </div>
+                            @endif
+        
+                           
+                                <table id="peminjamanTable" class="table table-responsive-md">
+                                    <thead>
+                                        <tr>
+                                            <th>No</th>
+                                            <th>Judul Buku</th>
+                                            <th>Nama Member</th>
+                                            <th>Tanggal Peminjaman</th>
+                                            <th>Status</th>
+                                            <th>Option</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
                             </div>
-                        @endif
-                    
-                        <table class="table table-borderless datatable">
-                            <thead>
-                                <tr>
-                                    <th scope="col">No</th>
-                                    <th scope="col">Judul Buku</th>
-                                    <th scope="col">Nama Member</th>
-                                    <th scope="col">Tanggal Peminjaman</th>
-                                    <th scope="col">Status</th>
-                                    <th scope="col">Aksi</th>
-                                </tr>
-                            </thead>
-                            <tbody id="peminjamanTable">
-                                @foreach($peminjamans as $peminjaman)
-                                <tr>
-                                    <th scope="row">{{ $loop->iteration }}</th>
-                                    <td>{{ $peminjaman->buku->judul }}</td>
-                                    <td>{{ $peminjaman->member->nama }}</td>
-                                    <td>{{ $peminjaman->tanggal_peminjaman }}</td>
-                                    <td> 
-                                        <span class="badge bg-warning">{{ $peminjaman->status }}</span>
-                                    </td>
-                                    <td>
-                                        <a href="{{ route('peminjaman.edit', $peminjaman->id) }}" class="btn btn-warning shadow btn-xs sharp">
-                                            <i class="bi bi-pencil-square"></i>
-                                        </a>
-                                        <form action="{{ route('peminjaman.destroy', $peminjaman->id) }}" method="POST" style="display: inline;">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-danger shadow btn-xs sharp">
-                                                <i class="bi bi-trash"></i>
-                                            </button>
-                                        </form>
-                                    </td>
-                                </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                        <div class="d-flex justify-content-end">
-                            {{ $peminjamans->links() }}
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
-  </main>
+        </div>
 
-  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
-
-  <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
-  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="assets/vendor/chart.js/chart.umd.js"></script>
-  <script src="assets/vendor/echarts/echarts.min.js"></script>
-  <script src="assets/vendor/quill/quill.min.js"></script>
-  <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
-  <script src="assets/vendor/tinymce/tinymce.min.js"></script>
-  <script src="assets/vendor/php-email-form/validate.js"></script>
-  <script src="assets/js/main.js"></script>
-
-</body>
-
-</html>
+        @include('templatemember.scripts')
+        <input type="hidden" id="peminjaman-table-url" value="{{ route('tablePeminjaman') }}">
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://cdn.datatables.net/v/bs5/dt-2.1.3/datatables.min.js"></script>
+        <script src="{{ asset('main.js') }}"></script>
+        </body>
+        </html>

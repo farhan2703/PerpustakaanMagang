@@ -4,14 +4,48 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Admin;
+use App\Models\Member;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Redirect;
+use Yajra\DataTables\Facades\DataTables;
 
 class AdminController extends Controller
-{
-    public function admin()
+{   
+    public function dashboard()
     {
-        $admins = Admin::paginate(10);
-        return view('halaman.admin', compact('admins'));
+        return view('member.dashboard');
+    }
+    public function admin(Request $request)
+    {
+        return view('halaman.admin');
+    }
+
+    public function tableAdmin(Request $request)
+    {
+        if ($request->ajax()) {
+            $members = Member::role('Admin')
+            ->with('roles')
+            ->select(['id_member', 'nama', 'no_telepon', 'email'])->get();
+
+            return DataTables::of($members)
+                ->addIndexColumn() // Menambahkan indeks otomatis
+                ->addColumn('opsi', function ($row) {
+                    return '
+                        <div class="d-flex align-items-center">
+                            <form action="/admin/' . $row->id_member . '/edit_admin" method="GET" class="mr-1">
+                                <button type="submit" class="btn btn-warning btn-xs"><i class="bi bi-pencil-square"></i></button>
+                            </form>
+                            <form action="/admin/' . $row->id_member . '/destroy" method="POST">
+                                ' . csrf_field() . '
+                                ' . method_field('DELETE') . '
+                                <button type="submit" class="btn btn-danger btn-xs"><i class="bi bi-trash"></i></button>
+                            </form>
+                        </div>
+                    ';
+                })
+                ->rawColumns(['opsi']) // Pastikan kolom ini dianggap sebagai HTML
+                ->make(true);
+        }
     }
 
     public function create()
@@ -22,68 +56,69 @@ class AdminController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nama_admin' => 'required|string|max:255',
-            'email' => 'required|string|max:255|unique:admin',
-            'password' => 'required|string|min:8',
-            'alamat' => 'required|string|max:255',
+            'nama' => 'required|string|max:255',
             'no_telepon' => 'required|string|max:15',
-            'tanggal_lahir' => 'required|date',
-            'jenis_kelamin' => 'required|string|max:10',
+            'email' => 'required|string|max:255|unique:member,email', // Validasi untuk memastikan email unik di tabel 'member'
+            'password' => 'required|string|min:8',
+        ], [
+            'email.unique' => 'Email sudah digunakan. Silakan gunakan email lain.',
         ]);
 
-        Admin::create([
-            'nama_admin' => $request->input('nama_admin'),
-            'email' => $request->input('email'),
-            'password' => bcrypt($request->input('password')),
-            'alamat' => $request->input('alamat'),
-            'no_telepon' => $request->input('no_telepon'),
-            'tanggal_lahir' => $request->input('tanggal_lahir'),
-            'jenis_kelamin' => $request->input('jenis_kelamin'),
-            
+        $member = Member::create([
+            'nama' => $request->nama,
+            'no_telepon' => $request->no_telepon,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
         ]);
+
+        $member->assignRole('Admin');
 
         return redirect()->route('halaman.admin')->with('success', 'Admin berhasil ditambahkan!');
     }
 
-    public function edit($id)
+    public function edit($id_member)
     {
-        $admin = Admin::findOrFail($id);
-        return view('edit.editadmin', compact('admin'));
+        $member = Member::findOrFail($id_member);
+        return view('edit.editadmin', compact('member'));
     }
 
-    public function update(Request $request, $id)
-    {
+    public function update(Request $request, $id_member)
+    {$request->validate([
+        'nama' => 'required|string|max:255',
+        'no_telepon' => 'required|string|max:15',
+        'email' => 'required|string|max:255|unique:member,email,' . $id_member . ',id_member', // Validasi untuk memastikan email unik di tabel 'member' kecuali untuk ID yang sedang diedit
+    ], [
+        'email.unique' => 'Email sudah digunakan. Silakan gunakan email lain.',
+    ]);
+
+    $member = Member::findOrFail($id_member);
+
+    // Update fields
+    $member->nama = $request->input('nama');
+    $member->no_telepon = $request->input('no_telepon');
+    $member->email = $request->input('email');
+
+    // Cek apakah password diisi
+    if ($request->filled('password')) {
         $request->validate([
-            'nama_admin' => 'required|string|max:255',
-            'email' => 'required|string|max:255|unique:admin,email,' . $id . ',id_admin',
-            'alamat' => 'required|string|max:255',
-            'no_telepon' => 'required|string|max:15',
-            'tanggal_lahir' => 'required|date',
-            'jenis_kelamin' => 'required|string|max:10',
+            'password' => 'required|string|min:8',
         ]);
-
-        $admin = Admin::findOrFail($id);
-        $admin->update([
-            'nama_admin' => $request->input('nama_admin'),
-            'email' => $request->input('email'),
-            'alamat' => $request->input('alamat'),
-            'no_telepon' => $request->input('no_telepon'),
-            'tanggal_lahir' => $request->input('tanggal_lahir'),
-            'jenis_kelamin' => $request->input('jenis_kelamin'),
-
-        ]);
-
-        return redirect()->route('halaman.admin')->with('success', 'Admin berhasil diupdate!');
+        $member->password = bcrypt($request->input('password'));
     }
-    public function forcedelete($id)
-    {
-        $admin = Admin::find($id);
 
-        if (!$admin) {
+    $member->save();
+
+    return redirect()->route('halaman.admin')->with('success', 'Admin berhasil diupdate!');
+}
+    public function forcedelete($id_member)
+    {
+        $member = Member::find($id_member);
+
+        if (!$member) {
             return Redirect::route('halaman.admin')->with('error', 'Admin tidak ditemukan.');
         }
 
-        $admin->delete();
+        $member->delete();
 
         return Redirect::route('halaman.admin')->with('success', 'Admin berhasil dihapus.');
     }

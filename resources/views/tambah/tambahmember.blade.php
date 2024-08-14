@@ -18,11 +18,11 @@
 <main id="main" class="main">
 
     <div class="pagetitle">
-        <h1>Tambah Admin</h1>
+        <h1>Tambah Member</h1>
         <nav>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{{ route('halaman.admin') }}">Home</a></li>
-                <li class="breadcrumb-item active">Tambah Admin</li>
+                <li class="breadcrumb-item"><a href="">Home</a></li>
+                <li class="breadcrumb-item active">Tambah Member</li>
             </ol>
         </nav>
     </div>
@@ -31,15 +31,25 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 mx-auto">
-    
+
                     <div class="card">
                         <div class="card-header">
-                            <h5 class="card-title">Tambah Admin</h5>
+                            <h5 class="card-title">Tambah Member</h5>
                         </div>
                         <div class="card-body">
-    
+                            <!-- Tampilkan Pesan Error Umum -->
+                            @if ($errors->any())
+                                <div class="alert alert-danger">
+                                    <ul>
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif
+
                             <!-- General Form Elements -->
-                            <form action="{{ route('admin.store') }}" method="POST">
+                            <form action="{{ route('member.store') }}" method="POST">
                                 @csrf
 
                                 <div class="form-group row mb-3">
@@ -99,15 +109,15 @@
 
                             </form>
                             <!-- End General Form Elements -->
-    
+
                         </div>
                     </div>
-    
+
                 </div>
             </div>
         </div>
     </section>
-    
+
 </main>
 
 <footer id="footer" class="footer">
