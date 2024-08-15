@@ -9,12 +9,12 @@
 
   <!-- ======= Header ======= -->
   <header id="header" class="header fixed-top d-flex align-items-center">
-    @include('template.headerbody')
+    @include('templatemember.headerbody')
     </header><!-- End Header -->
 
   <!-- ======= Sidebar ======= -->
   <aside id="sidebar" class="sidebar">
-    @include('template.sidebar')
+    @include('templatemember.sidebar')
     </aside><!-- End Sidebar-->
 
   <main id="main" class="main">

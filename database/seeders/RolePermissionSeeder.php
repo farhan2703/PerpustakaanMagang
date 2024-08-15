@@ -10,7 +10,7 @@ class RolePermissionSeeder extends Seeder
     {
         $adminRole = Role::create(['name' => 'admin']);
         $editorRole = Role::create(['name' => 'editor']);
-
+        
         $viewPostsPermission = Permission::create(['name' => 'view posts']);
         $editPostsPermission = Permission::create(['name' => 'edit posts']);
 
@@ -18,5 +18,7 @@ class RolePermissionSeeder extends Seeder
         $user = \App\Models\User::find(1);
         $user->assignRole('admin');
         $user->givePermissionTo('edit posts');
+        
+        
     }
 }

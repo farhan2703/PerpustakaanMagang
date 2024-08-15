@@ -21,4 +21,14 @@ class Buku extends Model
         'kategori',     
     ];
     protected $primaryKey = 'id_buku';
+
+    public function scopeAvailable($query)
+    {
+        return $query->where('stok', '>', 0);
+    }
+
+    public static function countAvailableBooks()
+    {
+        return self::available()->count();
+    }
 }

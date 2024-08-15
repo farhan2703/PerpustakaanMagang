@@ -28,32 +28,40 @@ class BukuuController extends Controller
     }
 
     public function tableBuku(Request $request)
-    {
-        if ($request->ajax()) {
-            $buku = Buku::select(['id_buku', 'judul', 'penulis', 'penerbit','tahun_terbit','status_ketersediaan','stok','kategori'])->get();
+    {if ($request->ajax()) {
+        $buku = Buku::select(['id_buku', 'judul', 'penulis', 'penerbit', 'tahun_terbit', 'status_ketersediaan', 'stok', 'kategori'])->get();
 
-            return DataTables::of($buku)
-                ->addIndexColumn() // Menambahkan indeks otomatis
-                ->addColumn('opsi', function ($row) {
-                    return '
-                        <div class="d-flex align-items-center">
-                            <form action="/buku/' . $row->id_buku . '" method="GET" class="mr-1">
-                                <button type="submit" class="btn btn-secondary btn-xs"><i class="bi bi-info-circle"></i></button>
-                            </form>
-                            <form action="/buku/' . $row->id_buku . '/edit_buku" method="GET" class="mr-1">
-                                <button type="submit" class="btn btn-warning btn-xs"><i class="bi bi-pencil-square"></i></button>
-                            </form>
-                            <form action="/buku/' . $row->id_buku . '/destroy" method="POST">
-                                ' . csrf_field() . '
-                                ' . method_field('DELETE') . '
-                                <button type="submit" class="btn btn-danger btn-xs"><i class="bi bi-trash"></i></button>
-                            </form>
-                        </div>
-                    ';
-                })
-                ->rawColumns(['opsi']) // Pastikan kolom ini dianggap sebagai HTML
-                ->make(true);
-        }
+        return DataTables::of($buku)
+            ->addIndexColumn() // Menambahkan indeks otomatis
+            ->editColumn('status_ketersediaan', function ($row) {
+                // Menentukan status ketersediaan dan warna teks berdasarkan stok
+                if ($row->stok <= 0) {
+                    return '<span style="color: red;">Tidak Tersedia</span>';
+                } else {
+                    return '<span style="color: green;">Tersedia</span>';
+                }
+            })
+            ->addColumn('opsi', function ($row) {
+                // Buat tombol aksi untuk setiap buku
+                return '
+                    <div class="d-flex align-items-center">
+                        <form action="/buku/' . $row->id_buku . '" method="GET" class="mr-1">
+                            <button type="submit" class="btn btn-secondary btn-xs"><i class="bi bi-info-circle"></i></button>
+                        </form>
+                        <form action="/buku/' . $row->id_buku . '/edit_buku" method="GET" class="mr-1">
+                            <button type="submit" class="btn btn-warning btn-xs"><i class="bi bi-pencil-square"></i></button>
+                        </form>
+                        <form action="/buku/' . $row->id_buku . '/destroy" method="POST">
+                            ' . csrf_field() . '
+                            ' . method_field('DELETE') . '
+                            <button type="submit" class="btn btn-danger btn-xs"><i class="bi bi-trash"></i></button>
+                        </form>
+                    </div>
+                ';
+            })
+            ->rawColumns(['status_ketersediaan', 'opsi']) // Pastikan kolom status_ketersediaan dan opsi dianggap sebagai HTML
+            ->make(true);
+    }
     }
 
     public function detail($id)

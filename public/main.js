@@ -93,6 +93,39 @@ $(document).ready(function () {
             { data: "opsi", name: "opsi", orderable: false, searchable: false },
         ],
     });
+    $("#bukumemberTable").DataTable({
+        ordering: true,
+        serverSide: true,
+        processing: true,
+        ajax: {
+            url: $("#bukumember-table-url").val(), // Mengambil URL dari elemen input tersembunyi
+            type: "GET",
+            dataType: "json",
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.error("AJAX error:", textStatus, errorThrown);
+                alert(
+                    "Terjadi kesalahan saat memuat data. Silakan coba lagi nanti."
+                );
+            },
+        },
+        columns: [
+            {
+                data: "DT_RowIndex",
+                name: "DT_RowIndex",
+                width: "10px",
+                orderable: false,
+                searchable: false,
+            },
+            { data: "judul", name: "judul" },
+            { data: "penulis", name: "penulis" },
+            { data: "penerbit", name: "penerbit" },
+            { data: "tahun_terbit", name: "tahun_terbit" },
+            { data: "status_ketersediaan", name: "status_ketersediaan" },
+            { data: "stok", name: "stok" },
+            { data: "kategori", name: "kategori" },
+            { data: "opsi", name: "opsi", orderable: false, searchable: false },
+        ],
+    });
 
     // DataTable untuk tabel kategoribuku
     $("#kategoriTable").DataTable({
@@ -163,6 +196,46 @@ $(document).ready(function () {
             },
         ],
     });
+    var userName = $("#user-id").val(); // Get user name
+
+    $("#peminjamanmemberTable").DataTable({
+        ordering: true,
+        serverSide: true,
+        processing: true,
+        ajax: {
+            url: $("#peminjamanmember-table-url").val(),
+            type: "GET",
+            data: function (d) {
+                d.user_name = userName; // Send user name as a parameter
+            },
+            dataType: "json",
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.error("AJAX error:", textStatus, errorThrown);
+                alert(
+                    "Terjadi kesalahan saat memuat data. Silakan coba lagi nanti."
+                );
+            },
+        },
+        columns: [
+            {
+                data: "DT_RowIndex",
+                name: "DT_RowIndex",
+                width: "10px",
+                orderable: false,
+                searchable: false,
+            },
+            { data: "judul_buku", name: "judul_buku" },
+            { data: "nama_member", name: "nama_member" },
+            { data: "tanggal_peminjaman", name: "tanggal_peminjaman" },
+            { data: "status", name: "status" },
+            {
+                data: "opsi",
+                name: "opsi",
+                orderable: false,
+                searchable: false,
+            },
+        ],
+    });
 
     // DataTable untuk tabel pengembalian
     $("#pengembalianTable").DataTable({
@@ -190,8 +263,85 @@ $(document).ready(function () {
             },
             { data: "judul_buku", name: "judul_buku" },
             { data: "nama_member", name: "nama_member" },
+            { data: "tanggal_peminjaman", name: "tanggal_peminjaman" },
+            { data: "tanggal_pengembalian", name: "tanggal_pengembalian" },
+            {
+                data: "status",
+                name: "status",
+            },
+        ],
+    });
+
+    var userName = $("#user-id").val(); // Get user name
+
+    $("#pgmemberTable").DataTable({
+        ordering: true,
+        serverSide: true,
+        processing: true,
+        ajax: {
+            url: $("#pgmember-table-url").val(),
+            type: "GET",
+            data: function (d) {
+                d.user_name = userName; // Send user name as a parameter
+            },
+            dataType: "json",
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.error("AJAX error:", textStatus, errorThrown);
+                alert(
+                    "Terjadi kesalahan saat memuat data. Silakan coba lagi nanti."
+                );
+            },
+        },
+        columns: [
+            {
+                data: "DT_RowIndex",
+                name: "DT_RowIndex",
+                width: "10px",
+                orderable: false,
+                searchable: false,
+            },
+            { data: "judul_buku", name: "judul_buku" },
+            { data: "nama_member", name: "nama_member" },
+            { data: "tanggal_peminjaman", name: "tanggal_peminjaman" },
             { data: "tanggal_pengembalian", name: "tanggal_pengembalian" },
             { data: "status", name: "status" },
+            {
+                data: "opsi",
+                name: "opsi",
+                orderable: false,
+                searchable: false,
+            },
+        ],
+    });
+    $("#roleTable").DataTable({
+        ordering: true,
+        serverSide: true,
+        processing: true,
+        ajax: {
+            url: $("#role-table-url").val(),
+            type: "GET",
+            data: function (d) {
+                d.user_name = userName; // Send user name as a parameter
+            },
+            dataType: "json",
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.error("AJAX error:", textStatus, errorThrown);
+                alert(
+                    "Terjadi kesalahan saat memuat data. Silakan coba lagi nanti."
+                );
+            },
+        },
+        columns: [
+            {
+                data: "DT_RowIndex",
+                name: "DT_RowIndex",
+                width: "10px",
+                orderable: false,
+                searchable: false,
+            },
+            { data: "id", name: "id" },
+            { data: "name", name: "name" },
+            { data: "guard_name", name: "guard_name" },
             {
                 data: "opsi",
                 name: "opsi",

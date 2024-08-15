@@ -18,78 +18,81 @@
 <main id="main" class="main">
 
     <div class="pagetitle">
-        <h1>Edit Peminjaman</h1>
+        <h1>Pengembalian Buku</h1>
         <nav>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{{ route('halaman.peminjaman') }}">Peminjaman</a></li>
-                <li class="breadcrumb-item active">Edit Peminjaman</li>
+                <li class="breadcrumb-item"><a href="{{ route('halaman.admin') }}">Home</a></li>
+                <li class="breadcrumb-item active">Edit Admin</li>
             </ol>
         </nav>
-    </div>
+    </div><!-- End Page Title -->
 
     <section class="section">
         <div class="container">
-            <div class="row">
-                <div class="col-lg-8 mx-auto">
-
-                    <div class="card">
-                        <div class="card-header">
-                            <h5 class="card-title">Edit Peminjaman</h5>
-                        </div>
-                        <div class="card-body">
-                            
+            <h2>Pengembalian buku</h2>
+        
             @if(session('success'))
                 <div class="alert alert-success">
                     {{ session('success') }}
                 </div>
             @endif
         
-            <form action="{{ route('peminjaman.update', $peminjamanPengembalian->id) }}" method="POST">
+            <form action="{{ route('peminjamanmember.update', $peminjamanPengembalian->id) }}" method="POST">
                 @csrf
                 @method('PUT')
                 
+                <!-- Buku -->
                 <div class="form-group row mb-3">
                     <label for="buku_id" class="col-sm-3 col-form-label">Buku</label>
                     <div class="col-sm-9">
-                        <select class="form-control" id="buku_id" name="buku_id" required>
-                            <option value="">Pilih Buku</option>
+                        <select class="form-control" id="buku_id" name="buku_id_disabled" disabled required>
+                            <option  value="">Pilih Buku</option>
                             @foreach($bukus as $buku)
-                                <option value="{{ $buku->id_buku }}" {{ $buku->id_buku == $peminjamanPengembalian->buku_id ? 'selected' : '' }}>{{ $buku->judul }}</option>
+                                <option  value="{{ $buku->id_buku }}" {{ $buku->id_buku == $peminjamanPengembalian->buku_id ? 'selected' : '' }}>{{ $buku->judul }}</option>
                             @endforeach
                         </select>
+                        <!-- Hidden input untuk mengirimkan value buku_id -->
+                        <input type="hidden" name="buku_id" value="{{ $peminjamanPengembalian->buku_id }}">
                     </div>
                 </div>
 
+                <!-- Member -->
                 <div class="form-group row mb-3">
                     <label for="member_id" class="col-sm-3 col-form-label">Member</label>
                     <div class="col-sm-9">
-                        <select class="form-control" id="member_id" name="member_id" required>
+                        <select class="form-control" id="id_member" name="member_id_disabled" disabled required>
                             <option value="">Pilih Member</option>
                             @foreach($member as $member)
                                 <option value="{{ $member->id_member }}" {{ $member->id_member == $peminjamanPengembalian->member_id ? 'selected' : '' }}>{{ $member->nama }}</option>
                             @endforeach
                         </select>
+                        <!-- Hidden input untuk mengirimkan value member_id -->
+                        <input type="hidden" name="member_id" value="{{ $peminjamanPengembalian->member_id }}">
                     </div>
                 </div>
 
+                <!-- Tanggal Peminjaman -->
                 <div class="form-group row mb-3">
                     <label for="tanggal_peminjaman" class="col-sm-3 col-form-label">Tanggal Peminjaman</label>
                     <div class="col-sm-9">
-                        <input type="date" class="form-control" id="tanggal_peminjaman" name="tanggal_peminjaman" value="{{ $peminjamanPengembalian->tanggal_peminjaman }}" required>
+                        <input type="date" class="form-control" id="tanggal_peminjaman" name="tanggal_peminjaman_disabled" value="{{ $peminjamanPengembalian->tanggal_peminjaman }}" disabled required>
+                        <!-- Hidden input untuk mengirimkan value tanggal_peminjaman -->
+                        <input type="hidden" name="tanggal_peminjaman" value="{{ $peminjamanPengembalian->tanggal_peminjaman }}">
                     </div>
                 </div>
 
+                <!-- Status Pengembalian -->
                 <div class="form-group row mb-3">
-                    <label for="status_pengembalian" class="col-sm-3 col-form-label">Status Pengembalian</label>
+                    <label for="status" class="col-sm-3 col-form-label">Status Pengembalian</label>
                     <div class="col-sm-9">
-                        <select class="form-control" id="status_pengembalian" name="status_pengembalian" required>
-                            <option value="">Pilih Status</option>
+                        <select class="form-control" id="status" name="status" required>
                             <option value="Dalam Peminjaman" {{ $peminjamanPengembalian->status_pengembalian == 'Dalam Peminjaman' ? 'selected' : '' }}>Dalam Peminjaman</option>
-                            <option value="Telah dikembalikan" {{ $peminjamanPengembalian->status_pengembalian == 'Telah dikembalikan' ? 'selected' : '' }}>Telah dikembalikan</option>
+                            <option value="Telah Dikembalikan" {{ $peminjamanPengembalian->status_pengembalian == 'Telah Dikembalikan' ? 'selected' : '' }}>Telah Dikembalikan</option>
                         </select>
                     </div>
                 </div>
 
+                <!-- Tanggal Pengembalian -->
                 <div class="form-group row mb-3" id="tanggal_pengembalian_container">
                     <label for="tanggal_pengembalian" class="col-sm-3 col-form-label">Tanggal Pengembalian</label>
                     <div class="col-sm-9">
@@ -100,7 +103,7 @@
                 <div class="form-group row mb-3">
                     <div class="col-sm-9 offset-sm-3">
                         <button type="submit" class="btn btn-primary">Simpan</button>
-                        <a href="{{ route('halaman.peminjaman') }}" class="btn btn-secondary ms-2">Cancel</a>
+                        <a href="{{ route('halaman.peminjamanmember') }}" class="btn btn-secondary ms-2">Cancel</a>
                     </div>
                 </div>
 
@@ -123,28 +126,6 @@
 
 <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="assets/js/main.js"></script>
-
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const statusSelect = document.getElementById('status_pengembalian');
-    const tanggalPengembalianContainer = document.getElementById('tanggal_pengembalian_container');
-    const tanggalPengembalianInput = document.getElementById('tanggal_pengembalian');
-
-    function toggleTanggalPengembalian() {
-        if (statusSelect.value === 'Telah dikembalikan') {
-            tanggalPengembalianContainer.style.display = 'block';
-        } else {
-            tanggalPengembalianContainer.style.display = 'none';
-        }
-    }
-
-    // Initial check
-    toggleTanggalPengembalian();
-
-    // Update visibility when status changes
-    statusSelect.addEventListener('change', toggleTanggalPengembalian);
-});
-</script>
 
 </body>
 

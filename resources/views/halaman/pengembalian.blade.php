@@ -34,15 +34,11 @@
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">Data Pengembalian</h5>
-                    <div class="container">
-                        <div class="text-end">
+                        {{-- <div class="text-end">
                             <a href="{{ route('pengembalian.create') }}" class="btn btn-success" title="Add" style="margin-bottom:10px;">
                                 <i class="bi bi-plus"></i>
                             </a>
-                        </div>
-                        
-                        <h5>Daftar Peminjaman</h5>
-                        <div class="card-body">
+                        </div> --}}
                             @if(session('success'))
                                 <div class="alert alert-success alert-dismissible fade show">
                                     <strong>Success!</strong> {{ session('success') }}
@@ -57,9 +53,9 @@
                                             <th>No</th>
                                             <th>Judul Buku</th>
                                             <th>Nama Member</th>
+                                            <th>Tanggal Peminjaman</th>
                                             <th>Tanggal Pengembalian</th>
                                             <th>Status</th>
-                                            <th>Option</th>
                                         </tr>
                                     </thead>
                                     <tbody></tbody>

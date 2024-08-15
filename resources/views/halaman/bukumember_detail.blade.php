@@ -23,7 +23,7 @@
             <h1>Detail Buku</h1>
             <nav>
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{ route('halaman.buku') }}">Buku</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('halaman.bukumember') }}">Buku</a></li>
                     <li class="breadcrumb-item active">Detail Buku</li>
                 </ol>
             </nav>
@@ -78,7 +78,7 @@
                             </div>
                         </div>
                         <div class="card-footer text-end">
-                            <a href="{{ route('halaman.buku') }}" class="btn btn-secondary">Kembali ke Daftar Buku</a>
+                            <a href="{{ route('halaman.bukumember') }}" class="btn btn-secondary">Kembali ke Daftar Buku</a>
                         </div>
                     </div>
                 </div>
@@ -90,5 +90,4 @@
     <script src="https://cdn.datatables.net/v/bs5/dt-2.1.3/datatables.min.js"></script>
     <script src="{{ asset('main.js') }}"></script>
     </body>
-    </html>
-    
+</html>

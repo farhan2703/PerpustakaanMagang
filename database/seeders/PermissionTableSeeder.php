@@ -17,10 +17,14 @@ class PermissionTableSeeder extends Seeder
             'dashboard',
            'kategori_buku',
            'master_buku',
+           'buku',
            'admin',
            'member',
            'peminjaman',
+           'peminjamanmember',
            'pengembalian',
+           'pengembalianmember',
+           'role',
         ];
 
         foreach ($permissions as $permission) {

@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Buku;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Member;
+use App\Models\PeminjamanPengembalian;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Redirect;
 use Yajra\DataTables\Facades\DataTables;
@@ -35,6 +37,8 @@ class MemberController extends Controller
     return redirect()->back()->withErrors(['message' => 'Invalid credentials']);
 }
 
+    
+
     /**
      * Menampilkan dashboard member.
      */
@@ -42,10 +46,57 @@ class MemberController extends Controller
     {
         return view('member.dashboard');
     }
+    
     public function member(Request $request)
     {
         return view('halaman.member');
     }
+    public function jumlahbukutersedia(Request $request)
+    {
+        $jumlahBukuTersedia = Buku::where('stok', '>', 0)->sum('stok');
+        return response()->json(['jumlah' => $jumlahBukuTersedia]);
+    }
+    public function jumlahBukuDipinjam(Request $request)
+    {
+    // Menghitung total stok buku yang dipinjam
+    $jumlahBukuDipinjam = PeminjamanPengembalian::where('status', 'Dalam Peminjaman')
+        ->join('buku', 'peminjaman_pengembalian.buku_id', '=', 'buku.id_buku')
+        ->count('buku.stok');
+
+    return response()->json(['jumlah' => $jumlahBukuDipinjam]);
+    }
+    public function totalBuku(Request $request)
+    {
+        // Menghitung total jumlah buku dari yang tersedia dan yang dipinjam
+        $jumlahBukuTersedia = Buku::where('stok', '>', 0)->sum('stok');
+        $jumlahBukuDipinjam = PeminjamanPengembalian::where('status', 'Dalam Peminjaman')
+            ->join('buku', 'peminjaman_pengembalian.buku_id', '=', 'buku.id_buku')
+            ->count('buku.stok');
+
+        $totalBuku = $jumlahBukuTersedia + $jumlahBukuDipinjam;
+
+        return response()->json(['total' => $totalBuku]);
+    }
+    public function getChartData(Request $request)
+    {
+        // Menghitung total stok buku yang tersedia
+        $jumlahBukuTersedia = Buku::where('stok', '>', 0)->sum('stok');
+
+        // Menghitung total buku yang dipinjam
+        $jumlahBukuDipinjam = PeminjamanPengembalian::where('status', 'Dalam Peminjaman')
+            ->join('buku', 'peminjaman_pengembalian.buku_id', '=', 'buku.id_buku')
+            ->count('buku.stok');
+
+        // Menghitung total buku dari buku yang tersedia dan buku yang dipinjam
+        $totalBuku = $jumlahBukuTersedia + $jumlahBukuDipinjam;
+
+        return response()->json([
+            'tersedia' => $jumlahBukuTersedia,
+            'dipinjam' => $jumlahBukuDipinjam,
+            'total' => $totalBuku
+        ]);
+    }
+
 
     public function table(Request $request)
     {
