@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head> 
+<head>
     @include('templatemember.header')
 </head>
 
@@ -71,7 +71,7 @@
                                           <i class="bi bi-pencil-square"></i>
                                       </button>
                                   </form>
-                                  
+
                                         <a href="#" class="btn light btn-danger shadow btn-xs sharp mr-1"><i class="bi bi-trash"></i></a>
                                     </td>
                                 </tr>
@@ -91,14 +91,14 @@
     <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
     <!-- Vendor JS Files -->
-    <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
-    <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="assets/vendor/chart.js/chart.umd.js"></script>
-    <script src="assets/vendor/echarts/echarts.min.js"></script>
-    <script src="assets/vendor/quill/quill.min.js"></script>
-    <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
-    <script src="assets/vendor/tinymce/tinymce.min.js"></script>
-    <script src="assets/vendor/php-email-form/validate.js"></script>
+    <script src="{{ asset('assets/vendor/apexcharts/apexcharts.min.js') }}"></script>
+    <script src="{{ asset('assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ asset('assets/vendor/chart.js/chart.umd.js') }}"></script>
+    <script src="{{ asset('assets/vendor/echarts/echarts.min.js') }}"></script>
+    <script src="{{ asset('assets/vendor/quill/quill.min.js') }}"></script>
+    <script src="{{ asset('assets/vendor/simple-datatables/simple-datatables.js') }}"></script>
+    <script src="{{ asset('assets/vendor/tinymce/tinymce.min.js') }}"></script>
+    <script src="{{ asset('assets/vendor/php-email-form/validate.js') }}"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
     <script src="https://cdn.datatables.net/2.1.3/js/dataTables.js"></script>
     <script>$(document).ready(function() {
@@ -106,7 +106,7 @@
         // Menambahkan data kategori buku baru
         $('#submit').click(function(e) {
             e.preventDefault();
-            
+
             $.ajax({
                 url: "{{ url('addKategoriBuku') }}",
                 type: "post",
@@ -119,7 +119,7 @@
                 }
             });
         });
-    
+
         // Tampilkan data kategori buku
         var table = $('#kategoriTable').DataTable({
             ajax: "{{ url('getKategoriBuku') }}",
@@ -128,7 +128,7 @@
                 { "data": "deskripsi_kategori" },
                 { "data": "tanggal_dibuat" },
                 { "data": "tanggal_diperbarui" },
-                { 
+                {
                     "data": null,
                     render: function(data, type, row) {
                         return `
@@ -138,7 +138,7 @@
                 }
             ]
         });
-    
+
         // Menangani event klik untuk tombol edit kategori
         $(document).on('click', '.editKategori', function() {
             $.ajax({
@@ -156,7 +156,7 @@
                 }
             });
         });
-    
+
         // Menyimpan perubahan kategori
         $('#updateKategori').click(function(e) {
             e.preventDefault();
@@ -174,7 +174,7 @@
                 });
             }
         });
-    
+
         // Menghapus kategori
         $(document).on('click', '.deleteKategori', function() {
             if(confirm('Apakah Anda yakin ingin menghapus kategori ini?')){
@@ -192,12 +192,12 @@
                 });
             }
         });
-    
+
     });
-    
+
     </script>
     <!-- Template Main JS File -->
-    <script src="assets/js/main.js"></script>
+    <script src="{{ asset('assets/js/main.js') }}"></script>
 
 </body>
 

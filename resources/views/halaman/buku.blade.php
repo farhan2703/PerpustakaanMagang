@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head> 
+<head>
     @include('templatemember.header')
 </head>
 
@@ -40,11 +40,11 @@
                               <i class="bi bi-plus"></i>
                           </a>
                           <button type="button" class="btn btn-warning" title="Import" data-bs-toggle="modal" data-bs-target="#importModal">
-                              <i class="bi bi-upload"></i> 
+                              <i class="bi bi-upload"></i>
                           </button>
                       </div>
                   </div>
-                  
+
                   <!-- Modal untuk impor data buku -->
                   <div class="modal fade" id="importModal" tabindex="-1" aria-labelledby="importModalLabel" aria-hidden="true">
                       <div class="modal-dialog">
@@ -67,9 +67,9 @@
                           </div>
                       </div>
                   </div>
-                   
+
                   </div>
-                  
+
                   @if(session('success'))
                   <div class="alert alert-success alert-dismissible fade show" role="alert">
                     <i class="bi bi-check-circle me-1"></i>
@@ -77,7 +77,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                   </div>
                         @endif
-                  
+
                     <!-- Bordered Table -->
                     <table class="table table-borderless datatable">
                         <thead>
@@ -108,7 +108,7 @@
                                       <span class="badge bg-danger">Tidak tersedia</span>
                                   @endif
                               </td>
-                              
+
                                 <td>{{ $b->stok }}</td>
                                 <td>{{ $b->kategori }}</td>
                                 <th>
@@ -143,16 +143,16 @@
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
   <!-- Vendor JS Files -->
-  <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
-  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="assets/vendor/chart.js/chart.umd.js"></script>
-  <script src="assets/vendor/echarts/echarts.min.js"></script>
-  <script src="assets/vendor/quill/quill.min.js"></script>
-  <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
-  <script src="assets/vendor/tinymce/tinymce.min.js"></script>
-  <script src="assets/vendor/php-email-form/validate.js"></script>
+  <script src="{{ asset('assets/vendor/apexcharts/apexcharts.min.js') }}"></script>
+  <script src="{{ asset('assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+  <script src="{{ asset('assets/vendor/chart.js/chart.umd.js') }}"></script>
+  <script src="{{ asset('assets/vendor/echarts/echarts.min.js') }}"></script>
+  <script src="{{ asset('assets/vendor/quill/quill.min.js') }}"></script>
+  <script src="{{ asset('assets/vendor/simple-datatables/simple-datatables.js') }}"></script>
+  <script src="{{ asset('assets/vendor/tinymce/tinymce.min.js') }}"></script>
+  <script src="{{ asset('assets/vendor/php-email-form/validate.js') }}"></script>
 
-  <script src="assets/js/main.js"></script>
+  <script src="{{ asset('assets/js/main.js') }}"></script>
 
 </body>
 

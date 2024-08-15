@@ -30,13 +30,13 @@
     <section class="section">
         <div class="container">
             <h2>Tambah Peminjaman Baru</h2>
-        
+
             @if(session('success'))
                 <div class="alert alert-success">
                     {{ session('success') }}
                 </div>
             @endif
-        
+
             <form action="{{ route('peminjaman.store') }}" method="POST">
                 @csrf
                 <div class="form-group row mb-3">
@@ -80,7 +80,7 @@
             </form>
         </div>
     </section>
-    
+
 </main>
 
 <footer id="footer" class="footer">
@@ -94,8 +94,8 @@
 
 <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
-<script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-<script src="assets/js/main.js"></script>
+<script src="{{ asset('assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+<script src="{{ asset('assets/js/main.js') }}"></script>
 
 </body>
 

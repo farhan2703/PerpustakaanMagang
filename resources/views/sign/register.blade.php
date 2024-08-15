@@ -64,31 +64,31 @@
                                             <input type="text" name="name" class="form-control" id="yourName" required>
                                             <div class="invalid-feedback">Please, enter your name!</div>
                                         </div>
-                                    
+
                                         <div class="col-12">
                                             <label for="yourPhone" class="form-label">Your Phone Number</label>
                                             <input type="text" name="no_telepon" class="form-control" id="yourPhone" required>
                                             <div class="invalid-feedback">Please enter your phone number!</div>
                                         </div>
-                                    
+
                                         <div class="col-12">
                                             <label for="yourEmail" class="form-label">Your Email</label>
                                             <input type="email" name="email" class="form-control" id="yourEmail" required>
                                             <div class="invalid-feedback">Please enter a valid Email address!</div>
                                         </div>
-                                    
+
                                         <div class="col-12">
                                             <label for="yourPassword" class="form-label">Password</label>
                                             <input type="password" name="password" class="form-control" id="yourPassword" required>
                                             <div class="invalid-feedback">Please enter your password!</div>
                                         </div>
-                                    
+
                                         <div class="col-12">
                                             <label for="yourPasswordConfirmation" class="form-label">Confirm Password</label>
                                             <input type="password" name="password_confirmation" class="form-control" id="yourPasswordConfirmation" required>
                                             <div class="invalid-feedback">Please confirm your password!</div>
                                         </div>
-                                    
+
                                         <div class="col-12">
                                             <button class="btn btn-primary w-100" type="submit">Create Account</button>
                                         </div>
@@ -96,7 +96,7 @@
                                             <p class="small mb-0">Already have an account? <a href="{{ route('login') }}">Log in</a></p>
                                         </div>
                                     </form>
-                                    
+
                                 </div>
                             </div>
 
@@ -113,17 +113,17 @@
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
   <!-- Vendor JS Files -->
-  <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
-  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="assets/vendor/chart.js/chart.umd.js"></script>
-  <script src="assets/vendor/echarts/echarts.min.js"></script>
-  <script src="assets/vendor/quill/quill.min.js"></script>
-  <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
-  <script src="assets/vendor/tinymce/tinymce.min.js"></script>
-  <script src="assets/vendor/php-email-form/validate.js"></script>
+  <script src="{{ asset('assets/vendor/apexcharts/apexcharts.min.js') }}"></script>
+  <script src="{{ asset('assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+  <script src="{{ asset('assets/vendor/chart.js/chart.umd.js') }}"></script>
+  <script src="{{ asset('assets/vendor/echarts/echarts.min.js') }}"></script>
+  <script src="{{ asset('assets/vendor/quill/quill.min.js') }}"></script>
+  <script src="{{ asset('assets/vendor/simple-datatables/simple-datatables.js') }}"></script>
+  <script src="{{ asset('assets/vendor/tinymce/tinymce.min.js') }}"></script>
+  <script src="{{ asset('assets/vendor/php-email-form/validate.js') }}"></script>
 
   <!-- Template Main JS File -->
-  <script src="assets/js/main.js"></script>
+  <script src="{{ asset('assets/js/main.js') }}"></script>
 
 </body>
 

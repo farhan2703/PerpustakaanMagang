@@ -15,12 +15,7 @@ class Member extends Authenticatable
     protected $table = 'member'; // Make sure this matches your table name
     protected $primaryKey = 'id_member';
     protected $guard_name = 'web';
-    protected $fillable = [
-        'nama',
-        'no_telepon',
-        'email',
-        'password',
-    ];
+    protected $fillable = ['nama', 'no_telepon', 'email', 'password', 'photo'];
 
     protected $hidden = [
         'password',

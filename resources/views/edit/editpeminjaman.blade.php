@@ -37,17 +37,17 @@
                             <h5 class="card-title">Edit Peminjaman</h5>
                         </div>
                         <div class="card-body">
-                            
+
             @if(session('success'))
                 <div class="alert alert-success">
                     {{ session('success') }}
                 </div>
             @endif
-        
+
             <form action="{{ route('peminjaman.update', $peminjamanPengembalian->id) }}" method="POST">
                 @csrf
                 @method('PUT')
-                
+
                 <div class="form-group row mb-3">
                     <label for="buku_id" class="col-sm-3 col-form-label">Buku</label>
                     <div class="col-sm-9">
@@ -107,7 +107,7 @@
             </form>
         </div>
     </section>
-    
+
 </main>
 
 <footer id="footer" class="footer">
@@ -121,8 +121,8 @@
 
 <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
-<script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-<script src="assets/js/main.js"></script>
+<script src="{{asset('assets/vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+<script src="{{asset('assets/js/main.js')}}"></script>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {

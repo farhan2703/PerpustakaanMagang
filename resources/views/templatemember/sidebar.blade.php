@@ -21,7 +21,7 @@
         </a>
     </li>
     @endcan
-    @can('member')
+    @can('admin')
     <li class="nav-heading">Akun</li>
     <li class="nav-item">
         <a class="nav-link collapsed" href="{{ route('halaman.admin') }}">

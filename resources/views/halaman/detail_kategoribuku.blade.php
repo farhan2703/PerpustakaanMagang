@@ -1,21 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head> 
+    <head>
         @include('templatemember.header')
     </head>
-    
+
     <body>
-    
+
       <!-- ======= Header ======= -->
       <header id="header" class="header fixed-top d-flex align-items-center">
         @include('templatemember.headerbody')
         </header><!-- End Header -->
-    
+
       <!-- ======= Sidebar ======= -->
       <aside id="sidebar" class="sidebar">
         @include('templatemember.sidebar')
         </aside><!-- End Sidebar-->
-    
+
     <main id="main" class="main">
 
         <div class="pagetitle">
@@ -69,4 +69,4 @@
     <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
     <!-- Vendor JS Files -->
-    <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
+    <script src="{{ asset('assets/vendor/apexcharts/apexcharts.min.js') }}"></script>

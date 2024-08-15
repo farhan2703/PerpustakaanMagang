@@ -5,13 +5,14 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\BukuuController;
 use App\Http\Controllers\KategoriBukuController;
 use App\Http\Controllers\MemberController;
-use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UserProfilController;
 use App\Http\Controllers\PeminjamanPengembalianController;
 use Illuminate\Support\Facades\Route;
 
 
 // Route untuk menampilkan form login
 // Route untuk menampilkan form login
+
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 
 // Route untuk mengirimkan form login
@@ -52,12 +53,13 @@ Route::group(['middleware' => ['permission:master_buku']], function () {
     Route::get('/buku/edit/{id}', [BukuuController::class, 'edit'])->name('halaman.buku.edit');
     Route::put('/buku/update/{id}', [BukuuController::class, 'update'])->name('halaman.buku.update');
     Route::delete('/buku/{id}', [BukuuController::class, 'forcedelete'])->name('buku.forcedelete');
+
+    //Rute Dashboard
 });
-// Route::group(['middleware' => ['permission:dashboard']], function () {
-// Member dashboard route
-    Route::get('/dashboard', [MemberController::class, 'dashboard'])->name('halaman.dashboard');
-// });
-//Route member
+Route::group(['middleware' => ['permission:dashboard']], function () {
+  Route::get('/dashboard', [MemberController::class, 'dashboard'])->name('halaman.dashboard');
+  Route::get('/member', [MemberController::class, 'index'])->name('halaman.member');
+});
     Route::get('/member', [MemberController::class, 'index'])->name('halaman.member');
 
 Route::group(['middleware' => ['permission:peminjaman']], function () {
@@ -103,3 +105,10 @@ Route::get('/admin/edit/{id}', [AdminController::class, 'edit'])->name('admin.ed
 Route::put('/admin/update/{id}', [AdminController::class, 'update'])->name('admin.update');
 Route::delete('/admin/{id}', [AdminController::class, 'forcedelete'])->name('admin_forcedelete');
 });
+
+//Rute untuk profile
+Route::get('/userprofil/edit/{id}', [UserProfilController::class, 'edit'])->name('userprofil.edit');
+
+Route::put('/userprofil/{id}', [UserProfilController::class, 'update'])->name('userprofil.update');
+
+
