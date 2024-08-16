@@ -35,6 +35,7 @@ class RoleHasTableSeeder extends Seeder
             'buku',
            'peminjamanmember',
            'pengembalianmember',
+
         ];
 
         $member->syncPermissions($pages);

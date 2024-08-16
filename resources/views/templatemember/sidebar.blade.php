@@ -1,12 +1,10 @@
 <ul class="sidebar-nav" id="sidebar-nav">
-    @can('dashboard')
     <li class="nav-item">
         <a class="nav-link collapsed" href="{{ route('halaman.dashboard') }}">
             <i class="bi bi-grid"></i>
             <span>Dashboard</span>
         </a>
     </li>
-    @endcan
     <li class="nav-heading">Buku</li>
 
     @can('master_buku')
@@ -34,7 +32,7 @@
             <span>Kategori Buku </span>
         </a>
     </li>
-    @end
+    @endcan
     @can('admin')
     <li class="nav-heading">Akun</li>
     <li class="nav-item">
@@ -99,4 +97,4 @@
         </a>
     </li>
     @endcan
-</ul>
+</ul

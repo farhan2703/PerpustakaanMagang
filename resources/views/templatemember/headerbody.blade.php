@@ -31,19 +31,13 @@
                     <img src="{{ asset('storage/' . Auth::user()->photo) }}" alt="Profile" class="rounded-circle" style="width: 40px; height: 40px;">
                     <span class="d-none d-md-block dropdown-toggle ps-2">{{ Auth::user()->nama }}</span>
                 </a><!-- End Profile Image Icon -->
-                    <img src="assets/img/profile-img.jpg" alt="Profile" class="rounded-circle">
                     @php
                         use Illuminate\Support\Facades\Auth;
                         $user = Auth::user();
                         $roles = $user->getRoleNames()->implode(', '); // Mengambil nama role dan menggabungkannya dengan koma
                     @endphp
-                    <span class="d-none d-md-block dropdown-toggle ps-2">
-                        {{ $user->nama }}
-                        @if($roles)
-                            <small class="text-muted d-block">{{ $roles }}</small>
-                        @endif
-                    </span>
-                </a<!-- End Profile Image Icon -->
+
+                <!-- End Profile Image Icon -->
 
 
                 <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
