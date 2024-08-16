@@ -18,8 +18,16 @@ class MemberSeeder extends Seeder
                 'email' => 'rizky@gmail.com',
                 'password' => Hash::make('123123123'),
             ]);
-
             $member->assignRole('Admin');
+               
+            $member = Member::create([
+                'nama' => 'Gilang Nugraha',
+                'no_telepon' => '0859595593598',
+                'email' => 'gilang32nugraha@gmail.com',
+                'password' => Hash::make('123123123'),
+            ]);
+            $member->assignRole('Member');
+            
             DB::commit();
         } catch (\Throwable $th) {
            DB::rollback();

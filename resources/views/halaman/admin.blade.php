@@ -40,13 +40,33 @@
                                 <i class="bi bi-plus"></i>
                             </a>
                         </div>
+<<<<<<< HEAD
 
+=======
+                        <div class="card-body">
+                            @if(session('success'))
+                                <div class="alert alert-success alert-dismissible fade show">
+                                    <strong>Success!</strong> {{ session('success') }}
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span><i class="mdi mdi-close"></i></span></button>
+                                </div>
+                            @endif
+>>>>>>> 32d440794a4748956fe41f43ee2ab3275116ff93
 
-                        <h5>Daftar Admin</h5>
-                        @if(session('success'))
-                            <div class="alert alert-success">
-                                {{ session('success') }}
+                            <div class="table-responsive">
+                                <table id="adminTable" class="table table-responsive-md">
+                                    <thead>
+                                        <tr>
+                                            <th>No</th>
+                                            <th>Nama</th>
+                                            <th>No Telepon</th>
+                                            <th>Email</th>
+                                            <th>Option</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
                             </div>
+<<<<<<< HEAD
                         @endif
 
                     <table class="table table-borderless datatable">
@@ -92,10 +112,14 @@
                     <!-- Pagination links -->
                     <div class="d-flex justify-content-end">
                         {{ $admins->links() }}
+=======
+                        </div>
+>>>>>>> 32d440794a4748956fe41f43ee2ab3275116ff93
                     </div>
                 </div>
             </div>
         </div>
+<<<<<<< HEAD
     </section>
   </main><!-- End #main -->
 
@@ -113,7 +137,14 @@
 
   <!-- Template Main JS File -->
   <script src="{{asset('assets/js/main.js')}}"></script>
+=======
+    </div>
+>>>>>>> 32d440794a4748956fe41f43ee2ab3275116ff93
 
+   @include('templatemember.scripts')
+    <input type="hidden" id="admin-table-url" value="{{ route('tableAdmin') }}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/v/bs5/dt-2.1.3/datatables.min.js"></script>
+    <script src="{{ asset('main.js') }}"></script>
 </body>
-
 </html>

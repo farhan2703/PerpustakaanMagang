@@ -85,6 +85,7 @@
             </div>
         </section>
     </main><!-- End #main -->
+<<<<<<< HEAD
 
     <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
@@ -104,3 +105,12 @@
 </body>
 
 </html>
+=======
+    @include('templatemember.scripts')
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/v/bs5/dt-2.1.3/datatables.min.js"></script>
+    <script src="{{ asset('main.js') }}"></script>
+    </body>
+    </html>
+    
+>>>>>>> 32d440794a4748956fe41f43ee2ab3275116ff93

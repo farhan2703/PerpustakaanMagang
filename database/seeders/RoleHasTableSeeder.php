@@ -24,6 +24,7 @@ class RoleHasTableSeeder extends Seeder
            'member',
            'peminjaman',
            'pengembalian',
+           'role',
         ];
 
         $admin->syncPermissions($pages);
@@ -31,9 +32,9 @@ class RoleHasTableSeeder extends Seeder
         $member = Role::find(3);
         $pages = [
             'dashboard',
-           'master_buku',
-           'peminjaman',
-           'pengembalian',
+            'buku',
+           'peminjamanmember',
+           'pengembalianmember',
         ];
 
         $member->syncPermissions($pages);

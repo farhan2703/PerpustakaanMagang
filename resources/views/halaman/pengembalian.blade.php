@@ -34,11 +34,11 @@
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">Data Pengembalian</h5>
-                    <div class="container">
-                        <div class="text-end">
-                            <a href="{{ route('pengembalian.create') }}" class="btn btn-danger" title="Add" style="margin-bottom:10px;">
-                                <i class="bi bi-trash"></i>
+                        {{-- <div class="text-end">
+                            <a href="{{ route('pengembalian.create') }}" class="btn btn-success" title="Add" style="margin-bottom:10px;">
+                                <i class="bi bi-plus"></i>
                             </a>
+<<<<<<< HEAD
                         </div>
 
                         <h5>Daftar Pengembalian</h5>
@@ -73,11 +73,37 @@
                         </table>
                         <div class="d-flex justify-content-end">
                             {{ $pengembalians->links() }}
+=======
+                        </div> --}}
+                            @if(session('success'))
+                                <div class="alert alert-success alert-dismissible fade show">
+                                    <strong>Success!</strong> {{ session('success') }}
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span><i class="mdi mdi-close"></i></span></button>
+                                </div>
+                            @endif
+        
+                            <div class="table-responsive">
+                                <table id="pengembalianTable" class="table table-responsive-md">
+                                    <thead>
+                                        <tr>
+                                            <th>No</th>
+                                            <th>Judul Buku</th>
+                                            <th>Nama Member</th>
+                                            <th>Tanggal Peminjaman</th>
+                                            <th>Tanggal Pengembalian</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+>>>>>>> 32d440794a4748956fe41f43ee2ab3275116ff93
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+<<<<<<< HEAD
     </section>
   </main>
 
@@ -96,3 +122,13 @@
 </body>
 
 </html>
+=======
+        </div>
+        @include('templatemember.scripts')
+        <input type="hidden" id="pengembalian-table-url" value="{{ route('tablePengembalian') }}">
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://cdn.datatables.net/v/bs5/dt-2.1.3/datatables.min.js"></script>
+        <script src="{{ asset('main.js') }}"></script>
+        </body>
+        </html>
+>>>>>>> 32d440794a4748956fe41f43ee2ab3275116ff93

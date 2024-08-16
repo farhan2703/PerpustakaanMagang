@@ -2,17 +2,17 @@
 <html lang="en">
 
 <head>
-    @include('template.header')
+    @include('templatemember.header')
 </head>
 
 <body>
 
 <header id="header" class="header fixed-top d-flex align-items-center">
-    @include('template.headerbody')
+    @include('templatemember.headerbody')
 </header>
 
 <aside id="sidebar" class="sidebar">
-    @include('template.sidebar')
+    @include('templatemember.sidebar')
 </aside>
 
 <main id="main" class="main">

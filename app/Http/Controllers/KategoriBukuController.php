@@ -5,13 +5,48 @@ namespace App\Http\Controllers;
 
 use App\Models\KategoriBuku;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
+use Yajra\DataTables\DataTables;
 
 class KategoriBukuController extends Controller
 {
-    public function index()
+    public function dashboard()
     {
-        $kategoriBuku = KategoriBuku::paginate(10); // Mengambil data dengan pagination
-        return view('halaman.kategoribuku', compact('kategoriBuku')); // Mengirim data kategori buku ke view
+        return view('member.dashboard');
+    }
+
+    public function kategoribuku(Request $request)
+    {
+        return view('halaman.kategoribuku');
+    }
+
+    public function tableKategori(Request $request)
+    {
+        if ($request->ajax()) {
+            $kategoribuku = KategoriBuku::select(['id_kategori', 'nama_kategori', 'deskripsi_kategori', 'tanggal_dibuat','tanggal_diperbarui','status'])->get();
+
+            return DataTables::of($kategoribuku)
+                ->addIndexColumn() // Menambahkan indeks otomatis
+                ->addColumn('opsi', function ($row) {
+                    return '
+                        <div class="d-flex align-items-center">
+                            <form action="/kategoribuku/' . $row->id_kategori . '" method="GET" class="mr-1">
+                                <button type="submit" class="btn btn-secondary btn-xs"><i class="bi bi-info-circle"></i></button>
+                            </form>
+                            <form action="/kategoribuku/' . $row->id_kategori . '/edit_kategoribuku" method="GET" class="mr-1">
+                                <button type="submit" class="btn btn-warning btn-xs"><i class="bi bi-pencil-square"></i></button>
+                            </form>
+                            <form action="/kategoribuku/' . $row->id_kategori . '/destroy" method="POST">
+                                ' . csrf_field() . '
+                                ' . method_field('DELETE') . '
+                                <button type="submit" class="btn btn-danger btn-xs"><i class="bi bi-trash"></i></button>
+                            </form>
+                        </div>
+                    ';
+                })
+                ->rawColumns(['opsi']) // Pastikan kolom ini dianggap sebagai HTML
+                ->make(true);
+        }
     }
     public function create()
     {
@@ -71,5 +106,17 @@ class KategoriBukuController extends Controller
     {
         $kategoriBuku = KategoriBuku::findOrFail($id); // Mengambil detail kategori buku berdasarkan id
         return view('halaman.detail_kategoribuku', compact('kategoriBuku')); // Mengirim data kategori buku ke view
+    }
+    public function forcedelete($id)
+    {
+        $kategoribuku = KategoriBuku::find($id);
+
+        if (!$kategoribuku) {
+            return Redirect::route('halaman.kategoribuku')->with('error', 'Kategori Buku tidak ditemukan.');
+        }
+
+        $kategoribuku->delete();
+
+        return Redirect::route('halaman.kategoribuku')->with('success', 'Kategori Buku berhasil dihapus.');
     }
 }

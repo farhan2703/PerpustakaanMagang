@@ -2,17 +2,17 @@
 <html lang="en">
 
 <head>
-    @include('template.header')
+    @include('templatemember.header')
 </head>
 
 <body>
 
 <header id="header" class="header fixed-top d-flex align-items-center">
-    @include('template.headerbody')
+    @include('templatemember.headerbody')
 </header>
 
 <aside id="sidebar" class="sidebar">
-    @include('template.sidebar')
+    @include('templatemember.sidebar')
 </aside>
 
 <main id="main" class="main">
@@ -43,12 +43,18 @@
                                 @csrf
 
                                 <div class="form-group row mb-3">
-                                    <label for="nama_admin" class="col-sm-3 col-form-label">Nama Admin</label>
+                                    <label for="nama" class="col-sm-3 col-form-label">Nama</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="nama_admin" name="nama_admin" required>
+                                        <input type="text" class="form-control @error('nama') is-invalid @enderror" id="nama" name="nama" value="{{ old('nama') }}" required>
+                                        @error('nama')
+                                            <div class="invalid-feedback">
+                                                {{ $message }}
+                                            </div>
+                                        @enderror
                                     </div>
                                 </div>
 
+<<<<<<< HEAD
                                 <div class="form-group row mb-3">
                                     <label for="email" class="col-sm-3 col-form-label">email</label>
                                     <div class="col-sm-9">
@@ -70,35 +76,48 @@
                                     </div>
                                 </div>
 
+=======
+>>>>>>> 32d440794a4748956fe41f43ee2ab3275116ff93
                                 <div class="form-group row mb-3">
                                     <label for="no_telepon" class="col-sm-3 col-form-label">No Telepon</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="no_telepon" name="no_telepon">
+                                        <input type="text" class="form-control @error('no_telepon') is-invalid @enderror" id="no_telepon" name="no_telepon" value="{{ old('no_telepon') }}">
+                                        @error('no_telepon')
+                                            <div class="invalid-feedback">
+                                                {{ $message }}
+                                            </div>
+                                        @enderror
                                     </div>
                                 </div>
 
                                 <div class="form-group row mb-3">
-                                    <label for="tanggal_lahir" class="col-sm-3 col-form-label">Tanggal Lahir</label>
+                                    <label for="email" class="col-sm-3 col-form-label">Email</label>
                                     <div class="col-sm-9">
-                                        <input type="date" class="form-control" id="tanggal_lahir" name="tanggal_lahir">
+                                        <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" name="email" value="{{ old('email') }}" required>
+                                        @error('email')
+                                            <div class="invalid-feedback">
+                                                {{ $message }}
+                                            </div>
+                                        @enderror
                                     </div>
                                 </div>
 
                                 <div class="form-group row mb-3">
-                                    <label for="jenis_kelamin" class="col-sm-3 col-form-label">Jenis Kelamin</label>
+                                    <label for="password" class="col-sm-3 col-form-label">Password</label>
                                     <div class="col-sm-9">
-                                        <select id="jenis_kelamin" name="jenis_kelamin" class="form-select" required>
-                                            <option value="" selected>Jenis Kelamin</option>
-                                            <option value="Laki-laki">Laki-laki</option>
-                                            <option value="Perempuan">Perempuan</option>
-                                        </select>
+                                        <input type="password" class="form-control @error('password') is-invalid @enderror" id="password" name="password" required>
+                                        @error('password')
+                                            <div class="invalid-feedback">
+                                                {{ $message }}
+                                            </div>
+                                        @enderror
                                     </div>
                                 </div>
 
                                 <div class="form-group row mb-3">
                                     <div class="col-sm-9 offset-sm-3">
                                         <button type="submit" class="btn btn-primary">Submit</button>
-                                        <a href="{{ route('halaman.admin') }}" class="btn btn-secondary ml-2">Cancel</a>
+                                        <a href="{{ route('halaman.member') }}" class="btn btn-secondary ml-2">Cancel</a>
                                     </div>
                                 </div>
 

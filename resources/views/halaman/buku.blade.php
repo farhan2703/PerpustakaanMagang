@@ -34,17 +34,33 @@
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">Tabel Buku</h5>
+                    <div class="">
+                        <a type="button" class="btn btn-warning me-2" title="Import" data-bs-toggle="modal" data-bs-target="#importModal">
+                            <i class="bi bi-upload"></i> 
+                        </a>
+                    </div>
                     <div class="text-end mb-3">
                       <div class="d-flex justify-content-end">
                           <a href="{{ route('addbuku') }}" class="btn btn-success me-2" title="Add">
                               <i class="bi bi-plus"></i>
                           </a>
+<<<<<<< HEAD
                           <button type="button" class="btn btn-warning" title="Import" data-bs-toggle="modal" data-bs-target="#importModal">
                               <i class="bi bi-upload"></i>
                           </button>
                       </div>
                   </div>
 
+=======
+                          <a type="button" class="btn btn-danger me-2" title="Export Pdf" href="{{ url('generate-pdf') }}">
+                              <i class="bx bxs-file-pdf"></i> 
+                          </a>
+                          <a  class="btn btn-info me-2" href="{{ url('buku/export/excel') }}">
+                            <i class="bi bi-download"></i>
+                        </a>
+                    </div>
+                  </div>
+>>>>>>> 32d440794a4748956fe41f43ee2ab3275116ff93
                   <!-- Modal untuk impor data buku -->
                   <div class="modal fade" id="importModal" tabindex="-1" aria-labelledby="importModalLabel" aria-hidden="true">
                       <div class="modal-dialog">
@@ -55,20 +71,27 @@
                               </div>
                               <div class="modal-body">
                                   <!-- Form untuk mengunggah file Excel -->
-                                  <form action="{{ route('import-buku') }}" method="POST" enctype="multipart/form-data">
+                                  <form action="{{ route('imporexceltbuku') }}" method="POST" enctype="multipart/form-data">
                                       @csrf
                                       <div class="form-group">
                                           <label for="file">Pilih File Excel</label>
                                           <input type="file" class="form-control-file" id="file" name="file" required>
                                       </div>
-                                      <button type="submit" class="btn btn-primary">Import</button>
-                                  </form>
                               </div>
+                              <div class="modal-footer d-flex justify-content-between">
+                                <a href="{{ route('export.template') }}" class="small-text">Download template</a>
+                                <div>
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-primary">Import</button>
+                                </div>
+                            </div>
+                            </form>
                           </div>
                       </div>
                   </div>
 
                   </div>
+<<<<<<< HEAD
 
                   @if(session('success'))
                   <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -133,10 +156,39 @@
                     <!-- Pagination links -->
                     <div class="d-flex justify-content-end">
                         {{ $Buku->links() }}
+=======
+                  
+                  <div class="card-body">
+                    @if(session('success'))
+                        <div class="alert alert-success alert-dismissible fade show">
+                            <strong>Success!</strong> {{ session('success') }}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span><i class="mdi mdi-close"></i></span></button>
+                        </div>
+                    @endif
+
+                    <div class="table-responsive">
+                        <table id="bukuTable" class="table table-responsive-md">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Judul Buku</th>
+                                    <th>Penulis</th>
+                                    <th>Penerbit</th>
+                                    <th>Tahun Terbit</th>
+                                    <th>Status</th>
+                                    <th>Stok</th>
+                                    <th>Kategori</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+>>>>>>> 32d440794a4748956fe41f43ee2ab3275116ff93
                     </div>
                 </div>
             </div>
         </div>
+<<<<<<< HEAD
     </section>
   </main><!-- End #main -->
 
@@ -153,7 +205,16 @@
   <script src="{{ asset('assets/vendor/php-email-form/validate.js') }}"></script>
 
   <script src="{{ asset('assets/js/main.js') }}"></script>
+=======
+    </div>
+</div>
+</div>
+>>>>>>> 32d440794a4748956fe41f43ee2ab3275116ff93
 
+   @include('templatemember.scripts')
+<input type="hidden" id="buku-table-url" value="{{ route('tableBuku') }}">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/v/bs5/dt-2.1.3/datatables.min.js"></script>
+<script src="{{ asset('main.js') }}"></script>
 </body>
-
 </html>

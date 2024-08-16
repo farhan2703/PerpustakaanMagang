@@ -2,17 +2,17 @@
 <html lang="en">
 
 <head>
-    @include('template.header')
+    @include('templatemember.header')
 </head>
 
 <body>
 
 <header id="header" class="header fixed-top d-flex align-items-center">
-    @include('template.headerbody')
+    @include('templatemember.headerbody')
 </header>
 
 <aside id="sidebar" class="sidebar">
-    @include('template.sidebar')
+    @include('templatemember.sidebar')
 </aside>
 
 <main id="main" class="main">
@@ -84,7 +84,7 @@
                     <div class="col-sm-9">
                         <select class="form-control" id="status_pengembalian" name="status_pengembalian" required>
                             <option value="">Pilih Status</option>
-                            <option value="Dipinjam" {{ $peminjamanPengembalian->status_pengembalian == 'Dipinjam' ? 'selected' : '' }}>Dipinjam</option>
+                            <option value="Dalam Peminjaman" {{ $peminjamanPengembalian->status_pengembalian == 'Dalam Peminjaman' ? 'selected' : '' }}>Dalam Peminjaman</option>
                             <option value="Telah dikembalikan" {{ $peminjamanPengembalian->status_pengembalian == 'Telah dikembalikan' ? 'selected' : '' }}>Telah dikembalikan</option>
                         </select>
                     </div>

@@ -39,22 +39,28 @@
                         <i class="bi bi-plus"></i>
                     </a>
                   </div>
-                  @if(session('success'))
-                            <div class="alert alert-success">
-                                {{ session('success') }}
-                            </div>
-                        @endif
-                        <table id="kategoriBuku" class="table table-borderless datatable">
+                  <div class="card-body">
+                    @if(session('success'))
+                        <div class="alert alert-success alert-dismissible fade show">
+                            <strong>Success!</strong> {{ session('success') }}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span><i class="mdi mdi-close"></i></span></button>
+                        </div>
+                    @endif
+
+                    <div class="table-responsive">
+                        <table id="kategoriTable" class="table table-responsive-md">
                             <thead>
                                 <tr>
-                                    <th scope="col">No</th>
-                                    <th scope="col">Nama Kategori</th>
-                                    <th scope="col">Deskripsi</th>
-                                    <th scope="col">Tanggal Dibuat</th>
-                                    <th scope="col">Tanggal Diperbarui</th>
-                                    <th></th>
+                                    <th>No</th>
+                                    <th>Nama Kategori</th>
+                                    <th>Deskripsi</th>
+                                    <th>Tanggal Dibuat</th>
+                                    <th>Tanggal Diperbarui</th>
+                                    <th>Status</th>
+                                    <th>Option</th>
                                 </tr>
                             </thead>
+<<<<<<< HEAD
                             <tbody>
                                 @foreach($kategoriBuku as $kategori)
                                 <tr>
@@ -77,14 +83,14 @@
                                 </tr>
                                 @endforeach
                             </tbody>
+=======
+                            <tbody></tbody>
+>>>>>>> 32d440794a4748956fe41f43ee2ab3275116ff93
                         </table>
-                        <!-- Pagination links -->
-                        <div class="d-flex justify-content-end">
-                            {{ $kategoriBuku->links() }}
-                        </div>
                     </div>
                 </div>
             </div>
+<<<<<<< HEAD
         </section>
     </main><!-- End #main -->
 
@@ -198,7 +204,17 @@
     </script>
     <!-- Template Main JS File -->
     <script src="{{ asset('assets/js/main.js') }}"></script>
+=======
+        </div>
+    </div>
+</div>
+</div>
+>>>>>>> 32d440794a4748956fe41f43ee2ab3275116ff93
 
+   @include('templatemember.scripts')
+<input type="hidden" id="kategori-table-url" value="{{ route('tableKategori') }}">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/v/bs5/dt-2.1.3/datatables.min.js"></script>
+<script src="{{ asset('main.js') }}"></script>
 </body>
-
 </html>

@@ -2,17 +2,17 @@
 <html lang="en">
 
 <head>
-    @include('template.header')
+    @include('templatemember.header')
 </head>
 
 <body>
 
 <header id="header" class="header fixed-top d-flex align-items-center">
-    @include('template.headerbody')
+    @include('templatemember.headerbody')
 </header>
 
 <aside id="sidebar" class="sidebar">
-    @include('template.sidebar')
+    @include('templatemember.sidebar')
 </aside>
 
 <main id="main" class="main">
@@ -39,71 +39,66 @@
                             <div class="card-body">
 
                                 <!-- General Form Elements -->
-                                <form action="{{ route('admin.update', $admin->id_admin) }}" method="POST">
+                                <form action="{{ route('admin.update', $member->id_member) }}" method="POST">
                                     @csrf
                                     @method('PUT')
-
+    
                                     <div class="form-group row mb-3">
-                                        <label for="nama_admin" class="col-sm-3 col-form-label">Nama Admin</label>
+                                        <label for="nama" class="col-sm-3 col-form-label">Nama</label>
                                         <div class="col-sm-9">
-                                            <input type="text" class="form-control" id="nama_admin" name="nama_admin" value="{{ $admin->nama_admin }}" required>
+                                            <input type="text" class="form-control @error('nama') is-invalid @enderror" id="nama" name="nama" value="{{ old('nama', $member->nama) }}" required>
+                                            @error('nama')
+                                                <div class="invalid-feedback">
+                                                    {{ $message }}
+                                                </div>
+                                            @enderror
                                         </div>
                                     </div>
-
+    
                                     <div class="form-group row mb-3">
-                                        <label for="email" class="col-sm-3 col-form-label">email</label>
+                                        <label for="email" class="col-sm-3 col-form-label">Email</label>
                                         <div class="col-sm-9">
-                                            <input type="text" class="form-control" id="email" name="email" value="{{ $admin->email }}" required>
+                                            <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" name="email" value="{{ old('email', $member->email) }}" required>
+                                            @error('email')
+                                                <div class="invalid-feedback">
+                                                    {{ $message }}
+                                                </div>
+                                            @enderror
                                         </div>
                                     </div>
-
+    
                                     <div class="form-group row mb-3">
                                         <label for="password" class="col-sm-3 col-form-label">Password</label>
                                         <div class="col-sm-9">
-                                            <input type="password" class="form-control" id="password" name="password">
+                                            <input type="password" class="form-control @error('password') is-invalid @enderror" id="password" name="password">
                                             <small class="form-text text-muted">Kosongkan jika tidak ingin mengubah password</small>
+                                            @error('password')
+                                                <div class="invalid-feedback">
+                                                    {{ $message }}
+                                                </div>
+                                            @enderror
                                         </div>
                                     </div>
-
-                                    <div class="form-group row mb-3">
-                                        <label for="alamat" class="col-sm-3 col-form-label">Alamat</label>
-                                        <div class="col-sm-9">
-                                            <input type="text" class="form-control" id="alamat" name="alamat" value="{{ $admin->alamat }}">
-                                        </div>
-                                    </div>
-
+    
                                     <div class="form-group row mb-3">
                                         <label for="no_telepon" class="col-sm-3 col-form-label">No Telepon</label>
                                         <div class="col-sm-9">
-                                            <input type="text" class="form-control" id="no_telepon" name="no_telepon" value="{{ $admin->no_telepon }}">
+                                            <input type="text" class="form-control @error('no_telepon') is-invalid @enderror" id="no_telepon" name="no_telepon" value="{{ old('no_telepon', $member->no_telepon) }}">
+                                            @error('no_telepon')
+                                                <div class="invalid-feedback">
+                                                    {{ $message }}
+                                                </div>
+                                            @enderror
                                         </div>
                                     </div>
-
-                                    <div class="form-group row mb-3">
-                                        <label for="tanggal_lahir" class="col-sm-3 col-form-label">Tanggal Lahir</label>
-                                        <div class="col-sm-9">
-                                            <input type="date" class="form-control" id="tanggal_lahir" name="tanggal_lahir" value="{{ $admin->tanggal_lahir }}">
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group row mb-3">
-                                        <label for="jenis_kelamin" class="col-sm-3 col-form-label">Jenis Kelamin</label>
-                                        <div class="col-sm-9">
-                                            <select id="jenis_kelamin" name="jenis_kelamin" class="form-select" required>
-                                                <option value="" disabled>Jenis Kelamin</option>
-                                                <option value="Laki-laki" {{ $admin->jenis_kelamin == 'Laki-laki' ? 'selected' : '' }}>Laki-laki</option>
-                                                <option value="Perempuan" {{ $admin->jenis_kelamin == 'Perempuan' ? 'selected' : '' }}>Perempuan</option>
-                                            </select>
-                                        </div>
-                                    </div>
-
+    
                                     <div class="form-group row mb-3">
                                         <div class="col-sm-9 offset-sm-3">
                                             <button type="submit" class="btn btn-primary">Update</button>
                                             <a href="{{ route('halaman.admin') }}" class="btn btn-secondary ms-2">Cancel</a>
                                         </div>
                                     </div>
-
+    
                                 </form>
                                 <!-- End General Form Elements -->
 
