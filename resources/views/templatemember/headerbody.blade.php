@@ -10,7 +10,6 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.4/font/bootstrap-icons.css" rel="stylesheet">
 </head>
 <body>
-<<<<<<< HEAD
 
 <div class="d-flex align-items-center justify-content-between">
     <a href="" class="logo d-flex align-items-center">
@@ -19,15 +18,6 @@
     </a>
     <i class="bi bi-list toggle-sidebar-btn"></i>
 </div><!-- End Logo -->
-=======
-    <div class="d-flex align-items-center justify-content-between">
-        <a href="" class="logo d-flex align-items-center">
-            <img src="img/apple-touch-icon.png" alt="">
-            <span class="d-none d-lg-block">Perpustakaan</span>
-        </a>
-        <i class="bi bi-list toggle-sidebar-btn"></i>
-    </div><!-- End Logo -->
->>>>>>> 979fa5ed7ed95eeb86ca65c6764f0377babfa120
 
 <div class="search-bar">
     <form class="search-form d-flex align-items-center" method="POST" action="#">
@@ -39,7 +29,6 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
-<<<<<<< HEAD
 $user = Auth::user();
 $rolesArray = $user->getRoleNames()->toArray();
 $currentRole = session('currentRole', $rolesArray[0]); // Default ke role pertama jika session tidak ada
@@ -105,46 +94,6 @@ $showSwitch = count($rolesArray) > 1; // Menampilkan switch jika memiliki lebih 
                         @elseif(in_array('admin', $rolesArray))
                             <a class="dropdown-item" href="{{ route('switch.role', 'admin') }}">
                                 <i class="ri-user-line"></i> Switch to Admin
-=======
-    <nav class="header-nav ms-auto">
-        <ul class="d-flex align-items-center">
-            <!-- Profile Dropdown -->
-            <li class="nav-item dropdown pe-3">
-                <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-                    <img src="{{ asset('storage/' . Auth::user()->photo) }}" alt="Profile" class="rounded-circle" style="width: 40px; height: 40px;">
-                    <span class="d-none d-md-block dropdown-toggle ps-2">{{ Auth::user()->nama }}</span>
-                </a><!-- End Profile Image Icon -->
-                    @php
-                        use Illuminate\Support\Facades\Auth;
-                        $user = Auth::user();
-                        $roles = $user->getRoleNames()->implode(', '); // Mengambil nama role dan menggabungkannya dengan koma
-                    @endphp
-
-                <!-- End Profile Image Icon -->
-
-
-                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
-                    <li>
-                        <hr class="dropdown-divider">
-                    </li>
-
-                    <li>
-                        <a class="dropdown-item d-flex align-items-center" href="{{ route('userprofil.edit', ['id' => Auth::id()]) }}">
-                            <i class="bi bi-person"></i>
-                            <span>Ubah Profile</span>
-                        </a>
-                    </li>
-
-                    <li>
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
-
-                        <li>
-                            <a class="dropdown-item d-flex align-items-center" href="users-profile.html">
-                                <i class="ri-user-shared-line"></i>
-                                <span>Switch Role</span>
->>>>>>> 979fa5ed7ed95eeb86ca65c6764f0377babfa120
                             </a>
                         @elseif(in_array('member', $rolesArray))
                             <a class="dropdown-item" href="{{ route('switch.role', 'member') }}">
@@ -152,7 +101,6 @@ $showSwitch = count($rolesArray) > 1; // Menampilkan switch jika memiliki lebih 
                             </a>
                         @endif
                     </li>
-<<<<<<< HEAD
                     <li><hr class="dropdown-divider"></li>
                 @endif
                 <li>
@@ -184,29 +132,5 @@ $showSwitch = count($rolesArray) > 1; // Menampilkan switch jika memiliki lebih 
     });
 </script>
 
-=======
-
-                    <li>
-                        <a class="dropdown-item d-flex align-items-center" href="#"
-                           onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                            <i class="bi bi-box-arrow-right"></i>
-                            <span>Logout</span>
-                        </a>
-                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                            @csrf
-                        </form>
-                    </li>
-                    <li>
-                        <hr class="dropdown-divider">
-                    </li>
-                </ul><!-- End Profile Dropdown Items -->
-            </li><!-- End Profile Nav -->
-        </ul>
-    </nav><!-- End Icons Navigation -->
-
-    <!-- Bootstrap JS, Popper.js, and jQuery -->
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
->>>>>>> 979fa5ed7ed95eeb86ca65c6764f0377babfa120
 </body>
 </html>

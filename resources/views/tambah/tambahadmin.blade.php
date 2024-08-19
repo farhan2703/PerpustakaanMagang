@@ -54,30 +54,6 @@
                                     </div>
                                 </div>
 
-<<<<<<< HEAD
-                                <div class="form-group row mb-3">
-                                    <label for="email" class="col-sm-3 col-form-label">email</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="email" name="email" required>
-                                    </div>
-                                </div>
-
-                                <div class="form-group row mb-3">
-                                    <label for="password" class="col-sm-3 col-form-label">Password</label>
-                                    <div class="col-sm-9">
-                                        <input type="password" class="form-control" id="password" name="password" required>
-                                    </div>
-                                </div>
-
-                                <div class="form-group row mb-3">
-                                    <label for="alamat" class="col-sm-3 col-form-label">Alamat</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="alamat" name="alamat">
-                                    </div>
-                                </div>
-
-=======
->>>>>>> 32d440794a4748956fe41f43ee2ab3275116ff93
                                 <div class="form-group row mb-3">
                                     <label for="no_telepon" class="col-sm-3 col-form-label">No Telepon</label>
                                     <div class="col-sm-9">

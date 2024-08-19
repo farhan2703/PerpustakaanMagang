@@ -7,18 +7,19 @@ use App\Http\Controllers\BukuuController;
 use App\Http\Controllers\DataUserController;
 use App\Http\Controllers\KategoriBukuController;
 use App\Http\Controllers\MemberController;
-
-use App\Http\Controllers\UserProfilController;
 use App\Http\Controllers\MemberPeminjamanPengembalian;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PeminjamanPengembalianController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\UserProfilController;
 use App\Models\Admin;
 use App\Models\Buku;
+use Illuminate\Contracts\Auth\UserProvider;
 use Illuminate\Contracts\Session\Session;
 use Illuminate\Support\Facades\Route;
 
 
+// Route untuk menampilkan form login
 // Route untuk menampilkan form login
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 
@@ -60,42 +61,45 @@ Route::group(['middleware' => ['permission:master_buku']], function () {
     Route::get('/addbuku', [BukuuController::class, 'create'])->name('addbuku');
     Route::post('/buku', [BukuuController::class, 'store'])->name('halaman.buku.store');
     Route::get('/buku/{id}', [BukuuController::class, 'detail'])->name('halaman.buku.detail');
-    Route::get('/buku/edit/{id}', [BukuuController::class, 'edit'])->name('halaman.buku.edit');
-    Route::put('/buku/update/{id}', [BukuuController::class, 'update'])->name('halaman.buku.update');
-    Route::delete('/buku/{id}', [BukuuController::class, 'forcedelete'])->name('buku.forcedelete');
+    Route::get('/buku/{id}/edit_buku', [BukuuController::class, 'edit'])->name('halaman.buku.edit');
+    Route::put('/buku/{id}/edit_buku', [BukuuController::class, 'update'])->name('halaman.buku.update');
+    Route::delete('/buku/{id}/destroy', [BukuuController::class, 'forcedelete'])->name('buku.forcedelete');
+
 });
 
-// Member dashboard
+// Route::group(['middleware' => ['permission:dashboard']], function () {
+// Member dashboard route
+//     Route::get('/dashboard', [MemberController::class, 'dashboard'])->name('halaman.dashboard');
+// // });
 Route::group(['middleware' => ['permission:dashboard']], function () {
-    Route::get('/dashboard', [MemberController::class, 'dashboard'])->name('halaman.dashboard');
-    Route::get('/jumlah-buku-tersedia', [MemberController::class, 'jumlahbukutersedia'])->name('jumlah-buku-tersedia');
-    Route::get('/jumlah-buku-dipinjam', [MemberController::class, 'jumlahBukuDipinjam'])->name('jumlah-buku-dipinjam');
-    Route::get('/total-buku', [MemberController::class, 'totalBuku'])->name('total-buku');
-    Route::get('/chart-data', [MemberController::class, 'getChartData'])->name('chart-data');
+Route::get('/dashboard', [MemberController::class, 'dashboard'])->name('halaman.dashboard');
+Route::get('/jumlah-buku-tersedia', [MemberController::class, 'jumlahbukutersedia'])->name('jumlah-buku-tersedia');
+Route::get('/jumlah-buku-dipinjam', [MemberController::class, 'jumlahBukuDipinjam'])->name('jumlah-buku-dipinjam');
+Route::get('/total-buku', [MemberController::class, 'totalBuku'])->name('total-buku');
+Route::get('/chart-data', [MemberController::class, 'getChartData'])->name('chart-data');
 });
-
-Route::group(['middleware' => ['permission:member']], function () {
 //Route member
-    Route::get('/member', [MemberController::class, 'member'])->name('halaman.member');
-    Route::get('/table', [MemberController::class, 'table'])->name('table');
-    Route::get('/add_member', [MemberController::class, 'create'])->name('add_member');
-    Route::post('/member/store', [MemberController::class, 'store'])->name('member.store');
-    Route::get('/member/{id_member}/edit_member', [MemberController::class, 'edit'])->name('member.edit');
-    Route::put('/member/{id_member}/edit_member', [MemberController::class, 'update'])->name('member.update');
-    Route::delete('/member/{id_member}/destroy', [MemberController::class, 'forcedelete'])->name('member_forcedelete');
-    Route::get('/edit-profile', [MemberController::class, 'editProfile'])->name('edit.editprofile');
+Route::group(['middleware' => ['permission:member']], function () {
+Route::get('/member', [MemberController::class, 'member'])->name('halaman.member');
+Route::get('/table', [MemberController::class, 'table'])->name('table');
+Route::get('/add_member', [MemberController::class, 'create'])->name('add_member');
+Route::post('/member/store', [MemberController::class, 'store'])->name('member.store');
+Route::get('/member/{id_member}/edit_member', [MemberController::class, 'edit'])->name('member.edit');
+Route::put('/member/{id_member}/edit_member', [MemberController::class, 'update'])->name('member.update');
+Route::delete('/member/{id_member}/destroy', [MemberController::class, 'forcedelete'])->name('member_forcedelete');
+Route::get('/edit-profile', [MemberController::class, 'editProfile'])->name('edit.editprofile');
+});
+//Route admin
+Route::group(['middleware' => ['permission:admin']], function () {
+Route::get('/admin', [AdminController::class, 'admin'])->name('halaman.admin');
+Route::get('/tableAdmin', [AdminController::class, 'tableAdmin'])->name('tableAdmin');
+Route::get('/add_admin', [AdminController::class, 'create'])->name('add_admin');
+Route::post('/admin/store', [AdminController::class, 'store'])->name('admin.store');
+Route::get('/admin/{id}/edit_admin', [AdminController::class, 'edit'])->name('admin.edit');
+Route::put('/admin/{id}/edit_admin', [AdminController::class, 'update'])->name('admin.update');
+Route::delete('/admin/{id}/destroy', [AdminController::class, 'forcedelete'])->name('admin_forcedelete');
 });
 
-Route::group(['middleware' => ['permission:admin']], function () {
- //Route admin
-    Route::get('/admin', [AdminController::class, 'admin'])->name('halaman.admin');
-    Route::get('/tableAdmin', [AdminController::class, 'tableAdmin'])->name('tableAdmin');
-    Route::get('/add_admin', [AdminController::class, 'create'])->name('add_admin');
-    Route::post('/admin/store', [AdminController::class, 'store'])->name('admin.store');
-    Route::get('/admin/{id}/edit_admin', [AdminController::class, 'edit'])->name('admin.edit');
-    Route::put('/admin/{id}/edit_admin', [AdminController::class, 'update'])->name('admin.update');
-    Route::delete('/admin/{id}/destroy', [AdminController::class, 'forcedelete'])->name('admin_forcedelete');
-});
 
 Route::group(['middleware' => ['permission:peminjaman']], function () {
 // Peminjaman routes
@@ -138,41 +142,41 @@ Route::group(['middleware' => ['permission:kategori_buku']], function () {
 });
 
 
-// Route Member
+
 Route::group(['middleware' => ['permission:buku']], function () {
     Route::get('/bukumember/{id}', [BukuMemberController::class, 'detailmember'])->name('halaman.buku.detail');
     Route::get('/bukumember', [BukuMemberController::class, 'bukumember'])->name('halaman.bukumember');
     Route::get('/tableBukuMember', [BukuMemberController::class, 'tableBukuMember'])->name('tableBukuMember');
     });
+    
+    Route::group(['middleware' => ['permission:peminjamanmember']], function () {
+        // Peminjaman routes
+        Route::get('/peminjaman-member', [MemberPeminjamanPengembalian::class, 'tablePeminjamanMember'])->middleware('auth');
+        Route::get('/tablePeminjamanMember', [MemberPeminjamanPengembalian::class, 'tablePeminjamanMember'])->name('tablePeminjamanMember');
+        Route::get('/peminjamanmember', [MemberPeminjamanPengembalian::class, 'indexPeminjamanmember'])->name('halaman.peminjamanmember');
+        Route::get('/peminjamanmember/create', [MemberPeminjamanPengembalian::class, 'create'])->name('peminjamanmember.create');
+        Route::post('/peminjamanmember', [MemberPeminjamanPengembalian::class, 'store'])->name('peminjamanmember.store');
+        Route::get('/peminjaman/{id}/detail', [MemberPeminjamanPengembalian::class, 'showDetail'])->name('peminjamanmember.detail');
+        Route::get('/peminjamanmember/{id}/edit_peminjamanmember', [MemberPeminjamanPengembalian::class, 'edit'])->name('peminjamanmember.edit');
+        Route::put('/peminjamanmember/{id}/edit_peminjamanmember', [MemberPeminjamanPengembalian::class, 'update'])->name('peminjamanmember.update');
+        
+    });
+    
+    
+    Route::group(['middleware' => ['permission:pengembalianmember']], function () {
+        // Peminjaman routes
+        Route::get('/pengembalian-member', [MemberPeminjamanPengembalian::class, 'tablePengembalianMember'])->middleware('auth');
+        Route::get('/tablePengembalianMember', [MemberPeminjamanPengembalian::class, 'tablePengembalianMember'])->name('tablePengembalianMember');
+        Route::get('/pengembalianmember', [MemberPeminjamanPengembalian::class, 'indexPengembalianmember'])->name('halaman.pengembalianmember');
+        Route::get('/pengembalian/{id}/detail', [MemberPeminjamanPengembalian::class, 'showDetailpengembalian'])->name('pengembalianmember.detail');
+    });
 
-Route::group(['middleware' => ['permission:peminjamanmember']], function () {
-    // Peminjaman routes
-    Route::get('/peminjaman-member', [MemberPeminjamanPengembalian::class, 'tablePeminjamanMember'])->middleware('auth');
-    Route::get('/tablePeminjamanMember', [MemberPeminjamanPengembalian::class, 'tablePeminjamanMember'])->name('tablePeminjamanMember');
-    Route::get('/peminjamanmember', [MemberPeminjamanPengembalian::class, 'indexPeminjamanmember'])->name('halaman.peminjamanmember');
-    Route::get('/peminjamanmember/create', [MemberPeminjamanPengembalian::class, 'create'])->name('peminjamanmember.create');
-    Route::post('/peminjamanmember', [MemberPeminjamanPengembalian::class, 'store'])->name('peminjamanmember.store');
-    Route::get('/peminjaman/{id}/detail', [MemberPeminjamanPengembalian::class, 'showDetail'])->name('peminjamanmember.detail');
-    Route::get('/peminjamanmember/{id}/edit_peminjamanmember', [MemberPeminjamanPengembalian::class, 'edit'])->name('peminjamanmember.edit');
-    Route::put('/peminjamanmember/{id}/edit_peminjamanmember', [MemberPeminjamanPengembalian::class, 'update'])->name('peminjamanmember.update');
- });
-
-
-// Peminjaman routes
-Route::group(['middleware' => ['permission:pengembalianmember']], function () {
-     Route::get('/pengembalian-member', [MemberPeminjamanPengembalian::class, 'tablePengembalianMember'])->middleware('auth');
-     Route::get('/tablePengembalianMember', [MemberPeminjamanPengembalian::class, 'tablePengembalianMember'])->name('tablePengembalianMember');
-     Route::get('/pengembalianmember', [MemberPeminjamanPengembalian::class, 'indexPengembalianmember'])->name('halaman.pengembalianmember');
-     Route::get('/pengembalian/{id}/detail', [MemberPeminjamanPengembalian::class, 'showDetailpengembalian'])->name('pengembalianmember.detail');
-});
-
-// Role routes
+    
 Route::group(['middleware' => ['permission:role']], function () {
     Route::get('/role', [RoleController::class, 'role'])->name('halaman.role');
     Route::get('/tableRole', [RoleController::class, 'tableRole'])->name('tableRole');
     Route::get('/role/{id}/edit_role', [RoleController::class, 'edit'])->name('role.edit');
     Route::put('/role/{id}/edit_role', [RoleController::class, 'update'])->name('role.update');
-<<<<<<< HEAD
     
     });
 Route::group(['middleware' => ['permission:datauser']], function () {
@@ -184,7 +188,7 @@ Route::group(['middleware' => ['permission:datauser']], function () {
     
         
         });
-        Route::put('/profile/update', [MemberController::class, 'updateProfile'])->name('profile.update');
+        Route::put('/profile/update', [MemberController    ::class, 'updateProfile'])->name('profile.update');
         Route::get('/profile/edit', [MemberController::class, 'editProfile'])->name('profile.edit');
 
         Route::get('/switch-role/{role}', [RoleController::class, 'switchRole'])->name('switch.role');
@@ -193,23 +197,3 @@ Route::group(['middleware' => ['permission:datauser']], function () {
 
         // Route::get('/switch-role/{role}', [RoleController::class, 'switchRole'])->name('switch.role');
         
-=======
- });
-
- // Admin routes
-Route::group(['middleware' => ['permission:admin']], function (){
-    Route::get('/admin', [AdminController::class, 'admin'])->name('halaman.admin');
-    Route::get('/add_admin', [AdminController::class, 'create'])->name('add_admin');
-    Route::post('/admin/store', [AdminController::class, 'store'])->name('admin.store');
-    Route::get('/admin/edit/{id}', [AdminController::class, 'edit'])->name('admin.edit');
-    Route::put('/admin/update/{id}', [AdminController::class, 'update'])->name('admin.update');
-    Route::delete('/admin/{id}', [AdminController::class, 'forcedelete'])->name('admin_forcedelete');
-});
-
-//Route profile
-    Route::get('/userprofil/edit/{id}', [UserProfilController::class, 'edit'])->name('userprofil.edit');
-    Route::put('/userprofil/{id}', [UserProfilController::class, 'update'])->name('userprofil.update');
-
-
-
->>>>>>> 979fa5ed7ed95eeb86ca65c6764f0377babfa120

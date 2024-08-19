@@ -16,8 +16,7 @@
                         <label for="nama">Nama</label>
                         {!! Form::text('nama', null, ['class' => 'form-control']) !!}
                         <span class="text-danger">{!! $errors->first('nama') !!}</span>
-                    </div>
-                    <div class="form-group mb-3">
+                    </div>                    <div class="form-group mb-3">
                         <label for="email">email</label>
                         {!! Form::text('email', null, ['class' => 'form-control']) !!}
                         <span class="text-danger">{!! $errors->first('email') !!}</span>
