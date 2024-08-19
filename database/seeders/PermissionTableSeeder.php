@@ -25,6 +25,7 @@ class PermissionTableSeeder extends Seeder
            'pengembalian',
            'pengembalianmember',
            'role',
+           'datauser',
         ];
 
         foreach ($permissions as $permission) {

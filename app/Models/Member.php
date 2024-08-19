@@ -20,6 +20,7 @@ class Member extends Authenticatable
         'no_telepon',
         'email',
         'password',
+        'foto_profil',
     ];
 
     protected $hidden = [

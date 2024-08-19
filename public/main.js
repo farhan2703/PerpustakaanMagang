@@ -350,4 +350,34 @@ $(document).ready(function () {
             },
         ],
     });
+    $("#userTable").DataTable({
+        ordering: true,
+        serverSide: true,
+        processing: true,
+        ajax: {
+            url: $("#user-table-url").val(),
+            type: "GET",
+            dataType: "json",
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.error("AJAX error:", textStatus, errorThrown);
+                alert(
+                    "Terjadi kesalahan saat memuat data. Silakan coba lagi nanti."
+                );
+            },
+        },
+        columns: [
+            {
+                data: "DT_RowIndex",
+                name: "DT_RowIndex",
+                width: "10px",
+                orderable: false,
+                searchable: false,
+            },
+            { data: "nama", name: "nama" },
+            { data: "no_telepon", name: "no_telepon" },
+            { data: "email", name: "email" },
+            { data: "roles", name: "roles" },
+            { data: "opsi", name: "opsi", orderable: false, searchable: false },
+        ],
+    });
 });

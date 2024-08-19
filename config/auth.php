@@ -32,6 +32,7 @@ return [
         'members' => [
             'driver' => 'eloquent',
             'model' => App\Models\Member::class,
+            'table' => 'perpustakaan.member',
         ],
 
         'admins' => [

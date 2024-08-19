@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Admin;
 use App\Models\Member;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session as FacadesSession;
+use Illuminate\Support\Facades\Session;
 
 class AuthController extends Controller
 {
@@ -33,9 +35,16 @@ class AuthController extends Controller
     }
 
     public function logout(Request $request)
-    {
-        Auth::logout();
-        return redirect()->route('login');
+    {   
+         // Hapus session currentRole saat logout
+         Session::forget('currentRole');
+
+         Auth::logout();
+ 
+         $request->session()->invalidate();
+         $request->session()->regenerateToken();
+ 
+         return redirect('/');
     }
 
     public function register(Request $request)
@@ -56,6 +65,30 @@ class AuthController extends Controller
             $member->assignRole('Member');
         return redirect()->route('login')->with('success', 'Account created successfully. Please log in.');
     }
+    protected function authenticated(Request $request, $user)
+{
+    // Ambil semua role user
+    $roles = $user->getRoleNames()->toArray();
+
+    // Tentukan role default berdasarkan peran yang dimiliki
+    if (in_array('admin', $roles) && in_array('member', $roles)) {
+        $defaultRole = 'admin,member';
+    } elseif (in_array('admin', $roles)) {
+        $defaultRole = 'admin';
+    } elseif (in_array('member', $roles)) {
+        $defaultRole = 'member';
+    } else {
+        $defaultRole = 'member'; // Default role jika tidak ada yang cocok
+    }
+
+    // Set session 'currentRole' ke role default
+    Session::put('currentRole', $defaultRole);
+
+    // Default redirect jika role tidak dikenali
+    return redirect()->route('home');
+}
+
+    
     // /**
     //  * Menampilkan form login.
     //  */

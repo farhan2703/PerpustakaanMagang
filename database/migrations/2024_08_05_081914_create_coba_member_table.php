@@ -16,6 +16,7 @@ class CreateCobaMemberTable extends Migration
             $table->unsignedBigInteger('id_buku')->nullable();
             $table->foreign('id_buku')->references('id_buku')->on('buku')->onDelete('cascade');
             $table->timestamps();
+            $table->string('foto_profil')->nullable();
         });
     }
 

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role as PermissionRole;
 use Yajra\DataTables\Facades\DataTables;
@@ -61,4 +63,41 @@ class RoleController extends Controller
 
         return redirect()->route('halaman.role')->with('success', 'Role updated successfully');
     }
+
+    protected function authenticated(Request $request, $user)
+    {
+        // Ambil semua role user
+        $roles = $user->getRoleNames()->toArray();
+
+        // Tentukan role default berdasarkan peran yang dimiliki
+        if (in_array('admin', $roles) && in_array('member', $roles)) {
+            $defaultRole = 'admin,member';
+        } elseif (in_array('admin', $roles)) {
+            $defaultRole = 'admin';
+        } elseif (in_array('member', $roles)) {
+            $defaultRole = 'member';
+        } else {
+            $defaultRole = 'member'; // Default role jika tidak ada yang cocok
+        }
+
+        // Set session 'currentRole' ke role default
+        Session::put('currentRole', $defaultRole);  
+
+        // Redirect ke halaman yang dimaksud
+        return redirect()->intended('/home');
+    }
+    public function switchRole($role)
+    {
+        // Validasi role yang valid jika diperlukan
+        $validRoles = ['admin', 'member', 'admin,member'];
+        if (!in_array($role, $validRoles)) {
+            return redirect()->back()->withErrors('Invalid role');
+        }
+
+        // Set session untuk role
+        session(['currentRole' => $role]);
+
+        return redirect()->back();
+    }
+
 }

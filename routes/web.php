@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\BukuMemberController;
 use App\Http\Controllers\BukuuController;
+use App\Http\Controllers\DataUserController;
 use App\Http\Controllers\KategoriBukuController;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\MemberPeminjamanPengembalian;
@@ -12,6 +13,7 @@ use App\Http\Controllers\PeminjamanPengembalianController;
 use App\Http\Controllers\RoleController;
 use App\Models\Admin;
 use App\Models\Buku;
+use Illuminate\Contracts\Session\Session;
 use Illuminate\Support\Facades\Route;
 
 
@@ -175,7 +177,21 @@ Route::group(['middleware' => ['permission:role']], function () {
     Route::put('/role/{id}/edit_role', [RoleController::class, 'update'])->name('role.update');
     
     });
+Route::group(['middleware' => ['permission:datauser']], function () {
+    Route::get('/datauser', [DataUserController::class, 'datauser'])->name('halaman.datauser');
+    Route::get('/tableUser', [DataUserController::class, 'tableUser'])->name('tableUser');
+    Route::get('/datauser/{id_member}/edit_datauser', [DataUserController::class, 'edit'])->name('datauser.edit');
+    Route::put('/datauser/{id_member}/update_role', [DataUserController::class, 'updateRole'])->name('datauser.updateRole');
+    Route::delete('/datauser/{id_member}/destroy', [DataUserController::class, 'destroy'])->name('datauser.destroy');
+    
+        
+        });
+        Route::put('/profile/update', [MemberController::class, 'updateProfile'])->name('profile.update');
+        Route::get('/profile/edit', [MemberController::class, 'editProfile'])->name('profile.edit');
 
-// Route::group(['middleware' => ['permission:admin']], function (){
-    // Admin routes
-// });
+        Route::get('/switch-role/{role}', [RoleController::class, 'switchRole'])->name('switch.role');
+
+        // Route::get('/switch-role/{role}', [RoleController::class, 'switchRole'])->name('switch.role');
+
+        // Route::get('/switch-role/{role}', [RoleController::class, 'switchRole'])->name('switch.role');
+        

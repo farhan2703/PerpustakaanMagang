@@ -25,6 +25,7 @@ class RoleHasTableSeeder extends Seeder
            'peminjaman',
            'pengembalian',
            'role',
+           'datauser',
         ];
 
         $admin->syncPermissions($pages);

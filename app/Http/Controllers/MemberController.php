@@ -9,6 +9,7 @@ use App\Models\Member;
 use App\Models\PeminjamanPengembalian;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\Facades\DataTables;
 
 class MemberController extends Controller
@@ -202,7 +203,50 @@ class MemberController extends Controller
 
         return Redirect::route('halaman.member')->with('success', 'Member berhasil dihapus.');
     }
-    public function editProfile(){
-        return view('edit.editprofile');
+    
+    public function editProfile()
+    {
+        $user = Auth::user(); // Mengambil user yang sedang login
+        return view('edit.editprofile', compact('user'));
     }
+
+    public function updateProfile(Request $request)
+{
+        $member = Auth::user();
+
+        // Validasi input
+        $request->validate([
+            'nama' => 'required|string|max:255',
+            'no_telepon' => 'required|string|max:15',
+            'email' => 'required|string|email|max:255|unique:member,email,' . $member->id_member . ',id_member',
+            'password' => 'nullable|string|min:8|confirmed',
+            'foto_profil' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        // Update data
+        $member->nama = $request->nama;
+        $member->no_telepon = $request->no_telepon;
+        $member->email = $request->email;
+
+        if ($request->filled('password')) {
+            $member->password = Hash::make($request->password);
+        }
+
+        if ($request->hasFile('foto_profil')) {
+            // Hapus foto profil lama jika ada
+            if ($member->foto_profil && Storage::exists($member->foto_profil)) {
+                Storage::delete($member->foto_profil);
+            }
+
+            // Simpan foto profil baru
+            $path = $request->file('foto_profil')->store('uploads/profiles', 'public');
+            $member->foto_profil = $path;
+        }
+
+        $member->save();
+
+        return redirect()->route('profile.edit')->with('success', 'Profile updated successfully');
+    }
+
+    
 }
