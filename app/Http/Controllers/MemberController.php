@@ -2,15 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Buku;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Member;
+<<<<<<< HEAD
 use App\Models\PeminjamanPengembalian;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\Facades\DataTables;
+=======
+>>>>>>> 979fa5ed7ed95eeb86ca65c6764f0377babfa120
 
 class MemberController extends Controller
 {
@@ -38,171 +40,97 @@ class MemberController extends Controller
     return redirect()->back()->withErrors(['message' => 'Invalid credentials']);
 }
 
-    
-
     /**
      * Menampilkan dashboard member.
      */
     public function dashboard(Request $request)
     {
-        return view('member.dashboard');
+        // dd(Auth::user()->getAllPermissions());
+        // Hanya member yang terautentikasi yang dapat mengakses dashboard ini
+        return view('member.dashboard'); // Pastikan ada view member/dashboard.blade.php
     }
-    
-    public function member(Request $request)
+
+    public function index()
     {
-        return view('halaman.member');
-    }
-    public function jumlahbukutersedia(Request $request)
-    {
-        $jumlahBukuTersedia = Buku::where('stok', '>', 0)->sum('stok');
-        return response()->json(['jumlah' => $jumlahBukuTersedia]);
-    }
-    public function jumlahBukuDipinjam(Request $request)
-    {
-    // Menghitung total stok buku yang dipinjam
-    $jumlahBukuDipinjam = PeminjamanPengembalian::where('status', 'Dalam Peminjaman')
-        ->join('buku', 'peminjaman_pengembalian.buku_id', '=', 'buku.id_buku')
-        ->count('buku.stok');
-
-    return response()->json(['jumlah' => $jumlahBukuDipinjam]);
-    }
-    public function totalBuku(Request $request)
-    {
-        // Menghitung total jumlah buku dari yang tersedia dan yang dipinjam
-        $jumlahBukuTersedia = Buku::where('stok', '>', 0)->sum('stok');
-        $jumlahBukuDipinjam = PeminjamanPengembalian::where('status', 'Dalam Peminjaman')
-            ->join('buku', 'peminjaman_pengembalian.buku_id', '=', 'buku.id_buku')
-            ->count('buku.stok');
-
-        $totalBuku = $jumlahBukuTersedia + $jumlahBukuDipinjam;
-
-        return response()->json(['total' => $totalBuku]);
-    }
-    public function getChartData(Request $request)
-    {
-        // Menghitung total stok buku yang tersedia
-        $jumlahBukuTersedia = Buku::where('stok', '>', 0)->sum('stok');
-
-        // Menghitung total buku yang dipinjam
-        $jumlahBukuDipinjam = PeminjamanPengembalian::where('status', 'Dalam Peminjaman')
-            ->join('buku', 'peminjaman_pengembalian.buku_id', '=', 'buku.id_buku')
-            ->count('buku.stok');
-
-        // Menghitung total buku dari buku yang tersedia dan buku yang dipinjam
-        $totalBuku = $jumlahBukuTersedia + $jumlahBukuDipinjam;
-
-        return response()->json([
-            'tersedia' => $jumlahBukuTersedia,
-            'dipinjam' => $jumlahBukuDipinjam,
-            'total' => $totalBuku
-        ]);
+        // Hanya member yang terautentikasi yang dapat mengakses dashboard ini
+        return view('halaman.member'); // Pastikan ada view member/dashboard.blade.php
     }
 
-
-    public function table(Request $request)
-    {
-        if ($request->ajax()) {
-            $members = Member::role('Member')
-            ->with('roles')
-            ->select(['id_member', 'nama', 'no_telepon', 'email'])->get();
-
-            return DataTables::of($members)
-                ->addIndexColumn() // Menambahkan indeks otomatis
-                ->addColumn('opsi', function ($row) {
-                    return '
-                        <div class="d-flex align-items-center">
-                            <form action="/member/' . $row->id_member . '/edit_member" method="GET" class="mr-1">
-                                <button type="submit" class="btn btn-warning btn-xs"><i class="bi bi-pencil-square"></i></button>
-                            </form>
-                            <form action="/member/' . $row->id_member . '/destroy" method="POST">
-                                ' . csrf_field() . '
-                                ' . method_field('DELETE') . '
-                                <button type="submit" class="btn btn-danger btn-xs"><i class="bi bi-trash"></i></button>
-                            </form>
-                        </div>
-                    ';
-                })
-                ->rawColumns(['opsi']) // Pastikan kolom ini dianggap sebagai HTML
-                ->make(true);
-        }
-    }
+    /**
+     * Menampilkan formulir untuk menambahkan member baru.
+     */
     public function create()
     {
-        return view('tambah.tambahmember');
+        return view('member.create'); // Pastikan ada view member/create.blade.php di folder resources/views/member
     }
 
+    /**
+     * Menyimpan member baru ke database.
+     */
     public function store(Request $request)
     {
+        // Validasi data
         $request->validate([
-            'nama' => 'required|string|max:255',
-            'no_telepon' => 'required|string|max:15',
-            'email' => 'required|string|max:255|unique:member,email', // Validasi untuk memastikan email unik di tabel 'member'
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:member',
             'password' => 'required|string|min:8',
-        ], [
-            'email.unique' => 'Email sudah digunakan. Silakan gunakan email lain.',
         ]);
 
-        $member = Member::create([
-            'nama' => $request->nama,
-            'no_telepon' => $request->no_telepon,
+        // Buat member baru
+        Member::create([
+            'name' => $request->name,
             'email' => $request->email,
-            'password' => Hash::make($request->password),
+            'password' => bcrypt($request->password), // Enkripsi password
         ]);
 
-        $member->assignRole('Member');
-
-        return redirect()->route('halaman.member')->with('success', 'Member berhasil ditambahkan!');
+        // Redirect ke dashboard member dengan pesan sukses
+        return redirect()->route('member.dashboard')->with('success', 'Member berhasil ditambahkan.');
     }
 
-    public function edit($id_member)
+    /**
+     * Menampilkan formulir untuk mengedit data member.
+     */
+    public function edit($id)
     {
-        $member = Member::findOrFail($id_member); // Menggunakan singular 'member' untuk variabel
-        return view('edit.editmember', compact('member'));
+        $member = Member::findOrFail($id); // Mengambil data member berdasarkan ID
+        return view('member.edit', compact('member')); // Pastikan ada view member/edit.blade.php di folder resources/views/member
     }
 
-    public function update(Request $request, $id_member)
+    /**
+     * Memperbarui data member di database.
+     */
+    public function update(Request $request, $id)
     {
+        // Validasi data
         $request->validate([
-            'nama' => 'required|string|max:255',
-            'no_telepon' => 'required|string|max:15',
-            'email' => 'required|string|max:255|unique:member,email,' . $id_member . ',id_member', // Validasi untuk memastikan email unik di tabel 'member' kecuali untuk ID yang sedang diedit
-        ], [
-            'email.unique' => 'Email sudah digunakan. Silakan gunakan email lain.',
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:members,email,' . $id,
+            'password' => 'nullable|string|min:8', // Password opsional saat edit
         ]);
-    
-        $member = Member::findOrFail($id_member);
-    
-        // Update fields
-        $member->nama = $request->input('nama');
-        $member->no_telepon = $request->input('no_telepon');
-        $member->email = $request->input('email');
-    
-        // Cek apakah password diisi
-        if ($request->filled('password')) {
-            $request->validate([
-                'password' => 'required|string|min:8',
-            ]);
-            $member->password = bcrypt($request->input('password'));
-        }
-    
-        $member->save();
-    
-        return redirect()->route('halaman.member')->with('success', 'Member berhasil diupdate!');
+
+        // Temukan member berdasarkan ID
+        $member = Member::findOrFail($id);
+
+        // Update member
+        $member->update([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => $request->password ? bcrypt($request->password) : $member->password, // Update password jika ada
+        ]);
+
+        // Redirect ke dashboard member dengan pesan sukses
+        return redirect()->route('member.dashboard')->with('success', 'Member berhasil diperbarui.');
     }
 
-    public function forcedelete($id_member)
+    /**
+     * Logout member.
+     */
+    public function logout()
     {
-        $member = Member::find($id_member);
-        
-
-        if (!$member) {
-            return Redirect::route('halaman.member')->with('error', 'Member tidak ditemukan.');
-        }
-
-        $member->delete();
-
-        return Redirect::route('halaman.member')->with('success', 'Member berhasil dihapus.');
+        Auth::guard('member')->logout();
+        return redirect()->route('login'); // Redirect ke halaman login setelah logout
     }
+<<<<<<< HEAD
     
     public function editProfile()
     {
@@ -250,3 +178,7 @@ class MemberController extends Controller
 
     
 }
+=======
+}
+
+>>>>>>> 979fa5ed7ed95eeb86ca65c6764f0377babfa120
