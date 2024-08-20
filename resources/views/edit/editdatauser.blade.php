@@ -1,96 +1,106 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('layouts.layouts')
 
-<head>
-    @include('templatemember.header')
-</head>
+@section('main')
 
-<body>
+<section class="section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
 
-<header id="header" class="header fixed-top d-flex align-items-center">
-    @include('templatemember.headerbody')
-</header>
-
-<aside id="sidebar" class="sidebar">
-    @include('templatemember.sidebar')
-</aside>
-
-<main id="main" class="main">
-    <div class="pagetitle">
-        <h1>Edit Data User</h1>
-    </div><!-- End Page Title -->
-
-    <section class="section">
-        <div class="card">
-            <div class="card-header">
-                <h4 class="card-title">Edit Data User</h4>
-            </div>
-            <div class="card-body">
-                <form action="{{ route('datauser.updateRole', $member->id_member) }}" method="POST">
-                    @csrf
-                    @method('PUT')
-
-                    <!-- Input untuk Nama -->
-                    <div class="form-group">
-                        <label for="nama" class="text-label">Nama *</label>
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text"> <i class="fa fa-user"></i> </span>
-                            </div>
-                            <input type="text" class="form-control" id="nama" name="nama" value="{{ old('nama', $member->nama) }}" readonly>
-                        </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title">Edit Data User</h5>
                     </div>
+                    <div class="card-body">
 
-                    <!-- Input untuk No Telepon -->
-                    <div class="form-group">
-                        <label for="no_telepon" class="text-label">No Telepon *</label>
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text"> <i class="fa fa-phone"></i> </span>
-                            </div>
-                            <input type="text" class="form-control" id="no_telepon" name="no_telepon" value="{{ old('no_telepon', $member->no_telepon) }}" readonly>
-                        </div>
-                    </div>
+                        <form action="{{ route('datauser.updateRole', $member->id_member) }}" method="POST">
+                            @csrf
+                            @method('PUT')
 
-                    <!-- Input untuk Email -->
-                    <div class="form-group">
-                        <label for="email" class="text-label">Email *</label>
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text"> <i class="fa fa-envelope"></i> </span>
-                            </div>
-                            <input type="email" class="form-control" id="email" name="email" value="{{ old('email', $member->email) }}" readonly>
-                        </div>
-                    </div>
-
-                    <!-- Checkbox untuk Roles -->
-                    <div class="form-group">
-                        <label class="text-label">Roles *</label>
-                        <div class="row">
-                            @foreach($roles as $role)
-                                <div class="col-md-4 col-sm-6">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" name="roles[]" value="{{ $role->name }}" 
-                                        {{ in_array($role->name, $memberRoles) ? 'checked' : '' }}>
-                                        <label class="form-check-label">{{ $role->name }}</label>
+                            <!-- Input untuk Nama -->
+                            <div class="form-group row mb-3">
+                                <label for="nama" class="col-sm-3 col-form-label">Nama *</label>
+                                <div class="col-sm-9">
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                        <i class="fa fa-user"></i> </span>
+                                        </div>
+                                        <input type="text" class="form-control" id="nama" name="nama" value="{{ old('nama', $member->nama) }}" disabled>
                                     </div>
                                 </div>
-                            @endforeach
-                        </div>
-                    </div>
+                            </div>
 
-                    <!-- Tombol Submit dan Cancel -->
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-primary">Update Roles</button>
-                        <button type="button" class="btn btn-light" onclick="window.location='{{ route('halaman.datauser') }}'">Cancel</button>
+                            <!-- Input untuk No Telepon -->
+                            <div class="form-group row mb-3">
+                                <label for="no_telepon" class="col-sm-3 col-form-label">No Telepon *</label>
+                                <div class="col-sm-9">
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                        </div>
+                                        <input type="text" class="form-control" id="no_telepon" name="no_telepon" value="{{ old('no_telepon', $member->no_telepon) }}" disabled>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Input untuk Email -->
+                            <div class="form-group row mb-3">
+                                <label for="email" class="col-sm-3 col-form-label">Email *</label>
+                                <div class="col-sm-9">
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                           <i class="fa fa-envelope"></i> </span>
+                                        </div>
+                                        <input type="email" class="form-control" id="email" name="email" value="{{ old('email', $member->email) }}" disabled>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Checkbox untuk Roles -->
+                            <div class="form-group mb-3">
+                                <label class="col-form-label">Roles *</label>
+                                <div class="row">
+                                    @foreach($roles as $role)
+                                        <div class="col-md-4 col-sm-6">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="roles[]" value="{{ $role->name }}" 
+                                                {{ in_array($role->name, $memberRoles) ? 'checked' : '' }}>
+                                                <label class="form-check-label">{{ $role->name }}</label>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
+
+                            <!-- Tombol Submit dan Cancel -->
+                            <div class="form-group mb-0">
+                                <button type="submit" class="btn btn-primary">Update Roles</button>
+                                <a href="{{ route('halaman.datauser') }}" class="btn btn-light">Cancel</a>
+                            </div>
+                        </form>
+
                     </div>
-                </form>
+                </div>
             </div>
         </div>
-    </section>
-</main>
+    </div>
+</section>
 
-@include('templatemember.scripts')
 
-</body>
-</html>
+<script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="assets/js/main.js"></script>
+
+@endsection
+
+@section('css')
+<link href="{{ asset('assets/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+<link href="{{ asset('assets/vendor/font-awesome/css/all.min.css') }}" rel="stylesheet">
+<!-- Add any custom CSS here -->
+@endsection
+
+@section('js')
+<!-- Add any custom JS here -->
+@endsection
+
+@section('scripts')
+<!-- Add any additional scripts here -->
+@endsection

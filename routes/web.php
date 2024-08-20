@@ -188,12 +188,7 @@ Route::group(['middleware' => ['permission:datauser']], function () {
     
         
         });
-        Route::put('/profile/update', [MemberController    ::class, 'updateProfile'])->name('profile.update');
-        Route::get('/profile/edit', [MemberController::class, 'editProfile'])->name('profile.edit');
-
-        Route::get('/switch-role/{role}', [RoleController::class, 'switchRole'])->name('switch.role');
-
-        // Route::get('/switch-role/{role}', [RoleController::class, 'switchRole'])->name('switch.role');
-
-        // Route::get('/switch-role/{role}', [RoleController::class, 'switchRole'])->name('switch.role');
         
+Route::put('/profile/update', [MemberController    ::class, 'updateProfile'])->name('profile.update');
+Route::get('/profile/edit', [MemberController::class, 'editProfile'])->name('profile.edit');
+Route::get('/switch-role/{role}', [RoleController::class, 'switchRole'])->name('switch.role');

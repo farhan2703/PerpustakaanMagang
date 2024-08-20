@@ -1,80 +1,60 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('layouts.layouts')
 
-<head> 
-    @include('templatemember.header')
-</head>
+@section('main')
 
-<body>
-
-  <!-- ======= Header ======= -->
-  <header id="header" class="header fixed-top d-flex align-items-center">
-    @include('templatemember.headerbody')
-    </header><!-- End Header -->
-
-  <!-- ======= Sidebar ======= -->
-  <aside id="sidebar" class="sidebar">
-    @include('templatemember.sidebar')
-    </aside><!-- End Sidebar-->
-
-  <main id="main" class="main">
-
-    <div class="pagetitle">
-      <h1>Tabel Member</h1>
-      <nav>
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-          <li class="breadcrumb-item active">Member</li>
-        </ol>
-      </nav>
-    </div><!-- End Page Title -->
-
-    <section class="section">
-        <div class="row">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Tabel Member</h5>
-                    <div class="container">
-                        <div class="text-end">
-                            <div class="text-right">
-                                <a href="/add_member" class="btn btn-success" title="Add">
-                                    <i class="bi bi-person-plus"></i>
-                                </a>
-                            </div>
+<section class="section">
+    <div class="row">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Tabel Member</h5>
+                <div class="container">
+                    <div class="text-end">
+                        <div class="text-right">
+                            <a href="/add_member" class="btn btn-success" title="Add">
+                                <i class="bi bi-person-plus"></i>
+                            </a>
                         </div>
-                        <div class="card-body">
-                            @if(session('success'))
-                                <div class="alert alert-success alert-dismissible fade show">
-                                    <strong>Success!</strong> {{ session('success') }}
-                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span><i class="mdi mdi-close"></i></span></button>
-                                </div>
-                            @endif
+                    </div>
+                    <div class="card-body">
 
-                            <div class="table-responsive">
-                                <table id="memberTable" class="table table-responsive-md">
-                                    <thead>
-                                        <tr>
-                                            <th>No</th>
-                                            <th>Nama</th>
-                                            <th>No Telepon</th>
-                                            <th>Email</th>
-                                            <th>Option</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody></tbody>
-                                </table>
-                            </div>
+                        <div class="table-responsive">
+                            <table id="memberTable" class="table table-responsive-md">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Nama</th>
+                                        <th>No Telepon</th>
+                                        <th>Email</th>
+                                        <th>Option</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</section>
+<input type="hidden" id="table-url" value="{{ route('table') }}">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/v/bs5/dt-2.1.3/datatables.min.js"></script>
+<script src="{{ asset('main.js') }}"></script>
 
-   @include('templatemember.scripts')
-    <input type="hidden" id="table-url" value="{{ route('table') }}">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.datatables.net/v/bs5/dt-2.1.3/datatables.min.js"></script>
-    <script src="{{ asset('main.js') }}"></script>
-</body>
-</html>
+@endsection
+
+@section('css')
+<!-- Add any custom CSS here -->
+@endsection
+
+@section('js')
+<!-- Add any custom JS here -->
+@endsection
+
+@section('scripts')
+
+<!-- Add any additional scripts here -->
+@endsection
+
+

@@ -40,7 +40,7 @@ class DataUserController extends Controller
             ->addColumn('opsi', function ($row) {
                 return '
                     <div class="d-flex align-items-center">
-                        <form action="/datauser/' . $row->id_member . '/edit_datauser" method="GET" class="mr-1">
+                        <form action="/datauser/' . $row->id_member . '/edit_datauser" method="GET" class="me-2">
                             <button type="submit" class="btn btn-warning btn-xs"><i class="bi bi-pencil-square"></i></button>
                         </form>
                         <form action="/datauser/' . $row->id_member . '/destroy" method="POST">

@@ -111,7 +111,7 @@ class MemberController extends Controller
                 ->addColumn('opsi', function ($row) {
                     return '
                         <div class="d-flex align-items-center">
-                            <form action="/member/' . $row->id_member . '/edit_member" method="GET" class="mr-1">
+                            <form action="/member/' . $row->id_member . '/edit_member" method="GET" class="me-2">
                                 <button type="submit" class="btn btn-warning btn-xs"><i class="bi bi-pencil-square"></i></button>
                             </form>
                             <form action="/member/' . $row->id_member . '/destroy" method="POST">

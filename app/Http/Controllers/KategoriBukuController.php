@@ -30,10 +30,10 @@ class KategoriBukuController extends Controller
                 ->addColumn('opsi', function ($row) {
                     return '
                         <div class="d-flex align-items-center">
-                            <form action="/kategoribuku/' . $row->id_kategori . '" method="GET" class="mr-1">
+                            <form action="/kategoribuku/' . $row->id_kategori . '" method="GET" class="me-2">
                                 <button type="submit" class="btn btn-secondary btn-xs"><i class="bi bi-info-circle"></i></button>
                             </form>
-                            <form action="/kategoribuku/' . $row->id_kategori . '/edit_kategoribuku" method="GET" class="mr-1">
+                            <form action="/kategoribuku/' . $row->id_kategori . '/edit_kategoribuku" method="GET" class="me-2">
                                 <button type="submit" class="btn btn-warning btn-xs"><i class="bi bi-pencil-square"></i></button>
                             </form>
                             <form action="/kategoribuku/' . $row->id_kategori . '/destroy" method="POST">

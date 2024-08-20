@@ -32,7 +32,7 @@ class AdminController extends Controller
                 ->addColumn('opsi', function ($row) {
                     return '
                         <div class="d-flex align-items-center">
-                            <form action="/admin/' . $row->id_member . '/edit_admin" method="GET" class="mr-1">
+                            <form action="/admin/' . $row->id_member . '/edit_admin" method="GET" class="me-2">
                                 <button type="submit" class="btn btn-warning btn-xs"><i class="bi bi-pencil-square"></i></button>
                             </form>
                             <form action="/admin/' . $row->id_member . '/destroy" method="POST">
@@ -41,6 +41,7 @@ class AdminController extends Controller
                                 <button type="submit" class="btn btn-danger btn-xs"><i class="bi bi-trash"></i></button>
                             </form>
                         </div>
+                        
                     ';
                 })
                 ->rawColumns(['opsi']) // Pastikan kolom ini dianggap sebagai HTML

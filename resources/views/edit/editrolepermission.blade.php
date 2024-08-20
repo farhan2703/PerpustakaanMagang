@@ -1,26 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('layouts.layouts')
 
-<head>
-    @include('templatemember.header')
-</head>
-
-<body>
-
-<header id="header" class="header fixed-top d-flex align-items-center">
-    @include('templatemember.headerbody')
-</header>
-
-<aside id="sidebar" class="sidebar">
-    @include('templatemember.sidebar')
-</aside>
-
-<main id="main" class="main">
-    <div class="pagetitle">
-        <h1>Edit Role</h1>
-    </div><!-- End Page Title -->
-
-    <section class="section">
+@section('main')
+<section class="section">
+    <div class="container">
         <div class="card">
             <div class="card-header">
                 <h4 class="card-title">Edit Role</h4>
@@ -30,28 +12,21 @@
                     @csrf
                     @method('PUT')
 
-                    <div class="form-group">
-                        <label for="name" class="text-label">Role Name *</label>
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text"> <i class="fa fa-tag"></i> </span>
-                            </div>
-                            <input type="text" class="form-control" id="name" name="name" value="{{ old('name', $role->name) }}" required>
-                        </div>
+                    <!-- Role Name -->
+                    <div class="form-group mb-3">
+                        <label for="name" class="form-label">Role Name *</label>
+                        <input type="text" class="form-control" id="name" name="name" value="{{ old('name', $role->name) }}" required disabled>
                     </div>
 
-                    <div class="form-group">
-                        <label for="guard_name" class="text-label">Guard Name *</label>
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text"> <i class="fa fa-shield"></i> </span>
-                            </div>
-                            <input type="text" class="form-control" id="guard_name" name="guard_name" value="{{ old('guard_name', $role->guard_name) }}" required>
-                        </div>
+                    <!-- Guard Name -->
+                    <div class="form-group mb-3">
+                        <label for="guard_name" class="form-label">Guard Name *</label>
+                        <input type="text" class="form-control" id="guard_name" name="guard_name" value="{{ old('guard_name', $role->guard_name) }}" required disabled>
                     </div>
 
-                    <div class="form-group">
-                        <label class="text-label">Permissions *</label>
+                    <!-- Permissions -->
+                    <div class="form-group mb-3">
+                        <label class="form-label">Permissions *</label>
                         <div class="row">
                             @foreach($permissions as $permission)
                                 <div class="col-md-4 col-sm-6">
@@ -65,17 +40,31 @@
                         </div>
                     </div>
 
-                    <div class="form-group">
+                    <!-- Submit and Cancel Buttons -->
+                    <div class="form-group mb-0">
                         <button type="submit" class="btn btn-primary">Update Role</button>
                         <button type="button" class="btn btn-light" onclick="window.location='{{ route('halaman.role') }}'">Cancel</button>
                     </div>
                 </form>
             </div>
         </div>
-    </section>
-</main>
+    </div>
+</section>
 
-@include('templatemember.scripts')
+<script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="assets/js/main.js"></script>
+@endsection
 
-</body>
-</html>
+@section('css')
+<link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<link href="assets/vendor/font-awesome/css/all.min.css" rel="stylesheet">
+<!-- Add any custom CSS here -->
+@endsection
+
+@section('js')
+<!-- Add any custom JS here -->
+@endsection
+
+@section('scripts')
+<!-- Add any additional scripts here -->
+@endsection
