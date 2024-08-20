@@ -42,13 +42,7 @@
         </a>
         <i class="bi bi-list toggle-sidebar-btn"></i>
     </div><!-- End Logo -->
-    
-    <div class="search-bar">
-        <form class="search-form d-flex align-items-center" method="POST" action="#">
-            <input type="text" name="query" placeholder="Search" title="Enter search keyword">
-            <button type="submit" title="Search"><i class="bi bi-search"></i></button>
-        </form>
-    </div><!-- End Search Bar -->
+    <!-- End Search Bar -->
     @php
     use Illuminate\Support\Facades\Auth;
     use Illuminate\Support\Facades\Session;
@@ -89,7 +83,7 @@
                 </a><!-- End Profile Image Icon -->
     
                 <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
-                    <li><hr class="dropdown-divider"></li>
+                    
                     <li>
                         <a class="dropdown-item d-flex align-items-center" href="{{ route('profile.edit') }}">
                             <i class="bi bi-person"></i>
@@ -302,11 +296,12 @@
         </ol>
       </nav>
     </div><!-- End Page Title -->
-    @if(session('success'))
+                @if(session('success'))
                     <div class="alert alert-success alert-dismissible fade show">
                         <strong>Success!</strong> {{ session('success') }}
                     </div>
                 @endif
+
     @yield('main')
 
   </main><!-- End #main -->
@@ -314,7 +309,7 @@
   <!-- ======= Footer ======= -->
   <footer id="footer" class="footer">
     <div class="copyright">
-      &copy; Copyright <strong><span>Perpustaka</span></strong>. All Rights Reserved
+      &copy; Website <strong><span>Perpustaka</span></strong>. Bacalah
     </div>
     <div class="credits">
       Designed by <a href="https://bootstrapmade.com/"></a>

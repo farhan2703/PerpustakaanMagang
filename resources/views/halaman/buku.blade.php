@@ -58,8 +58,8 @@
               
               <div class="card-body">
                 <div class="table-responsive">
-                    <table id="bukuTable" class="table table-responsive-md">
-                        <thead>
+                    <table id="bukuTable" class="table table-bordered table-responsive-md">
+                        <thead class="table-light text-center">
                             <tr>
                                 <th>No</th>
                                 <th>Judul Buku</th>
@@ -72,7 +72,8 @@
                                 <th>Aksi</th>
                             </tr>
                         </thead>
-                        <tbody></tbody>
+                        <tbody>
+                        </tbody>
                     </table>
                 </div>
             </div>

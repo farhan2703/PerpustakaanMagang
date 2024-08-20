@@ -51,33 +51,32 @@
                                 @method('PUT')
                             
                                 <!-- Nama -->
-                                <div class="form-group">
+                                <div class="form-group mb-3">
                                     <label for="nama">Nama</label>
                                     <input type="text" class="form-control" id="nama" name="nama" value="{{ old('nama', $user->nama) }}">
                                 </div>
-                            
+
                                 <!-- No Telepon -->
-                                <div class="form-group">
+                                <div class="form-group mb-3">
                                     <label for="no_telepon">No Telepon</label>
                                     <input type="text" class="form-control" id="no_telepon" name="no_telepon" value="{{ old('no_telepon', $user->no_telepon) }}">
                                 </div>
-                            
+
                                 <!-- Email -->
-                                <div class="form-group">
+                                <div class="form-group mb-3">
                                     <label for="email">Email</label>
                                     <input type="email" class="form-control" id="email" name="email" value="{{ old('email', $user->email) }}">
                                 </div>
-                            
+
                                 <!-- Password -->
-                                <div class="form-group">
+                                <div class="form-group mb-3">
                                     <label for="password">Password</label>
                                     <input type="password" class="form-control" id="password" name="password">
                                     <small class="form-text text-muted">Kosongkan jika tidak ingin mengubah password.</small>
                                 </div>
-                            
                                 <!-- Foto Profil -->
                                 <!-- Foto Profil -->
-                                <div class="form-group">
+                                <div class="form-group mb-3">
                                     <label for="foto_profil">Foto Profil</label>
                                     <input type="file" class="form-control-file" id="foto_profil" name="foto_profil">
                                     @if($user->foto_profil)

@@ -28,6 +28,17 @@ $(document).ready(function () {
             { data: "email", name: "email" },
             { data: "opsi", name: "opsi", orderable: false, searchable: false },
         ],
+
+        columnDefs: [
+            {
+                targets: 0, // Target the first column (No)
+                className: "text-center", // Center align text in the first column
+            },
+            {
+                targets: -1, // Target the last column (Aksi)
+                className: "text-center", // Center align text in the last column
+            },
+        ],
     });
     $("#adminTable").DataTable({
         ordering: true,
@@ -57,42 +68,74 @@ $(document).ready(function () {
             { data: "email", name: "email" },
             { data: "opsi", name: "opsi", orderable: false, searchable: false },
         ],
+
+        columnDefs: [
+            {
+                targets: 0, // Target the first column (No)
+                className: "text-center", // Center align text in the first column
+            },
+            {
+                targets: -1, // Target the last column (Aksi)
+                className: "text-center", // Center align text in the last column
+            },
+        ],
     });
 
     // DataTable untuk tabel buku
-    $("#bukuTable").DataTable({
-        ordering: true,
-        serverSide: true,
-        processing: true,
-        ajax: {
-            url: $("#buku-table-url").val(), // Mengambil URL dari elemen input tersembunyi
-            type: "GET",
-            dataType: "json",
-            error: function (jqXHR, textStatus, errorThrown) {
-                console.error("AJAX error:", textStatus, errorThrown);
-                alert(
-                    "Terjadi kesalahan saat memuat data. Silakan coba lagi nanti."
-                );
+    $(document).ready(function () {
+        // DataTable untuk tabel buku
+        $("#bukuTable").DataTable({
+            ordering: true,
+            serverSide: true,
+            processing: true,
+            ajax: {
+                url: $("#buku-table-url").val(), // Mengambil URL dari elemen input tersembunyi
+                type: "GET",
+                dataType: "json",
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.error("AJAX error:", textStatus, errorThrown);
+                    alert(
+                        "Terjadi kesalahan saat memuat data. Silakan coba lagi nanti."
+                    );
+                },
             },
-        },
-        columns: [
-            {
-                data: "DT_RowIndex",
-                name: "DT_RowIndex",
-                width: "10px",
-                orderable: false,
-                searchable: false,
-            },
-            { data: "judul", name: "judul" },
-            { data: "penulis", name: "penulis" },
-            { data: "penerbit", name: "penerbit" },
-            { data: "tahun_terbit", name: "tahun_terbit" },
-            { data: "status_ketersediaan", name: "status_ketersediaan" },
-            { data: "stok", name: "stok" },
-            { data: "kategori", name: "kategori" },
-            { data: "opsi", name: "opsi", orderable: false, searchable: false },
-        ],
+            columns: [
+                {
+                    data: "DT_RowIndex",
+                    name: "DT_RowIndex",
+                    width: "10px",
+                    orderable: false,
+                    searchable: false,
+                    className: "text-center", // Center align for the first column
+                },
+                { data: "judul", name: "judul" },
+                { data: "penulis", name: "penulis" },
+                { data: "penerbit", name: "penerbit" },
+                { data: "tahun_terbit", name: "tahun_terbit" },
+                { data: "status_ketersediaan", name: "status_ketersediaan" },
+                { data: "stok", name: "stok" },
+                { data: "kategori", name: "kategori" },
+                {
+                    data: "opsi",
+                    name: "opsi",
+                    orderable: false,
+                    searchable: false,
+                    className: "text-center", // Center align for the "Aksi" column
+                },
+            ],
+            columnDefs: [
+                {
+                    targets: 0, // Target the first column (No)
+                    className: "text-center", // Center align text in the first column
+                },
+                {
+                    targets: -1, // Target the last column (Aksi)
+                    className: "text-center", // Center align text in the last column
+                },
+            ],
+        });
     });
+
     $("#bukumemberTable").DataTable({
         ordering: true,
         serverSide: true,
@@ -124,6 +167,17 @@ $(document).ready(function () {
             { data: "stok", name: "stok" },
             { data: "kategori", name: "kategori" },
             { data: "opsi", name: "opsi", orderable: false, searchable: false },
+        ],
+
+        columnDefs: [
+            {
+                targets: 0, // Target the first column (No)
+                className: "text-center", // Center align text in the first column
+            },
+            {
+                targets: -1, // Target the last column (Aksi)
+                className: "text-center", // Center align text in the last column
+            },
         ],
     });
 
@@ -157,6 +211,17 @@ $(document).ready(function () {
             { data: "tanggal_diperbarui", name: "tanggal_diperbarui" },
             { data: "status", name: "status" },
             { data: "opsi", name: "opsi", orderable: false, searchable: false },
+        ],
+
+        columnDefs: [
+            {
+                targets: 0, // Target the first column (No)
+                className: "text-center", // Center align text in the first column
+            },
+            {
+                targets: -1, // Target the last column (Aksi)
+                className: "text-center", // Center align text in the last column
+            },
         ],
     });
 
@@ -193,6 +258,17 @@ $(document).ready(function () {
                 name: "opsi",
                 orderable: false,
                 searchable: false,
+            },
+        ],
+
+        columnDefs: [
+            {
+                targets: 0, // Target the first column (No)
+                className: "text-center", // Center align text in the first column
+            },
+            {
+                targets: -1, // Target the last column (Aksi)
+                className: "text-center", // Center align text in the last column
             },
         ],
     });
@@ -235,6 +311,17 @@ $(document).ready(function () {
                 searchable: false,
             },
         ],
+
+        columnDefs: [
+            {
+                targets: 0, // Target the first column (No)
+                className: "text-center", // Center align text in the first column
+            },
+            {
+                targets: -1, // Target the last column (Aksi)
+                className: "text-center", // Center align text in the last column
+            },
+        ],
     });
 
     // DataTable untuk tabel pengembalian
@@ -268,6 +355,17 @@ $(document).ready(function () {
             {
                 data: "status",
                 name: "status",
+            },
+        ],
+
+        columnDefs: [
+            {
+                targets: 0, // Target the first column (No)
+                className: "text-center", // Center align text in the first column
+            },
+            {
+                targets: -1, // Target the last column (Aksi)
+                className: "text-center", // Center align text in the last column
             },
         ],
     });
@@ -312,6 +410,17 @@ $(document).ready(function () {
                 searchable: false,
             },
         ],
+
+        columnDefs: [
+            {
+                targets: 0, // Target the first column (No)
+                className: "text-center", // Center align text in the first column
+            },
+            {
+                targets: -1, // Target the last column (Aksi)
+                className: "text-center", // Center align text in the last column
+            },
+        ],
     });
     $("#roleTable").DataTable({
         ordering: true,
@@ -349,6 +458,17 @@ $(document).ready(function () {
                 searchable: false,
             },
         ],
+
+        columnDefs: [
+            {
+                targets: 0, // Target the first column (No)
+                className: "text-center", // Center align text in the first column
+            },
+            {
+                targets: -1, // Target the last column (Aksi)
+                className: "text-center", // Center align text in the last column
+            },
+        ],
     });
     $("#userTable").DataTable({
         ordering: true,
@@ -378,6 +498,17 @@ $(document).ready(function () {
             { data: "email", name: "email" },
             { data: "roles", name: "roles" },
             { data: "opsi", name: "opsi", orderable: false, searchable: false },
+        ],
+
+        columnDefs: [
+            {
+                targets: 0, // Target the first column (No)
+                className: "text-center", // Center align text in the first column
+            },
+            {
+                targets: -1, // Target the last column (Aksi)
+                className: "text-center", // Center align text in the last column
+            },
         ],
     });
 });

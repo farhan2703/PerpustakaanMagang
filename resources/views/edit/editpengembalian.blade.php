@@ -11,7 +11,16 @@
                 {{ session('success') }}
             </div>
         @endif
-
+        @if(session('error'))
+            <div class="alert alert-danger">
+                {{ session('error') }}
+            </div>
+        @endif
+        @if(session('warning'))
+            <div class="alert alert-warning">
+                {{ session('warning') }}
+            </div>
+        @endif    
         <form action="{{ route('peminjaman.update', $peminjamanPengembalian->id) }}" method="POST">
             @csrf
             @method('PUT')
@@ -57,7 +66,7 @@
     </div>
 </section>
 <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="assets/js/main.js"></script>
+<script src="assets/js/main.js"></script>
     
 @endsection
 

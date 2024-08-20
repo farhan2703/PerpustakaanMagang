@@ -8,7 +8,7 @@
       <div class="card">
           <div class="card-body">
               <h5 class="card-title">Data Pengembalian</h5>
-              <div class="container">
+              {{-- <div class="container"> --}}
                       @if(session('success'))
                           <div class="alert alert-success alert-dismissible fade show">
                               <strong>Success!</strong> {{ session('success') }}
@@ -18,9 +18,8 @@
   
                       <!-- Hidden input to store user ID -->
                       <input type="hidden" id="user-id" value="{{ Auth::user()->nama }}">
-
-                      <table id="pgmemberTable" class="table table-responsive-md">
-                          <thead>
+                      <table id="pgmemberTable" class="table table-bordered table-responsive-md">
+                        <thead class="table-light text-center">
                               <tr>
                                   <th>No</th>
                                   <th>Judul Buku</th>

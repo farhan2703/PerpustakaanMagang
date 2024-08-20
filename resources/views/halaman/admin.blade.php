@@ -6,7 +6,7 @@
         <div class="card">
             <div class="card-body">
                 <h5 class="card-title">Tabel Admin</h5>
-                <div class="container">
+                {{-- <div class="container"> --}}
                     <div class="text-end">
                         <a href="{{ route('add_admin') }}" class="btn btn-success" title="Add" style="margin-bottom:10px;">
                             <i class="bi bi-plus"></i>
@@ -14,8 +14,8 @@
                     </div>
 
                         <div class="table-responsive">
-                            <table id="adminTable" class="table table-responsive-md">
-                                <thead>
+                            <table id="adminTable" class="table table-bordered table-responsive-md">
+                                <thead class="table-light text-center">
                                     <tr>
                                         <th>No</th>
                                         <th>Nama</th>

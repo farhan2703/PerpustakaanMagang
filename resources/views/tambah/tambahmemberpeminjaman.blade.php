@@ -4,8 +4,15 @@
 
 <section class="section">
     <div class="container">
-        <h2>Tambah Peminjaman Baru</h2>
-    
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title">Tambah Peminjaman Buku</h5>
+                    </div>
+                    <div class="card-body">
+
         @if(session('success'))
             <div class="alert alert-success">
                 {{ session('success') }}

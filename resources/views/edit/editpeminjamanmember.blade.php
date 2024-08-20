@@ -4,15 +4,32 @@
 
 
 <section class="section">
+    
     <div class="container">
-        <h2>Pengembalian buku</h2>
-    
-        @if(session('success'))
-            <div class="alert alert-success">
-                {{ session('success') }}
-            </div>
-        @endif
-    
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title">Pengembalian buku</h5>
+                    </div>
+                    <div class="card-body">
+                        @if(session('success'))
+                        <div class="alert alert-success">
+                            {{ session('success') }}
+                        </div>
+                    @endif
+                    @if(session('error'))
+                        <div class="alert alert-danger">
+                            {{ session('error') }}
+                        </div>
+                    @endif
+                    @if(session('warning'))
+                        <div class="alert alert-warning">
+                            {{ session('warning') }}
+                        </div>
+                    @endif
+                    
         <form action="{{ route('peminjamanmember.update', $peminjamanPengembalian->id) }}" method="POST">
             @csrf
             @method('PUT')

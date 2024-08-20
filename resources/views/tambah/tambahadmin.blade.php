@@ -9,9 +9,15 @@
 
                 <div class="card">
                     <div class="card-header">
-                        <h5 class="card-title">Tambah Admin</h5>
+                        <h5 class="card-title">Tambah Admin Baru</h5>
                     </div>
                     <div class="card-body">
+
+                        @if(session('success'))
+                            <div class="alert alert-success">
+                                {{ session('success') }}
+                            </div>
+                        @endif
 
                         <!-- General Form Elements -->
                         <form action="{{ route('admin.store') }}" method="POST">

@@ -20,8 +20,8 @@
               @endif
 
               <div class="table-responsive">
-                  <table id="bukumemberTable" class="table table-responsive-md">
-                      <thead>
+                  <table id="bukumemberTable" class="table table-bordered table-responsive-md">
+                    <thead class="table-light text-center">
                           <tr>
                               <th>No</th>
                               <th>Judul Buku</th>

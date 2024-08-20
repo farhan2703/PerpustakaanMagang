@@ -92,7 +92,7 @@ class PeminjamanPengembalianController extends Controller
     
         // Cek apakah stok buku lebih dari 0
         if ($buku->stok <= 0) {
-            return redirect()->back()->with('error', 'Stok buku tidak mencukupi!');
+            return redirect()->back()->with('error', 'Stok buku telah habis!');
         }
     
         // Menyimpan data peminjaman baru
@@ -117,54 +117,71 @@ class PeminjamanPengembalianController extends Controller
         $member = Member::all();
         return view('edit.editpeminjaman', compact('peminjamanPengembalian', 'bukus', 'member'));
     }
-
     public function update(Request $request, $id)
-{
-    // Validasi data input
-    $request->validate([
-        'buku_id' => 'required|exists:buku,id_buku',
-        'member_id' => 'required|exists:member,id_member',
-        'tanggal_peminjaman' => 'required|date',
-        'tanggal_pengembalian' => 'nullable|date' // Validasi untuk tanggal pengembalian yang opsional
-    ]);
-
-    // Mengambil data peminjaman yang akan diupdate
-    $peminjamanPengembalian = PeminjamanPengembalian::findOrFail($id);
-
-    // Ambil id_member berdasarkan input member_id
-    $member = Member::find($request->input('member_id'));
-
-    if (!$member) {
-        return redirect()->back()->with('error', 'Member tidak ditemukan!');
-    }
-
-    // Mengupdate data peminjaman yang ada
-    $data = $request->all();
-
-    // Menentukan status berdasarkan tanggal pengembalian
-    $statusBaru = !empty($data['tanggal_pengembalian']) ? 'Telah Dikembalikan' : 'Dalam Peminjaman';
-
-    // Set member_id ke id_member yang ditemukan
-    $data['member_id'] = $member->id_member;
-
-    // Cek jika status berubah menjadi "Telah Dikembalikan"
-    if ($statusBaru === 'Telah Dikembalikan' && $peminjamanPengembalian->status !== 'Telah Dikembalikan') {
-        // Tambah stok buku yang dipinjam
-        $buku = Buku::find($peminjamanPengembalian->buku_id);
-        if ($buku) {
-            $buku->stok += 1;
-            $buku->save();
+    {
+        // Validasi data input
+        $request->validate([
+            'buku_id' => 'required|exists:buku,id_buku',
+            'member_id' => 'required|exists:member,id_member',
+            'tanggal_peminjaman' => 'required|date',
+            'tanggal_pengembalian' => 'nullable|date',
+            'status' => 'required|in:Dalam Peminjaman,Telah Dikembalikan',
+        ]);
+    
+        // Mengambil data peminjaman yang akan diupdate
+        $peminjamanPengembalian = PeminjamanPengembalian::findOrFail($id);
+    
+        // Ambil id_member berdasarkan input member_id
+        $member = Member::find($request->input('member_id'));
+    
+        if (!$member) {
+            return redirect()->route('peminjaman.edit', $id)
+                             ->withInput()
+                             ->with('error', 'Member tidak ditemukan!');
         }
+    
+        // Mengupdate data peminjaman yang ada
+        $data = $request->all();
+    
+        // Menentukan status berdasarkan tanggal pengembalian
+        $statusBaru = $data['status'];
+    
+        // Validasi status dan tanggal pengembalian
+        if ($statusBaru === 'Dalam Peminjaman' && !empty($data['tanggal_pengembalian'])) {
+            return redirect()->route('peminjaman.edit', $id)
+                             ->withInput()
+                             ->with('warning', 'Jika status adalah "Dalam Peminjaman", tanggal pengembalian tidak boleh diisi.');
+        }
+    
+        if ($statusBaru === 'Telah Dikembalikan' && empty($data['tanggal_pengembalian'])) {
+            return redirect()->route('peminjaman.edit', $id)
+                             ->withInput()
+                             ->with('error', 'Tanggal pengembalian harus diisi jika status diubah menjadi "Telah Dikembalikan".');
+        }
+    
+        // Set member_id ke id_member yang ditemukan
+        $data['member_id'] = $member->id_member;
+    
+        // Cek jika status berubah menjadi "Telah Dikembalikan"
+        if ($statusBaru === 'Telah Dikembalikan' && $peminjamanPengembalian->status !== 'Telah Dikembalikan') {
+            // Tambah stok buku yang dipinjam
+            $buku = Buku::find($peminjamanPengembalian->buku_id);
+            if ($buku) {
+                $buku->stok += 1;
+                $buku->save();
+            }
+        }
+    
+        // Set status baru
+        $data['status'] = $statusBaru;
+    
+        // Update data peminjaman
+        $peminjamanPengembalian->update($data);
+    
+        return redirect()->route('halaman.peminjaman')->with('success', 'Data berhasil diperbarui!');
     }
+    
 
-    // Set status baru
-    $data['status'] = $statusBaru;
-
-    // Update data peminjaman
-    $peminjamanPengembalian->update($data);
-
-    return redirect()->route('halaman.peminjaman')->with('success', 'Data berhasil diperbarui!');
-}
 
 
     public function destroy($id)

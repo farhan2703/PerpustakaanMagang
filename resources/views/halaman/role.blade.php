@@ -19,8 +19,8 @@
                         @endif --}}
     
                         <div class="table-responsive">
-                            <table id="roleTable" class="table table-responsive-md">
-                                <thead>
+                            <table id="roleTable" class="table table-bordered table-responsive-md">
+                                <thead class="table-light text-center">
                                     <tr>
                                         <th>No</th>
                                         <th>idRole</th>

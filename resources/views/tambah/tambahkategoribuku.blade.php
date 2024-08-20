@@ -2,6 +2,21 @@
 
 @section('main')
 <section class="section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title">Tambah Kategori Buku Baru</h5>
+                    </div>
+                    <div class="card-body">
+
+                        @if(session('success'))
+                            <div class="alert alert-success">
+                                {{ session('success') }}
+                            </div>
+                        @endif
 
     <form action="{{ route('halaman.kategoribuku.store') }}" method="POST">
         @csrf

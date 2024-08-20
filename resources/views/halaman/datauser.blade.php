@@ -7,7 +7,7 @@
         <div class="card">
             <div class="card-body">
                 <h5 class="card-title">Tabel Data User</h5>
-                <div class="container">
+                {{-- <div class="container"> --}}
                     <div class="text-end">
                         <div class="text-right">
                             {{-- <a href="/add_member" class="btn btn-success" title="Add">
@@ -24,8 +24,8 @@
                         @endif
 
                         <div class="table-responsive">
-                            <table id="userTable" class="table table-responsive-md">
-                                <thead>
+                            <table id="userTable" class="table table-bordered table-responsive-md">
+                                <thead class="table-light text-center">
                                     <tr>
                                         <th>No</th>
                                         <th>Nama</th>

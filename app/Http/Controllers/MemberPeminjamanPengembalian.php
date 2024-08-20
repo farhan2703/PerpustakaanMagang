@@ -40,12 +40,12 @@ class MemberPeminjamanPengembalian extends Controller
             ->addColumn('opsi', function ($row) {
                 return '
                     <div class="d-flex align-items-center">
-                        <form action="/peminjaman/' . $row->id . '/detail" method="GET" class="mr-1">
-                            <button type="submit" class="btn btn-info btn-xs"><i class="bi bi-info-circle"></i> </button>
+                        <form action="/peminjaman/' . $row->id . '/detail" method="GET" class="me-1">
+                            <button type="submit" class="btn btn-secondary btn-xs"><i class="bi bi-info-circle"></i></button>
                         </form>
                     </div>
                     <div class="d-flex align-items-center">
-                        <form action="/peminjamanmember/' . $row->id . '/edit_peminjamanmember" method="GET" class="mr-1">
+                        <form action="/peminjamanmember/' . $row->id . '/edit_peminjamanmember" method="GET" >
                                 <button type="submit" class="btn btn-warning btn-xs"><i class="ri-contacts-book-upload-line""></i></button>
                             </form>
                     </div>
@@ -75,52 +75,70 @@ class MemberPeminjamanPengembalian extends Controller
     }
 
     public function update(Request $request, $id)
-    {
-        // Validasi data input
-        $request->validate([
-            'buku_id' => 'required|exists:buku,id_buku',
-            'member_id' => 'required|exists:member,id_member',
-            'tanggal_peminjaman' => 'required|date',
-            'tanggal_pengembalian' => 'nullable|date' // Validasi untuk tanggal pengembalian yang opsional
-        ]);
+{
+    // Validasi data input
+    $request->validate([
+        'buku_id' => 'required|exists:buku,id_buku',
+        'member_id' => 'required|exists:member,id_member',
+        'tanggal_peminjaman' => 'required|date',
+        'tanggal_pengembalian' => 'nullable|date',
+        'status' => 'required|in:Dalam Peminjaman,Telah Dikembalikan',
+    ]);
 
-        // Mengambil data peminjaman yang akan diupdate
-        $peminjamanPengembalian = PeminjamanPengembalian::findOrFail($id);
+    // Mengambil data peminjaman yang akan diupdate
+    $peminjamanPengembalian = PeminjamanPengembalian::findOrFail($id);
 
-        // Ambil id_member berdasarkan input member_id
-        $member = Member::find($request->input('member_id'));
+    // Ambil id_member berdasarkan input member_id
+    $member = Member::find($request->input('member_id'));
 
-        if (!$member) {
-            return redirect()->back()->with('error', 'Member tidak ditemukan!');
+    if (!$member) {
+        return redirect()->route('peminjamanmember.edit', $id)
+                         ->withInput()
+                         ->with('error', 'Member tidak ditemukan!');
+    }
+
+    // Mengupdate data peminjaman yang ada
+    $data = $request->all();
+
+    // Menentukan status berdasarkan tanggal pengembalian
+    $statusBaru = $data['status'];
+
+    // Validasi status dan tanggal pengembalian
+    if ($statusBaru === 'Dalam Peminjaman' && !empty($data['tanggal_pengembalian'])) {
+        return redirect()->route('peminjamanmember.edit', $id)
+                         ->withInput()
+                         ->with('warning', 'Jika status adalah "Dalam Peminjaman", tanggal pengembalian tidak boleh diisi.');
+    }
+
+    if ($statusBaru === 'Telah Dikembalikan' && empty($data['tanggal_pengembalian'])) {
+        return redirect()->route('peminjamanmember.edit', $id)
+                         ->withInput()
+                         ->with('error', 'Tanggal pengembalian harus diisi jika status diubah menjadi "Telah Dikembalikan".');
+    }
+
+    // Set member_id ke id_member yang ditemukan
+    $data['member_id'] = $member->id_member;
+
+    // Cek jika status berubah menjadi "Telah Dikembalikan"
+    if ($statusBaru === 'Telah Dikembalikan' && $peminjamanPengembalian->status !== 'Telah Dikembalikan') {
+        // Tambah stok buku yang dipinjam
+        $buku = Buku::find($peminjamanPengembalian->buku_id);
+        if ($buku) {
+            $buku->stok += 1;
+            $buku->save();
         }
+    }
 
-        // Mengupdate data peminjaman yang ada
-        $data = $request->all();
+    // Set status baru
+    $data['status'] = $statusBaru;
 
-        // Menentukan status berdasarkan tanggal pengembalian
-        $statusBaru = !empty($data['tanggal_pengembalian']) ? 'Telah Dikembalikan' : 'Dalam Peminjaman';
+    // Update data peminjaman
+    $peminjamanPengembalian->update($data);
 
-        // Set member_id ke id_member yang ditemukan
-        $data['member_id'] = $member->id_member;
-
-        // Cek jika status berubah menjadi "Telah Dikembalikan"
-        if ($statusBaru === 'Telah Dikembalikan' && $peminjamanPengembalian->status !== 'Telah Dikembalikan') {
-            // Tambah stok buku yang dipinjam
-            $buku = Buku::find($peminjamanPengembalian->buku_id);
-            if ($buku) {
-                $buku->stok += 1;
-                $buku->save();
-            }
-        }
-
-        // Set status baru
-        $data['status'] = $statusBaru;
-
-        // Update data peminjaman
-        $peminjamanPengembalian->update($data);
-
-        return redirect()->route('halaman.peminjamanmember')->with('success', 'Data berhasil diperbarui!');
+    return redirect()->route('halaman.peminjamanmember')->with('success', 'Data berhasil diperbarui!');
 }
+
+
 
     
     public function create()
@@ -198,7 +216,7 @@ class MemberPeminjamanPengembalian extends Controller
                     return '
                         <div class="d-flex align-items-center">
                             <form action="/pengembalian/' . $row->id . '/detail" method="GET" class="mr-1">
-                                <button type="submit" class="btn btn-info btn-xs"><i class="bi bi-info-circle"></i> </button>
+                                <button type="submit" class="btn btn-secondary btn-xs"><i class="bi bi-info-circle"></i></button>
                             </form>
                         </div>
                     ';

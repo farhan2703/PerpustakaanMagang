@@ -27,7 +27,14 @@ class MemberSeeder extends Seeder
                 'password' => Hash::make('123123123'),
             ]);
             $member->assignRole('Member');
-            
+            $member = Member::create([
+                'nama' => 'Andi Pratama',
+                'no_telepon' => '0859595593599',
+                'email' => 'adminmember@gmail.com',
+                'password' => Hash::make('123123123'),
+            ]);
+            // Assign multiple roles
+            $member->assignRole(['Admin', 'Member']);
             DB::commit();
         } catch (\Throwable $th) {
            DB::rollback();

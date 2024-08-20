@@ -8,7 +8,7 @@
         <div class="card">
             <div class="card-body">
                 <h5 class="card-title">Data Peminjaman</h5>
-                <div class="container">
+                {{-- <div class="container"> --}}
                     <div class="text-end">
                         <a href="{{ route('peminjamanmember.create') }}" class="btn btn-success" title="Add" style="margin-bottom:10px;">
                             <i class="bi bi-journal-plus"></i>
@@ -18,9 +18,8 @@
     
                         <!-- Hidden input to store user ID -->
                         <input type="hidden" id="user-id" value="{{ Auth::user()->nama }}">
-
-                        <table id="peminjamanmemberTable" class="table table-responsive-md">
-                            <thead>
+                        <table id="peminjamanmemberTable" class="table table-bordered table-responsive-md">
+                            <thead class="table-light text-center">
                                 <tr>
                                     <th>No</th>
                                     <th>Judul Buku</th>

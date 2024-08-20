@@ -13,9 +13,8 @@
                         </a>
                     </div>
                     <h5>Daftar Peminjaman</h5>
-                       
-                            <table id="peminjamanTable" class="table table-responsive-md">
-                                <thead>
+                            <table id="peminjamanTable" class="table table-bordered table-responsive-md">
+                                <thead class="table-light text-center">
                                     <tr>
                                         <th>No</th>
                                         <th>Judul Buku</th>
