@@ -87,6 +87,18 @@ class AuthController extends Controller
     // Default redirect jika role tidak dikenali
     return redirect()->route('home');
 }
+protected function determineDefaultRole($roles)
+{
+    if (in_array('admin', $roles) && in_array('member', $roles)) {
+        return 'admin,member';
+    } elseif (in_array('admin', $roles)) {
+        return 'admin';
+    } elseif (in_array('member', $roles)) {
+        return 'member';
+    } else {
+        return 'member'; // Default role jika tidak ada yang cocok
+    }
+}
 
     
     // /**

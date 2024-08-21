@@ -44,11 +44,6 @@ class MemberPeminjamanPengembalian extends Controller
                             <button type="submit" class="btn btn-secondary btn-xs"><i class="bi bi-info-circle"></i></button>
                         </form>
                     </div>
-                    <div class="d-flex align-items-center">
-                        <form action="/peminjamanmember/' . $row->id . '/edit_peminjamanmember" method="GET" >
-                                <button type="submit" class="btn btn-warning btn-xs"><i class="ri-contacts-book-upload-line""></i></button>
-                            </form>
-                    </div>
                     
                 ';
             })
@@ -56,6 +51,12 @@ class MemberPeminjamanPengembalian extends Controller
             ->make(true);
         }
     }
+    // <div class="d-flex align-items-center">
+    //                     <form action="/peminjamanmember/' . $row->id . '/edit_peminjamanmember" method="GET" >
+    //                             <button type="submit" class="btn btn-warning btn-xs"><i class="ri-contacts-book-upload-line""></i></button>
+    //                         </form>
+    //                 </div>
+                    
     public function showDetail($id)
     {
         // Mendapatkan data peminjaman berdasarkan ID

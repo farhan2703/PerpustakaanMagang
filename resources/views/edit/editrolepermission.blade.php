@@ -8,9 +8,29 @@
                 <h4 class="card-title">Edit Role</h4>
             </div>
             <div class="card-body">
+                <!-- Display validation errors -->
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+
+                <!-- Success message -->
+                @if (session('success'))
+                    <div class="alert alert-success">
+                        {{ session('success') }}
+                    </div>
+                @endif
+
                 <form action="{{ route('role.update', $role->id) }}" method="POST">
                     @csrf
                     @method('PUT')
+                    
+                    <input type="hidden" name="role_id" value="{{ $role->id }}">
 
                     <!-- Role Name -->
                     <div class="form-group mb-3">
@@ -28,12 +48,12 @@
                     <div class="form-group mb-3">
                         <label class="form-label">Permissions *</label>
                         <div class="row">
-                            @foreach($permissions as $permission)
+                            @foreach($permissions as $id => $name)
                                 <div class="col-md-4 col-sm-6">
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" name="permissions[]" value="{{ $permission->id }}" 
-                                        {{ in_array($permission->id, $rolePermissions) ? 'checked' : '' }}>
-                                        <label class="form-check-label">{{ $permission->name }}</label>
+                                        <input class="form-check-input" type="checkbox" name="permissions[]" value="{{ $id }}" 
+                                        {{ in_array($id, $rolePermissions) ? 'checked' : '' }}>
+                                        <label class="form-check-label">{{ $name }}</label>
                                     </div>
                                 </div>
                             @endforeach
@@ -51,20 +71,16 @@
     </div>
 </section>
 
-<script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-<script src="assets/js/main.js"></script>
-@endsection
-
 @section('css')
-<link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-<link href="assets/vendor/font-awesome/css/all.min.css" rel="stylesheet">
+<link href="{{ asset('assets/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+<link href="{{ asset('assets/vendor/font-awesome/css/all.min.css') }}" rel="stylesheet">
 <!-- Add any custom CSS here -->
 @endsection
 
 @section('js')
+<script src="{{ asset('assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+<script src="{{ asset('assets/js/main.js') }}"></script>
 <!-- Add any custom JS here -->
 @endsection
 
-@section('scripts')
-<!-- Add any additional scripts here -->
 @endsection
