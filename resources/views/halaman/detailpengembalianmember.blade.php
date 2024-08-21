@@ -24,11 +24,11 @@
           </div>
           <div class="row mb-3">
             <div class="col-sm-4 font-weight-bold">Tanggal Peminjaman:</div>
-            <div class="col-sm-8">{{ $peminjaman->tanggal_peminjaman }}</div>
+            <div class="col-sm-8">{{ $peminjaman->created_at }}</div>
           </div>
           <div class="row mb-3">
             <div class="col-sm-4 font-weight-bold">Tanggal Pengembalian:</div>
-            <div class="col-sm-8">{{ $peminjaman->tanggal_pengembalian }}</div>
+            <div class="col-sm-8">{{ $peminjaman->updated_at }}</div>
           </div>
           <div class="row mb-3">
             <div class="col-sm-4 font-weight-bold">Status:</div>

@@ -155,7 +155,6 @@ class MemberPeminjamanPengembalian extends Controller
         $request->validate([
             'buku_id' => 'required|exists:buku,id_buku',
             'member_id' => 'required|exists:member,id_member',
-            'tanggal_peminjaman' => 'required|date',
         ]);
     
         // Mendapatkan buku yang dipinjam
@@ -233,5 +232,24 @@ class MemberPeminjamanPengembalian extends Controller
         // Menampilkan tampilan detail dengan data peminjaman
         return view('halaman.detailpengembalianmember', compact('peminjaman'));
     }
+    public function kembalikanBukuMember($id)
+    {
+        $peminjaman = PeminjamanPengembalian::findOrFail($id);
+        
+        // Update status peminjaman menjadi "Telah Dikembalikan"
+        $peminjaman->status = 'Telah Dikembalikan';
+        
+        // Perbarui waktu updated_at secara otomatis oleh Eloquent saat save()
+        $peminjaman->save();
+    
+        // Tambahkan stok buku kembali
+        $buku = Buku::findOrFail($peminjaman->buku_id);
+        $buku->stok += 1;
+        $buku->save();
+    
+        return redirect()->route('halaman.peminjamanmember')->with('success', 'Buku berhasil dikembalikan.');
+    }
+    
+    
 
 }

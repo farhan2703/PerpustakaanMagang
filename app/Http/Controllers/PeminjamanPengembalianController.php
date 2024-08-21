@@ -34,7 +34,7 @@ class PeminjamanPengembalianController extends Controller
                     return '
                         <div class="d-flex align-items-center">
                             <form action="/peminjaman/' . $row->id . '/edit" method="GET" class="mr-1">
-                                <button type="submit" class="btn btn-warning btn-xs"><i class="bi bi-pencil-square"></i></button>
+                                <button type="submit" class="btn btn-secondary btn-xs"><i class="bi bi-info-circle"></i></button>
                             </form>
                         </div>
                     ';
@@ -84,7 +84,6 @@ class PeminjamanPengembalianController extends Controller
         $request->validate([
             'buku_id' => 'required|exists:buku,id_buku',
             'member_id' => 'required|exists:member,id_member',
-            'tanggal_peminjaman' => 'required|date',
         ]);
     
         // Ambil data buku berdasarkan buku_id
@@ -192,4 +191,23 @@ class PeminjamanPengembalianController extends Controller
 
         return redirect()->route('halaman.peminjaman')->with('success', 'Data berhasil dihapus!');
     }
+    public function kembalikanBuku($id)
+{
+    $peminjamanPengembalian = PeminjamanPengembalian::findOrFail($id);
+    
+    // Update status peminjaman menjadi "Telah Dikembalikan"
+    $peminjamanPengembalian->status = 'Telah Dikembalikan';
+    
+    // Perbarui waktu updated_at secara otomatis oleh Eloquent saat save()
+    $peminjamanPengembalian->save();
+
+    // Tambahkan stok buku kembali
+    $buku = Buku::findOrFail($peminjamanPengembalian->buku_id);
+    $buku->stok += 1;
+    $buku->save();
+
+    return redirect()->route('halaman.peminjaman')->with('success', 'Buku berhasil dikembalikan.');
+}
+
+
 }

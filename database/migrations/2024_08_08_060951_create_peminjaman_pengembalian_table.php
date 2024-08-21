@@ -16,8 +16,6 @@ class CreatePeminjamanPengembalianTable extends Migration
             $table->id();
             $table->unsignedBigInteger('buku_id');
             $table->unsignedBigInteger('member_id');
-            $table->date('tanggal_peminjaman');
-            $table->date('tanggal_pengembalian')->nullable();
             $table->enum('status', ['Dalam Peminjaman', 'Telah Dikembalikan']);
             $table->timestamps();
 

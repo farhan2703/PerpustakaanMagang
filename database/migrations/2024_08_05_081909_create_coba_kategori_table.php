@@ -12,9 +12,6 @@ class CreateCobaKategoriTable extends Migration
             $table->id('id_kategori');
             $table->string('nama_kategori', 50);
             $table->string('deskripsi_kategori', 250);
-            $table->date('tanggal_dibuat');
-            $table->date('tanggal_diperbarui')->nullable();
-            $table->string('status', 100);
             $table->unsignedBigInteger('id_buku')->nullable();
             $table->foreign('id_buku')->references('id_buku')->on('buku')->onDelete('cascade');
             $table->timestamps();

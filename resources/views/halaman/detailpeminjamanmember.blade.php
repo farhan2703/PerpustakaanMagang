@@ -24,7 +24,7 @@
           </div>
           <div class="row mb-3">
             <div class="col-sm-4 font-weight-bold">Tanggal Peminjaman:</div>
-            <div class="col-sm-8">{{ $peminjaman->tanggal_peminjaman }}</div>
+            <div class="col-sm-8">{{ $peminjaman->created_at  }}</div>
           </div>
           <div class="row mb-3">
             <div class="col-sm-4 font-weight-bold">Status:</div>
@@ -32,30 +32,24 @@
           </div>
         </div>
         <div class="card-footer text-end">
-          <a href="{{ route('halaman.peminjamanmember') }}" class="btn btn-secondary">Kembali ke Daftar Peminjaman</a>
+          <a href="{{ route('halaman.peminjamanmember') }}" class="btn btn-secondary">Cancel</a>
+          <!-- Tombol Kembalikan Buku -->
+          @if($peminjaman->status == 'Dalam Peminjaman')
+            <form action="{{ route('peminjaman.kembalikan.member', $peminjaman->id) }}" method="POST" style="display:inline;">
+              @csrf
+              @method('PUT')
+              <button type="submit" class="btn btn-success">Kembalikan Buku</button>
+            </form>
+          @endif
         </div>
       </div>
     </div>
   </div>
 </section>
+
 <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.datatables.net/v/bs5/dt-2.1.3/datatables.min.js"></script>
 <script src="{{ asset('main.js') }}"></script>
 
 @endsection
-
-@section('css')
-<!-- Add any custom CSS here -->
-@endsection
-
-@section('js')
-<!-- Add any custom JS here -->
-@endsection
-
-@section('scripts')
-
-<!-- Add any additional scripts here -->
-@endsection
-
-

@@ -23,7 +23,7 @@ class KategoriBukuController extends Controller
     public function tableKategori(Request $request)
     {
         if ($request->ajax()) {
-            $kategoribuku = KategoriBuku::select(['id_kategori', 'nama_kategori', 'deskripsi_kategori', 'tanggal_dibuat','tanggal_diperbarui','status'])->get();
+            $kategoribuku = KategoriBuku::select(['id_kategori', 'nama_kategori', 'deskripsi_kategori', 'created_at','updated_at'])->get();
 
             return DataTables::of($kategoribuku)
                 ->addIndexColumn() // Menambahkan indeks otomatis
@@ -58,17 +58,11 @@ class KategoriBukuController extends Controller
         $request->validate([
             'nama_kategori' => 'required|string|max:255',
             'deskripsi_kategori' => 'required|string|max:255',
-            'tanggal_dibuat' => 'required|date',
-            'tanggal_diperbarui' => '00-00-0000',
-            'status' => '-',
         ]);
 
         KategoriBuku::create([
             'nama_kategori' => $request->input('nama_kategori'),
             'deskripsi_kategori' => $request->input('deskripsi_kategori'),
-            'tanggal_dibuat' => $request->input('tanggal_dibuat'),
-            'tanggal_diperbarui' => $request->input('tanggal_diperbarui'),
-            'status' => '-',
         ]);
 
         return redirect()->route('halaman.kategoribuku')->with('success', 'Buku berhasil ditambahkan!');
@@ -87,16 +81,12 @@ class KategoriBukuController extends Controller
             $request->validate([
                 'nama_kategori' => 'required|string|max:255',
                 'deskripsi_kategori' => 'required|string',
-                'tanggal_dibuat' => 'required|date',
-                'tanggal_diperbarui' => 'nullable|date',
             ]);
     
             $kategori = KategoriBuku::findOrFail($id_kategori);
             $kategori->update([
                 'nama_kategori' => $request->input('nama_kategori'),
                 'deskripsi_kategori' => $request->input('deskripsi_kategori'),
-                'tanggal_dibuat' => $request->input('tanggal_dibuat'),
-                'tanggal_diperbarui' => $request->input('tanggal_diperbarui'),
             ]);
     
             return redirect()->route('halaman.kategoribuku')->with('success', 'Kategori buku berhasil diperbarui!');

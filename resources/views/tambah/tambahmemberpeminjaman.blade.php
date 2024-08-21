@@ -42,13 +42,6 @@
             </div>
         
             <div class="form-group row mb-3">
-                <label for="tanggal_peminjaman" class="col-sm-3 col-form-label">Tanggal Peminjaman</label>
-                <div class="col-sm-9">
-                    <input type="date" class="form-control" id="tanggal_peminjaman" name="tanggal_peminjaman" required>
-                </div>
-            </div>
-        
-            <div class="form-group row mb-3">
                 <div class="col-sm-9 offset-sm-3">
                     <button type="submit" class="btn btn-primary">Tambah</button>
                     <a href="{{ route('halaman.peminjamanmember') }}" class="btn btn-secondary ms-2">Cancel</a>

@@ -13,8 +13,8 @@ class KategoriBuku extends Model
         'id_kategori',  
         'nama_kategori',
         'deskripsi_kategori',
-        'tanggal_dibuat',
-        'tanggal_diperbarui',
+        'created_at',
+        'updated_at',
         'status',
         'id_buku',     
     ];

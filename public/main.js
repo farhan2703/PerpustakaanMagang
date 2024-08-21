@@ -207,9 +207,40 @@ $(document).ready(function () {
             },
             { data: "nama_kategori", name: "nama_kategori" },
             { data: "deskripsi_kategori", name: "deskripsi_kategori" },
-            { data: "tanggal_dibuat", name: "tanggal_dibuat" },
-            { data: "tanggal_diperbarui", name: "tanggal_diperbarui" },
-            { data: "status", name: "status" },
+            {
+                data: "created_at",
+                name: "created_at",
+                render: function (data, type, row) {
+                    if (data) {
+                        var date = new Date(data);
+                        return (
+                            ("0" + date.getDate()).slice(-2) +
+                            "-" +
+                            ("0" + (date.getMonth() + 1)).slice(-2) +
+                            "-" +
+                            date.getFullYear()
+                        );
+                    }
+                    return "";
+                },
+            },
+            {
+                data: "updated_at",
+                name: "updated_at",
+                render: function (data, type, row) {
+                    if (data) {
+                        var date = new Date(data);
+                        return (
+                            ("0" + date.getDate()).slice(-2) +
+                            "-" +
+                            ("0" + (date.getMonth() + 1)).slice(-2) +
+                            "-" +
+                            date.getFullYear()
+                        );
+                    }
+                    return "";
+                },
+            },
             { data: "opsi", name: "opsi", orderable: false, searchable: false },
         ],
 
@@ -251,7 +282,20 @@ $(document).ready(function () {
             },
             { data: "judul_buku", name: "judul_buku" },
             { data: "nama_member", name: "nama_member" },
-            { data: "tanggal_peminjaman", name: "tanggal_peminjaman" },
+            {
+                data: "created_at",
+                name: "created_at",
+                render: function (data, type, row) {
+                    if (type === "display" || type === "filter") {
+                        var date = new Date(data);
+                        var day = ("0" + date.getDate()).slice(-2);
+                        var month = ("0" + (date.getMonth() + 1)).slice(-2);
+                        var year = date.getFullYear();
+                        return day + "-" + month + "-" + year;
+                    }
+                    return data;
+                },
+            },
             { data: "status", name: "status" },
             {
                 data: "opsi",
@@ -260,7 +304,6 @@ $(document).ready(function () {
                 searchable: false,
             },
         ],
-
         columnDefs: [
             {
                 targets: 0, // Target the first column (No)
@@ -272,6 +315,7 @@ $(document).ready(function () {
             },
         ],
     });
+
     var userName = $("#user-id").val(); // Get user name
 
     $("#peminjamanmemberTable").DataTable({
@@ -302,7 +346,20 @@ $(document).ready(function () {
             },
             { data: "judul_buku", name: "judul_buku" },
             { data: "nama_member", name: "nama_member" },
-            { data: "tanggal_peminjaman", name: "tanggal_peminjaman" },
+            {
+                data: "created_at",
+                name: "created_at",
+                render: function (data, type, row) {
+                    if (data) {
+                        var date = new Date(data);
+                        var day = ("0" + date.getDate()).slice(-2);
+                        var month = ("0" + (date.getMonth() + 1)).slice(-2);
+                        var year = date.getFullYear();
+                        return day + "-" + month + "-" + year;
+                    }
+                    return "";
+                },
+            },
             { data: "status", name: "status" },
             {
                 data: "opsi",
@@ -350,8 +407,30 @@ $(document).ready(function () {
             },
             { data: "judul_buku", name: "judul_buku" },
             { data: "nama_member", name: "nama_member" },
-            { data: "tanggal_peminjaman", name: "tanggal_peminjaman" },
-            { data: "tanggal_pengembalian", name: "tanggal_pengembalian" },
+            {
+                data: "created_at",
+                name: "created_at",
+                render: function (data, type, row) {
+                    var date = new Date(data);
+                    return date.toLocaleDateString("id-ID", {
+                        day: "2-digit",
+                        month: "2-digit",
+                        year: "numeric",
+                    });
+                },
+            },
+            {
+                data: "updated_at",
+                name: "updated_at",
+                render: function (data, type, row) {
+                    var date = new Date(data);
+                    return date.toLocaleDateString("id-ID", {
+                        day: "2-digit",
+                        month: "2-digit",
+                        year: "numeric",
+                    });
+                },
+            },
             {
                 data: "status",
                 name: "status",
@@ -362,10 +441,6 @@ $(document).ready(function () {
             {
                 targets: 0, // Target the first column (No)
                 className: "text-center", // Center align text in the first column
-            },
-            {
-                targets: -1, // Target the last column (Aksi)
-                className: "text-center", // Center align text in the last column
             },
         ],
     });
@@ -400,8 +475,30 @@ $(document).ready(function () {
             },
             { data: "judul_buku", name: "judul_buku" },
             { data: "nama_member", name: "nama_member" },
-            { data: "tanggal_peminjaman", name: "tanggal_peminjaman" },
-            { data: "tanggal_pengembalian", name: "tanggal_pengembalian" },
+            {
+                data: "created_at",
+                name: "created_at",
+                render: function (data, type, row) {
+                    var date = new Date(data);
+                    return date.toLocaleDateString("id-ID", {
+                        day: "2-digit",
+                        month: "2-digit",
+                        year: "numeric",
+                    });
+                },
+            },
+            {
+                data: "updated_at",
+                name: "updated_at",
+                render: function (data, type, row) {
+                    var date = new Date(data);
+                    return date.toLocaleDateString("id-ID", {
+                        day: "2-digit",
+                        month: "2-digit",
+                        year: "numeric",
+                    });
+                },
+            },
             { data: "status", name: "status" },
             {
                 data: "opsi",
@@ -422,6 +519,7 @@ $(document).ready(function () {
             },
         ],
     });
+
     $("#roleTable").DataTable({
         ordering: true,
         serverSide: true,

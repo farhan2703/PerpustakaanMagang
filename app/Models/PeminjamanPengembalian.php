@@ -13,7 +13,7 @@ class PeminjamanPengembalian extends Model
     protected $fillable = [
         'buku_id',
         'member_id',
-        'tanggal_peminjaman',
+        'created_at',
         'tanggal_pengembalian',
         'status'
     ];

@@ -25,11 +25,11 @@
                     </div>
                     <div class="row mb-3">
                         <div class="col-sm-4 font-weight-bold">Tanggal Dibuat:</div>
-                        <div class="col-sm-8">{{ $kategoriBuku->tanggal_dibuat }}</div>
+                        <div class="col-sm-8">{{ $kategoriBuku->created_at }}</div>
                     </div>
                     <div class="row mb-3">
                         <div class="col-sm-4 font-weight-bold">Tanggal Diperbarui:</div>
-                        <div class="col-sm-8">{{ $kategoriBuku->tanggal_diperbarui }}</div>
+                        <div class="col-sm-8">{{ $kategoriBuku->updated_at }}</div>
                     </div>
                 </div>
                 <div class="card-footer text-end">

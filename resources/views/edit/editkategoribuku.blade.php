@@ -37,20 +37,6 @@
             </div>
 
             <div class="form-group row mb-3">
-                <label for="tanggal_dibuat" class="col-sm-3 col-form-label">Tanggal Dibuat</label>
-                <div class="col-sm-9">
-                    <input type="date" class="form-control" id="tanggal_dibuat" name="tanggal_dibuat" value="{{ $kategori->tanggal_dibuat }}" required>
-                </div>
-            </div>
-
-            <div class="form-group row mb-3">
-                <label for="tanggal_diperbarui" class="col-sm-3 col-form-label">Tanggal Diperbarui</label>
-                <div class="col-sm-9">
-                    <input type="date" class="form-control" id="tanggal_diperbarui" name="tanggal_diperbarui" value="{{ $kategori->tanggal_diperbarui }}">
-                </div>
-            </div>
-
-            <div class="form-group row mb-3">
                 <div class="col-sm-9 offset-sm-3">
                     <button type="submit" class="btn btn-primary">Update</button>
                     <a href="{{ route('halaman.kategoribuku') }}" class="btn btn-secondary ms-2">Cancel</a>

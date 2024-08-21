@@ -23,7 +23,6 @@
                             <th>Deskripsi</th>
                             <th>Tanggal Dibuat</th>
                             <th>Tanggal Diperbarui</th>
-                            <th>Status</th>
                             <th>Option</th>
                         </tr>
                     </thead>

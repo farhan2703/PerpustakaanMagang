@@ -110,6 +110,7 @@ Route::group(['middleware' => ['permission:peminjaman']], function () {
     Route::get('/peminjaman/{id}/edit', [PeminjamanPengembalianController::class, 'edit'])->name('peminjaman.edit');
     Route::put('/peminjaman/{id}', [PeminjamanPengembalianController::class, 'update'])->name('peminjaman.update');
     Route::delete('/peminjaman/{id}', [PeminjamanPengembalianController::class, 'destroy'])->name('peminjaman.destroy');
+    Route::put('/peminjaman/kembalikan/{id}', [PeminjamanPengembalianController::class, 'kembalikanBuku'])->name('peminjaman.kembalikan');
 });
 
 Route::group(['middleware' => ['permission:pengembalian']], function () {
@@ -159,6 +160,7 @@ Route::group(['middleware' => ['permission:buku']], function () {
         Route::get('/peminjaman/{id}/detail', [MemberPeminjamanPengembalian::class, 'showDetail'])->name('peminjamanmember.detail');
         Route::get('/peminjamanmember/{id}/edit_peminjamanmember', [MemberPeminjamanPengembalian::class, 'edit'])->name('peminjamanmember.edit');
         Route::put('/peminjamanmember/{id}/edit_peminjamanmember', [MemberPeminjamanPengembalian::class, 'update'])->name('peminjamanmember.update');
+        Route::put('/peminjamanmember/kembalikanmember/{id}', [MemberPeminjamanPengembalian::class, 'kembalikanBukuMember'])->name('peminjaman.kembalikan.member');
         
     });
     

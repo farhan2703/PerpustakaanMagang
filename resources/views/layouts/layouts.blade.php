@@ -86,7 +86,7 @@
                     
                     <li>
                         <a class="dropdown-item d-flex align-items-center" href="{{ route('profile.edit') }}">
-                            <i class="bi bi-person"></i>
+                            <i class="ri-user-settings-line"></i>
                             <span>Ubah Profile</span>
                         </a>
                     </li>
@@ -98,15 +98,15 @@
                             @if(in_array('admin', $rolesArray) && in_array('member', $rolesArray))
                                 @if($currentRole === 'admin')
                                     <a class="dropdown-item" href="{{ route('switch.role', 'member') }}">
-                                        <i class="ri-user-line"></i> Switch to Member
+                                        <i class="ri-user-star-line"></i> Switch to Member
                                     </a>
                                 @elseif($currentRole === 'member')
                                     <a class="dropdown-item" href="{{ route('switch.role', 'admin,member') }}">
-                                        <i class="ri-user-line"></i> Switch to Admin, Member
+                                        <i class="bi bi-people"></i> Switch to Admin, Member
                                     </a>
                                 @elseif($currentRole === 'admin,member')
                                     <a class="dropdown-item" href="{{ route('switch.role', 'admin') }}">
-                                        <i class="ri-user-line"></i> Switch to Admin
+                                        <i class="ri-user-5-line"></i> Switch to Admin
                                     </a>
                                 @endif
                             @elseif(in_array('admin', $rolesArray))
