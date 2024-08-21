@@ -307,14 +307,14 @@
   </main><!-- End #main -->
 
   <!-- ======= Footer ======= -->
-  <footer id="footer" class="footer">
+  {{-- <footer id="footer" class="footer">
     <div class="copyright">
       &copy; Website <strong><span>Perpustaka</span></strong>. Bacalah
     </div>
     <div class="credits">
       Designed by <a href="https://bootstrapmade.com/"></a>
     </div>
-  </footer><!-- End Footer -->
+  </footer><!-- End Footer --> --}}
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
   

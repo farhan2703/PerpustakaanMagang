@@ -36,11 +36,11 @@
                           <div class="modal-body">
                               <!-- Form untuk mengunggah file Excel -->
                               <form action="{{ route('imporexceltbuku') }}" method="POST" enctype="multipart/form-data">
-                                  @csrf
-                                  <div class="form-group">
-                                      <label for="file">Pilih File Excel</label>
-                                      <input type="file" class="form-control-file" id="file" name="file" required>
-                                  </div>
+                                @csrf
+                                <div class="mb-3">
+                                    <label for="file" class="form-label">Pilih File Excel</label>
+                                    <input type="file" class="form-control" id="file" name="file" required>
+                                </div>
                           </div>
                           <div class="modal-footer d-flex justify-content-between">
                             <a href="{{ route('export.template') }}" class="small-text">Download template</a>
