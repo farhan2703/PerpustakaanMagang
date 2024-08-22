@@ -21,33 +21,37 @@ class AdminController extends Controller
     }
 
     public function tableAdmin(Request $request)
-    {
-        if ($request->ajax()) {
-            $members = Member::role('Admin')
+{
+    if ($request->ajax()) {
+        $members = Member::role('Admin')
             ->with('roles')
             ->select(['id_member', 'nama', 'no_telepon', 'email'])->get();
 
-            return DataTables::of($members)
-                ->addIndexColumn() // Menambahkan indeks otomatis
-                ->addColumn('opsi', function ($row) {
-                    return '
-                        <div class="d-flex align-items-center">
-                            <form action="/admin/' . $row->id_member . '/edit_admin" method="GET" class="me-2">
-                                <button type="submit" class="btn btn-warning btn-xs"><i class="bi bi-pencil-square"></i></button>
-                            </form>
-                            <form action="/admin/' . $row->id_member . '/destroy" method="POST">
-                                ' . csrf_field() . '
-                                ' . method_field('DELETE') . '
-                                <button type="submit" class="btn btn-danger btn-xs"><i class="bi bi-trash"></i></button>
-                            </form>
-                        </div>
-                        
-                    ';
-                })
-                ->rawColumns(['opsi']) // Pastikan kolom ini dianggap sebagai HTML
-                ->make(true);
-        }
+        return DataTables::of($members)
+            ->addIndexColumn() // Menambahkan indeks otomatis
+            ->addColumn('opsi', function ($row) {
+                return '
+                    <div class="d-flex justify-content-center align-items-center">
+                        <form action="/admin/' . $row->id_member . '/edit_admin" method="GET" class="me-2">
+                            <button type="submit" class="btn btn-warning btn-sm">
+                                <i class="bi bi-pencil-square text-white"></i>
+                            </button>
+                        </form>
+                        <form action="/admin/' . $row->id_member . '/destroy" method="POST">
+                            ' . csrf_field() . '
+                            ' . method_field('DELETE') . '
+                            <button type="submit" class="btn btn-danger btn-sm">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </form>
+                    </div>
+                ';
+            })
+            ->rawColumns(['opsi']) // Pastikan kolom ini dianggap sebagai HTML
+            ->make(true);
     }
+}
+
 
     public function create()
     {

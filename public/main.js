@@ -26,18 +26,17 @@ $(document).ready(function () {
             { data: "nama", name: "nama" },
             { data: "no_telepon", name: "no_telepon" },
             { data: "email", name: "email" },
-            { data: "opsi", name: "opsi", orderable: false, searchable: false },
+            {
+                data: "opsi",
+                name: "opsi",
+                orderable: false,
+                searchable: false,
+                className: "text-center opsi-col", // Added class for the options column
+            },
         ],
-
         columnDefs: [
-            {
-                targets: 0, // Target the first column (No)
-                className: "text-center", // Center align text in the first column
-            },
-            {
-                targets: -1, // Target the last column (Aksi)
-                className: "text-center", // Center align text in the last column
-            },
+            { targets: 0, className: "text-center" },
+            { targets: -1, className: "text-center opsi-col" },
         ],
     });
     $("#adminTable").DataTable({
@@ -62,86 +61,32 @@ $(document).ready(function () {
                 width: "10px",
                 orderable: false,
                 searchable: false,
+                className: "text-center", // Center align for the first column
             },
             { data: "nama", name: "nama" },
             { data: "no_telepon", name: "no_telepon" },
             { data: "email", name: "email" },
-            { data: "opsi", name: "opsi", orderable: false, searchable: false },
+            {
+                data: "opsi",
+                name: "opsi",
+                orderable: false,
+                searchable: false,
+                className: "text-center opsi-col", // Added class for the options column
+            },
         ],
-
         columnDefs: [
-            {
-                targets: 0, // Target the first column (No)
-                className: "text-center", // Center align text in the first column
-            },
-            {
-                targets: -1, // Target the last column (Aksi)
-                className: "text-center", // Center align text in the last column
-            },
+            { targets: 0, className: "text-center" },
+            { targets: -1, className: "text-center opsi-col" },
         ],
     });
 
-    // DataTable untuk tabel buku
-    $(document).ready(function () {
-        // DataTable untuk tabel buku
-        $("#bukuTable").DataTable({
-            ordering: true,
-            serverSide: true,
-            processing: true,
-            ajax: {
-                url: $("#buku-table-url").val(), // Mengambil URL dari elemen input tersembunyi
-                type: "GET",
-                dataType: "json",
-                error: function (jqXHR, textStatus, errorThrown) {
-                    console.error("AJAX error:", textStatus, errorThrown);
-                    alert(
-                        "Terjadi kesalahan saat memuat data. Silakan coba lagi nanti."
-                    );
-                },
-            },
-            columns: [
-                {
-                    data: "DT_RowIndex",
-                    name: "DT_RowIndex",
-                    width: "10px",
-                    orderable: false,
-                    searchable: false,
-                    className: "text-center", // Center align for the first column
-                },
-                { data: "judul", name: "judul" },
-                { data: "penulis", name: "penulis" },
-                { data: "penerbit", name: "penerbit" },
-                { data: "tahun_terbit", name: "tahun_terbit" },
-                { data: "status_ketersediaan", name: "status_ketersediaan" },
-                { data: "stok", name: "stok" },
-                { data: "kategori", name: "kategori" },
-                {
-                    data: "opsi",
-                    name: "opsi",
-                    orderable: false,
-                    searchable: false,
-                    className: "text-center", // Center align for the "Aksi" column
-                },
-            ],
-            columnDefs: [
-                {
-                    targets: 0, // Target the first column (No)
-                    className: "text-center", // Center align text in the first column
-                },
-                {
-                    targets: -1, // Target the last column (Aksi)
-                    className: "text-center", // Center align text in the last column
-                },
-            ],
-        });
-    });
-
-    $("#bukumemberTable").DataTable({
+    // Inisialisasi DataTable
+    $("#bukuTable").DataTable({
         ordering: true,
         serverSide: true,
         processing: true,
         ajax: {
-            url: $("#bukumember-table-url").val(), // Mengambil URL dari elemen input tersembunyi
+            url: $("#buku-table-url").val(),
             type: "GET",
             dataType: "json",
             error: function (jqXHR, textStatus, errorThrown) {
@@ -158,6 +103,7 @@ $(document).ready(function () {
                 width: "10px",
                 orderable: false,
                 searchable: false,
+                className: "text-center",
             },
             { data: "judul", name: "judul" },
             { data: "penulis", name: "penulis" },
@@ -166,447 +112,565 @@ $(document).ready(function () {
             { data: "status_ketersediaan", name: "status_ketersediaan" },
             { data: "stok", name: "stok" },
             { data: "kategori", name: "kategori" },
-            { data: "opsi", name: "opsi", orderable: false, searchable: false },
-        ],
-
-        columnDefs: [
-            {
-                targets: 0, // Target the first column (No)
-                className: "text-center", // Center align text in the first column
-            },
-            {
-                targets: -1, // Target the last column (Aksi)
-                className: "text-center", // Center align text in the last column
-            },
-        ],
-    });
-
-    // DataTable untuk tabel kategoribuku
-    $("#kategoriTable").DataTable({
-        ordering: true,
-        serverSide: true,
-        processing: true,
-        ajax: {
-            url: $("#kategori-table-url").val(), // Mengambil URL dari elemen input tersembunyi
-            type: "GET",
-            dataType: "json",
-            error: function (jqXHR, textStatus, errorThrown) {
-                console.error("AJAX error:", textStatus, errorThrown);
-                alert(
-                    "Terjadi kesalahan saat memuat data. Silakan coba lagi nanti."
-                );
-            },
-        },
-        columns: [
-            {
-                data: "DT_RowIndex",
-                name: "DT_RowIndex",
-                width: "10px",
-                orderable: false,
-                searchable: false,
-            },
-            { data: "nama_kategori", name: "nama_kategori" },
-            { data: "deskripsi_kategori", name: "deskripsi_kategori" },
-            {
-                data: "created_at",
-                name: "created_at",
-                render: function (data, type, row) {
-                    if (data) {
-                        var date = new Date(data);
-                        return (
-                            ("0" + date.getDate()).slice(-2) +
-                            "-" +
-                            ("0" + (date.getMonth() + 1)).slice(-2) +
-                            "-" +
-                            date.getFullYear()
-                        );
-                    }
-                    return "";
-                },
-            },
-            {
-                data: "updated_at",
-                name: "updated_at",
-                render: function (data, type, row) {
-                    if (data) {
-                        var date = new Date(data);
-                        return (
-                            ("0" + date.getDate()).slice(-2) +
-                            "-" +
-                            ("0" + (date.getMonth() + 1)).slice(-2) +
-                            "-" +
-                            date.getFullYear()
-                        );
-                    }
-                    return "";
-                },
-            },
-            { data: "opsi", name: "opsi", orderable: false, searchable: false },
-        ],
-
-        columnDefs: [
-            {
-                targets: 0, // Target the first column (No)
-                className: "text-center", // Center align text in the first column
-            },
-            {
-                targets: -1, // Target the last column (Aksi)
-                className: "text-center", // Center align text in the last column
-            },
-        ],
-    });
-
-    // DataTable untuk tabel peminjaman
-    $("#peminjamanTable").DataTable({
-        ordering: true,
-        serverSide: true,
-        processing: true,
-        ajax: {
-            url: $("#peminjaman-table-url").val(),
-            type: "GET",
-            dataType: "json",
-            error: function (jqXHR, textStatus, errorThrown) {
-                console.error("AJAX error:", textStatus, errorThrown);
-                alert(
-                    "Terjadi kesalahan saat memuat data. Silakan coba lagi nanti."
-                );
-            },
-        },
-        columns: [
-            {
-                data: "DT_RowIndex",
-                name: "DT_RowIndex",
-                width: "10px",
-                orderable: false,
-                searchable: false,
-            },
-            { data: "judul_buku", name: "judul_buku" },
-            { data: "nama_member", name: "nama_member" },
-            {
-                data: "created_at",
-                name: "created_at",
-                render: function (data, type, row) {
-                    if (type === "display" || type === "filter") {
-                        var date = new Date(data);
-                        var day = ("0" + date.getDate()).slice(-2);
-                        var month = ("0" + (date.getMonth() + 1)).slice(-2);
-                        var year = date.getFullYear();
-                        return day + "-" + month + "-" + year;
-                    }
-                    return data;
-                },
-            },
-            { data: "status", name: "status" },
             {
                 data: "opsi",
                 name: "opsi",
                 orderable: false,
                 searchable: false,
+                className: "text-center",
             },
         ],
         columnDefs: [
-            {
-                targets: 0, // Target the first column (No)
-                className: "text-center", // Center align text in the first column
-            },
-            {
-                targets: -1, // Target the last column (Aksi)
-                className: "text-center", // Center align text in the last column
-            },
+            { targets: 0, className: "text-center" },
+            { targets: -1, className: "text-center" },
         ],
+        lengthMenu: [
+            [10, 25, 50, 100],
+            [10, 25, 50, 100],
+        ],
+        initComplete: function () {
+            // Modifikasi tampilan label dan dropdown setelah DataTable diinisialisasi
+            $(".dataTables_length").each(function () {
+                var $this = $(this);
+                var $label = $this.find("label");
+                var $select = $this.find("select");
+
+                // Mengatur label dan dropdown untuk tampil sejajar
+                $this.css({
+                    display: "flex",
+                    "align-items": "center",
+                    gap: "10px",
+                });
+
+                $label.css({
+                    margin: "0",
+                    "white-space": "nowrap",
+                });
+
+                $select.css({
+                    "margin-left": "5px",
+                });
+            });
+        },
     });
 
-    var userName = $("#user-id").val(); // Get user name
+    // Modifikasi tampilan label dan dropdown setelah DataTable diinisialisasi
+    $(".dataTables_length").each(function () {
+        var $this = $(this);
+        var $label = $this.find("label");
+        var $select = $this.find("select");
 
-    $("#peminjamanmemberTable").DataTable({
-        ordering: true,
-        serverSide: true,
-        processing: true,
-        ajax: {
-            url: $("#peminjamanmember-table-url").val(),
-            type: "GET",
-            data: function (d) {
-                d.user_name = userName; // Send user name as a parameter
-            },
-            dataType: "json",
-            error: function (jqXHR, textStatus, errorThrown) {
-                console.error("AJAX error:", textStatus, errorThrown);
-                alert(
-                    "Terjadi kesalahan saat memuat data. Silakan coba lagi nanti."
-                );
-            },
-        },
-        columns: [
-            {
-                data: "DT_RowIndex",
-                name: "DT_RowIndex",
-                width: "10px",
-                orderable: false,
-                searchable: false,
-            },
-            { data: "judul_buku", name: "judul_buku" },
-            { data: "nama_member", name: "nama_member" },
-            {
-                data: "created_at",
-                name: "created_at",
-                render: function (data, type, row) {
-                    if (data) {
-                        var date = new Date(data);
-                        var day = ("0" + date.getDate()).slice(-2);
-                        var month = ("0" + (date.getMonth() + 1)).slice(-2);
-                        var year = date.getFullYear();
-                        return day + "-" + month + "-" + year;
-                    }
-                    return "";
-                },
-            },
-            { data: "status", name: "status" },
-            {
-                data: "opsi",
-                name: "opsi",
-                orderable: false,
-                searchable: false,
-            },
-        ],
+        // Mengatur label dan dropdown untuk tampil sejajar
+        $this.css({
+            display: "flex",
+            "align-items": "center",
+            gap: "10px",
+        });
 
-        columnDefs: [
-            {
-                targets: 0, // Target the first column (No)
-                className: "text-center", // Center align text in the first column
-            },
-            {
-                targets: -1, // Target the last column (Aksi)
-                className: "text-center", // Center align text in the last column
-            },
-        ],
+        $label.css({
+            margin: "0",
+            "white-space": "nowrap",
+        });
+
+        $select.css({
+            "margin-left": "5px",
+        });
     });
 
-    // DataTable untuk tabel pengembalian
-    $("#pengembalianTable").DataTable({
-        ordering: true,
-        serverSide: true,
-        processing: true,
-        ajax: {
-            url: $("#pengembalian-table-url").val(),
-            type: "GET",
-            dataType: "json",
-            error: function (jqXHR, textStatus, errorThrown) {
-                console.error("AJAX error:", textStatus, errorThrown);
-                alert(
-                    "Terjadi kesalahan saat memuat data. Silakan coba lagi nanti."
-                );
-            },
+    // Modifikasi tampilan label dan dropdown setelah DataTable diinisialisasi
+    $(".dataTables_length").each(function () {
+        var $this = $(this);
+        var $label = $this.find("label");
+        var $select = $this.find("select");
+
+        // Mengatur label dan dropdown untuk tampil sejajar
+        $this.css({
+            display: "flex",
+            "align-items": "center",
+            gap: "10px",
+        });
+
+        $label.css({
+            margin: "0",
+            "white-space": "nowrap",
+        });
+
+        $select.css({
+            "margin-left": "5px",
+        });
+    });
+});
+
+$("#bukumemberTable").DataTable({
+    ordering: true,
+    serverSide: true,
+    processing: true,
+    ajax: {
+        url: $("#bukumember-table-url").val(), // Mengambil URL dari elemen input tersembunyi
+        type: "GET",
+        dataType: "json",
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.error("AJAX error:", textStatus, errorThrown);
+            alert(
+                "Terjadi kesalahan saat memuat data. Silakan coba lagi nanti."
+            );
         },
-        columns: [
-            {
-                data: "DT_RowIndex",
-                name: "DT_RowIndex",
-                width: "10px",
-                orderable: false,
-                searchable: false,
-            },
-            { data: "judul_buku", name: "judul_buku" },
-            { data: "nama_member", name: "nama_member" },
-            {
-                data: "created_at",
-                name: "created_at",
-                render: function (data, type, row) {
+    },
+    columns: [
+        {
+            data: "DT_RowIndex",
+            name: "DT_RowIndex",
+            width: "10px",
+            orderable: false,
+            searchable: false,
+        },
+        { data: "judul", name: "judul" },
+        { data: "penulis", name: "penulis" },
+        { data: "penerbit", name: "penerbit" },
+        { data: "tahun_terbit", name: "tahun_terbit" },
+        { data: "status_ketersediaan", name: "status_ketersediaan" },
+        { data: "stok", name: "stok" },
+        { data: "kategori", name: "kategori" },
+        { data: "opsi", name: "opsi", orderable: false, searchable: false },
+    ],
+
+    columnDefs: [
+        {
+            targets: 0, // Target the first column (No)
+            className: "text-center", // Center align text in the first column
+        },
+        {
+            targets: -1, // Target the last column (Aksi)
+            className: "text-center", // Center align text in the last column
+        },
+    ],
+});
+
+// DataTable untuk tabel kategoribuku
+$("#kategoriTable").DataTable({
+    ordering: true,
+    serverSide: true,
+    processing: true,
+    ajax: {
+        url: $("#kategori-table-url").val(), // Mengambil URL dari elemen input tersembunyi
+        type: "GET",
+        dataType: "json",
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.error("AJAX error:", textStatus, errorThrown);
+            alert(
+                "Terjadi kesalahan saat memuat data. Silakan coba lagi nanti."
+            );
+        },
+    },
+    columns: [
+        {
+            data: "DT_RowIndex",
+            name: "DT_RowIndex",
+            width: "10px",
+            orderable: false,
+            searchable: false,
+        },
+        { data: "nama_kategori", name: "nama_kategori" },
+        { data: "deskripsi_kategori", name: "deskripsi_kategori" },
+        {
+            data: "created_at",
+            name: "created_at",
+            render: function (data, type, row) {
+                if (data) {
                     var date = new Date(data);
-                    return date.toLocaleDateString("id-ID", {
-                        day: "2-digit",
-                        month: "2-digit",
-                        year: "numeric",
-                    });
-                },
-            },
-            {
-                data: "updated_at",
-                name: "updated_at",
-                render: function (data, type, row) {
-                    var date = new Date(data);
-                    return date.toLocaleDateString("id-ID", {
-                        day: "2-digit",
-                        month: "2-digit",
-                        year: "numeric",
-                    });
-                },
-            },
-            {
-                data: "status",
-                name: "status",
-            },
-        ],
-
-        columnDefs: [
-            {
-                targets: 0, // Target the first column (No)
-                className: "text-center", // Center align text in the first column
-            },
-        ],
-    });
-
-    var userName = $("#user-id").val(); // Get user name
-
-    $("#pgmemberTable").DataTable({
-        ordering: true,
-        serverSide: true,
-        processing: true,
-        ajax: {
-            url: $("#pgmember-table-url").val(),
-            type: "GET",
-            data: function (d) {
-                d.user_name = userName; // Send user name as a parameter
-            },
-            dataType: "json",
-            error: function (jqXHR, textStatus, errorThrown) {
-                console.error("AJAX error:", textStatus, errorThrown);
-                alert(
-                    "Terjadi kesalahan saat memuat data. Silakan coba lagi nanti."
-                );
+                    return (
+                        ("0" + date.getDate()).slice(-2) +
+                        "-" +
+                        ("0" + (date.getMonth() + 1)).slice(-2) +
+                        "-" +
+                        date.getFullYear()
+                    );
+                }
+                return "";
             },
         },
-        columns: [
-            {
-                data: "DT_RowIndex",
-                name: "DT_RowIndex",
-                width: "10px",
-                orderable: false,
-                searchable: false,
-            },
-            { data: "judul_buku", name: "judul_buku" },
-            { data: "nama_member", name: "nama_member" },
-            {
-                data: "created_at",
-                name: "created_at",
-                render: function (data, type, row) {
+        {
+            data: "updated_at",
+            name: "updated_at",
+            render: function (data, type, row) {
+                if (data) {
                     var date = new Date(data);
-                    return date.toLocaleDateString("id-ID", {
-                        day: "2-digit",
-                        month: "2-digit",
-                        year: "numeric",
-                    });
-                },
-            },
-            {
-                data: "updated_at",
-                name: "updated_at",
-                render: function (data, type, row) {
-                    var date = new Date(data);
-                    return date.toLocaleDateString("id-ID", {
-                        day: "2-digit",
-                        month: "2-digit",
-                        year: "numeric",
-                    });
-                },
-            },
-            { data: "status", name: "status" },
-            {
-                data: "opsi",
-                name: "opsi",
-                orderable: false,
-                searchable: false,
-            },
-        ],
-
-        columnDefs: [
-            {
-                targets: 0, // Target the first column (No)
-                className: "text-center", // Center align text in the first column
-            },
-            {
-                targets: -1, // Target the last column (Aksi)
-                className: "text-center", // Center align text in the last column
-            },
-        ],
-    });
-
-    $("#roleTable").DataTable({
-        ordering: true,
-        serverSide: true,
-        processing: true,
-        ajax: {
-            url: $("#role-table-url").val(),
-            type: "GET",
-            data: function (d) {
-                d.user_name = userName; // Send user name as a parameter
-            },
-            dataType: "json",
-            error: function (jqXHR, textStatus, errorThrown) {
-                console.error("AJAX error:", textStatus, errorThrown);
-                alert(
-                    "Terjadi kesalahan saat memuat data. Silakan coba lagi nanti."
-                );
+                    return (
+                        ("0" + date.getDate()).slice(-2) +
+                        "-" +
+                        ("0" + (date.getMonth() + 1)).slice(-2) +
+                        "-" +
+                        date.getFullYear()
+                    );
+                }
+                return "";
             },
         },
-        columns: [
-            {
-                data: "DT_RowIndex",
-                name: "DT_RowIndex",
-                width: "10px",
-                orderable: false,
-                searchable: false,
-            },
-            { data: "id", name: "id" },
-            { data: "name", name: "name" },
-            { data: "guard_name", name: "guard_name" },
-            {
-                data: "opsi",
-                name: "opsi",
-                orderable: false,
-                searchable: false,
-            },
-        ],
+        { data: "opsi", name: "opsi", orderable: false, searchable: false },
+    ],
 
-        columnDefs: [
-            {
-                targets: 0, // Target the first column (No)
-                className: "text-center", // Center align text in the first column
-            },
-            {
-                targets: -1, // Target the last column (Aksi)
-                className: "text-center", // Center align text in the last column
-            },
-        ],
-    });
-    $("#userTable").DataTable({
-        ordering: true,
-        serverSide: true,
-        processing: true,
-        ajax: {
-            url: $("#user-table-url").val(),
-            type: "GET",
-            dataType: "json",
-            error: function (jqXHR, textStatus, errorThrown) {
-                console.error("AJAX error:", textStatus, errorThrown);
-                alert(
-                    "Terjadi kesalahan saat memuat data. Silakan coba lagi nanti."
-                );
+    columnDefs: [
+        {
+            targets: 0, // Target the first column (No)
+            className: "text-center", // Center align text in the first column
+        },
+        {
+            targets: -1, // Target the last column (Aksi)
+            className: "text-center", // Center align text in the last column
+        },
+    ],
+});
+
+// DataTable untuk tabel peminjaman
+$("#peminjamanTable").DataTable({
+    ordering: true,
+    serverSide: true,
+    processing: true,
+    ajax: {
+        url: $("#peminjaman-table-url").val(),
+        type: "GET",
+        dataType: "json",
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.error("AJAX error:", textStatus, errorThrown);
+            alert(
+                "Terjadi kesalahan saat memuat data. Silakan coba lagi nanti."
+            );
+        },
+    },
+    columns: [
+        {
+            data: "DT_RowIndex",
+            name: "DT_RowIndex",
+            width: "10px",
+            orderable: false,
+            searchable: false,
+        },
+        { data: "judul_buku", name: "judul_buku" },
+        { data: "nama_member", name: "nama_member" },
+        {
+            data: "created_at",
+            name: "created_at",
+            render: function (data, type, row) {
+                if (type === "display" || type === "filter") {
+                    var date = new Date(data);
+                    var day = ("0" + date.getDate()).slice(-2);
+                    var month = ("0" + (date.getMonth() + 1)).slice(-2);
+                    var year = date.getFullYear();
+                    return day + "-" + month + "-" + year;
+                }
+                return data;
             },
         },
-        columns: [
-            {
-                data: "DT_RowIndex",
-                name: "DT_RowIndex",
-                width: "10px",
-                orderable: false,
-                searchable: false,
-            },
-            { data: "nama", name: "nama" },
-            { data: "no_telepon", name: "no_telepon" },
-            { data: "email", name: "email" },
-            { data: "roles", name: "roles" },
-            { data: "opsi", name: "opsi", orderable: false, searchable: false },
-        ],
+        { data: "status", name: "status" },
+        {
+            data: "opsi",
+            name: "opsi",
+            orderable: false,
+            searchable: false,
+        },
+    ],
+    columnDefs: [
+        {
+            targets: 0, // Target the first column (No)
+            className: "text-center", // Center align text in the first column
+        },
+        {
+            targets: -1, // Target the last column (Aksi)
+            className: "text-center", // Center align text in the last column
+        },
+    ],
+});
 
-        columnDefs: [
-            {
-                targets: 0, // Target the first column (No)
-                className: "text-center", // Center align text in the first column
+var userName = $("#user-id").val(); // Get user name
+
+$("#peminjamanmemberTable").DataTable({
+    ordering: true,
+    serverSide: true,
+    processing: true,
+    ajax: {
+        url: $("#peminjamanmember-table-url").val(),
+        type: "GET",
+        data: function (d) {
+            d.user_name = userName; // Send user name as a parameter
+        },
+        dataType: "json",
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.error("AJAX error:", textStatus, errorThrown);
+            alert(
+                "Terjadi kesalahan saat memuat data. Silakan coba lagi nanti."
+            );
+        },
+    },
+    columns: [
+        {
+            data: "DT_RowIndex",
+            name: "DT_RowIndex",
+            width: "10px",
+            orderable: false,
+            searchable: false,
+        },
+        { data: "judul_buku", name: "judul_buku" },
+        { data: "nama_member", name: "nama_member" },
+        {
+            data: "created_at",
+            name: "created_at",
+            render: function (data, type, row) {
+                if (data) {
+                    var date = new Date(data);
+                    var day = ("0" + date.getDate()).slice(-2);
+                    var month = ("0" + (date.getMonth() + 1)).slice(-2);
+                    var year = date.getFullYear();
+                    return day + "-" + month + "-" + year;
+                }
+                return "";
             },
-            {
-                targets: -1, // Target the last column (Aksi)
-                className: "text-center", // Center align text in the last column
+        },
+        { data: "status", name: "status" },
+        {
+            data: "opsi",
+            name: "opsi",
+            orderable: false,
+            searchable: false,
+        },
+    ],
+
+    columnDefs: [
+        {
+            targets: 0, // Target the first column (No)
+            className: "text-center", // Center align text in the first column
+        },
+        {
+            targets: -1, // Target the last column (Aksi)
+            className: "text-center", // Center align text in the last column
+        },
+    ],
+});
+
+// DataTable untuk tabel pengembalian
+$("#pengembalianTable").DataTable({
+    ordering: true,
+    serverSide: true,
+    processing: true,
+    ajax: {
+        url: $("#pengembalian-table-url").val(),
+        type: "GET",
+        dataType: "json",
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.error("AJAX error:", textStatus, errorThrown);
+            alert(
+                "Terjadi kesalahan saat memuat data. Silakan coba lagi nanti."
+            );
+        },
+    },
+    columns: [
+        {
+            data: "DT_RowIndex",
+            name: "DT_RowIndex",
+            width: "10px",
+            orderable: false,
+            searchable: false,
+        },
+        { data: "judul_buku", name: "judul_buku" },
+        { data: "nama_member", name: "nama_member" },
+        {
+            data: "created_at",
+            name: "created_at",
+            render: function (data, type, row) {
+                var date = new Date(data);
+                return date.toLocaleDateString("id-ID", {
+                    day: "2-digit",
+                    month: "2-digit",
+                    year: "numeric",
+                });
             },
-        ],
-    });
+        },
+        {
+            data: "updated_at",
+            name: "updated_at",
+            render: function (data, type, row) {
+                var date = new Date(data);
+                return date.toLocaleDateString("id-ID", {
+                    day: "2-digit",
+                    month: "2-digit",
+                    year: "numeric",
+                });
+            },
+        },
+        {
+            data: "status",
+            name: "status",
+        },
+    ],
+
+    columnDefs: [
+        {
+            targets: 0, // Target the first column (No)
+            className: "text-center", // Center align text in the first column
+        },
+    ],
+});
+
+var userName = $("#user-id").val(); // Get user name
+
+$("#pgmemberTable").DataTable({
+    ordering: true,
+    serverSide: true,
+    processing: true,
+    ajax: {
+        url: $("#pgmember-table-url").val(),
+        type: "GET",
+        data: function (d) {
+            d.user_name = userName; // Send user name as a parameter
+        },
+        dataType: "json",
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.error("AJAX error:", textStatus, errorThrown);
+            alert(
+                "Terjadi kesalahan saat memuat data. Silakan coba lagi nanti."
+            );
+        },
+    },
+    columns: [
+        {
+            data: "DT_RowIndex",
+            name: "DT_RowIndex",
+            width: "10px",
+            orderable: false,
+            searchable: false,
+        },
+        { data: "judul_buku", name: "judul_buku" },
+        { data: "nama_member", name: "nama_member" },
+        {
+            data: "created_at",
+            name: "created_at",
+            render: function (data, type, row) {
+                var date = new Date(data);
+                return date.toLocaleDateString("id-ID", {
+                    day: "2-digit",
+                    month: "2-digit",
+                    year: "numeric",
+                });
+            },
+        },
+        {
+            data: "updated_at",
+            name: "updated_at",
+            render: function (data, type, row) {
+                var date = new Date(data);
+                return date.toLocaleDateString("id-ID", {
+                    day: "2-digit",
+                    month: "2-digit",
+                    year: "numeric",
+                });
+            },
+        },
+        { data: "status", name: "status" },
+        {
+            data: "opsi",
+            name: "opsi",
+            orderable: false,
+            searchable: false,
+        },
+    ],
+
+    columnDefs: [
+        {
+            targets: 0, // Target the first column (No)
+            className: "text-center", // Center align text in the first column
+        },
+        {
+            targets: -1, // Target the last column (Aksi)
+            className: "text-center", // Center align text in the last column
+        },
+    ],
+});
+
+$("#roleTable").DataTable({
+    ordering: true,
+    serverSide: true,
+    processing: true,
+    ajax: {
+        url: $("#role-table-url").val(),
+        type: "GET",
+        data: function (d) {
+            d.user_name = userName; // Send user name as a parameter
+        },
+        dataType: "json",
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.error("AJAX error:", textStatus, errorThrown);
+            alert(
+                "Terjadi kesalahan saat memuat data. Silakan coba lagi nanti."
+            );
+        },
+    },
+    columns: [
+        {
+            data: "DT_RowIndex",
+            name: "DT_RowIndex",
+            width: "10px",
+            orderable: false,
+            searchable: false,
+        },
+        { data: "id", name: "id" },
+        { data: "name", name: "name" },
+        { data: "guard_name", name: "guard_name" },
+        {
+            data: "opsi",
+            name: "opsi",
+            orderable: false,
+            searchable: false,
+        },
+    ],
+
+    columnDefs: [
+        {
+            targets: 0, // Target the first column (No)
+            className: "text-center", // Center align text in the first column
+        },
+        {
+            targets: -1, // Target the last column (Aksi)
+            className: "text-center", // Center align text in the last column
+        },
+    ],
+});
+$("#userTable").DataTable({
+    ordering: true,
+    serverSide: true,
+    processing: true,
+    ajax: {
+        url: $("#user-table-url").val(),
+        type: "GET",
+        dataType: "json",
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.error("AJAX error:", textStatus, errorThrown);
+            alert(
+                "Terjadi kesalahan saat memuat data. Silakan coba lagi nanti."
+            );
+        },
+    },
+    columns: [
+        {
+            data: "DT_RowIndex",
+            name: "DT_RowIndex",
+            width: "10px",
+            orderable: false,
+            searchable: false,
+        },
+        { data: "nama", name: "nama" },
+        { data: "no_telepon", name: "no_telepon" },
+        { data: "email", name: "email" },
+        { data: "roles", name: "roles" },
+        { data: "opsi", name: "opsi", orderable: false, searchable: false },
+    ],
+
+    columnDefs: [
+        {
+            targets: 0, // Target the first column (No)
+            className: "text-center", // Center align text in the first column
+        },
+        {
+            targets: -1, // Target the last column (Aksi)
+            className: "text-center", // Center align text in the last column
+        },
+    ],
 });

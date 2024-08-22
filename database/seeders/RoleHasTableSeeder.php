@@ -17,25 +17,25 @@ class RoleHasTableSeeder extends Seeder
     {
         $admin = Role::find(1);
         $pages = [
-            'dashboard',
-           'kategori_buku',
-           'master_buku',
-           'admin',
-           'member',
-           'peminjaman',
-           'pengembalian',
-           'role',
-           'datauser',
+            'Dashboard',
+           'Kategori Buku',
+           'Master Buku',
+           'Admin',
+           'Member',
+           'Peminjaman',
+           'Pengembalian',
+           'Role',
+           'Data User',
         ];
 
         $admin->syncPermissions($pages);
 
         $member = Role::find(3);
         $pages = [
-            'dashboard',
-            'buku',
-           'peminjamanmember',
-           'pengembalianmember',
+            'Dashboard',
+            'Buku',
+           'Peminjaman Member',
+           'Pengembalian Member',
 
         ];
 

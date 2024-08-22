@@ -14,18 +14,18 @@ class PermissionTableSeeder extends Seeder
     public function run(): void
     {
         $permissions = [
-            'dashboard',
-           'kategori_buku',
-           'master_buku',
-           'buku',
-           'admin',
-           'member',
-           'peminjaman',
-           'peminjamanmember',
-           'pengembalian',
-           'pengembalianmember',
-           'role',
-           'datauser',
+            'Dashboard',
+           'Kategori Buku',
+           'Master Buku',
+           'Buku',
+           'Admin',
+           'Member',
+           'Peminjaman',
+           'Peminjaman Member',
+           'Pengembalian',
+           'Pengembalian Member',
+           'Role',
+           'Data User',
         ];
 
         foreach ($permissions as $permission) {

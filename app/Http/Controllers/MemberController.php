@@ -110,14 +110,14 @@ class MemberController extends Controller
                 ->addIndexColumn() // Menambahkan indeks otomatis
                 ->addColumn('opsi', function ($row) {
                     return '
-                        <div class="d-flex align-items-center">
+                        <div class="d-flex justify-content-center align-items-center">
                             <form action="/member/' . $row->id_member . '/edit_member" method="GET" class="me-2">
-                                <button type="submit" class="btn btn-warning btn-xs"><i class="bi bi-pencil-square"></i></button>
+                                <button type="submit" class="btn btn-warning btn-sm"><i class="bi bi-pencil-square text-white"></i></button>
                             </form>
                             <form action="/member/' . $row->id_member . '/destroy" method="POST">
                                 ' . csrf_field() . '
                                 ' . method_field('DELETE') . '
-                                <button type="submit" class="btn btn-danger btn-xs"><i class="bi bi-trash"></i></button>
+                                <button type="submit" class="btn btn-danger btn-sm"><i class="bi bi-trash"></i></button>
                             </form>
                         </div>
                     ';

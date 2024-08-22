@@ -9,7 +9,7 @@
                 <h5 class="card-title">Tabel Buku</h5>
                 <div class="">
                     <a type="button" class="btn btn-warning me-2" title="Import" data-bs-toggle="modal" data-bs-target="#importModal">
-                        <i class="bi bi-upload"></i> 
+                        <i class="bi bi-upload text-white"></i> 
                     </a>
                 </div>
                 <div class="text-end mb-3">
@@ -21,7 +21,7 @@
                           <i class="bx bxs-file-pdf"></i> 
                       </a>
                       <a  class="btn btn-info me-2" href="{{ url('buku/export/excel') }}">
-                        <i class="bi bi-download"></i>
+                        <i class="bi bi-download text-white"></i>
                     </a>
                 </div>
               </div>

@@ -33,7 +33,7 @@ class RoleController extends Controller
                     return '
                         <div class="d-flex align-items-center">
                             <form action="' . route('role.edit', $row->id) . '" method="GET" class="mr-1">
-                                <button type="submit" class="btn btn-warning btn-xs"><i class="bi bi-pencil-square"></i></button>
+                                <button type="submit" class="btn btn-warning btn-xs"><i class="bi bi-pencil-square text-white"></i></button>
                             </form>
                         </div>
                     ';

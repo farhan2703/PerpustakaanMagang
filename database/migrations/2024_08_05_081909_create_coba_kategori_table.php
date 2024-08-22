@@ -11,7 +11,7 @@ class CreateCobaKategoriTable extends Migration
         Schema::create('kategori', function (Blueprint $table) {
             $table->id('id_kategori');
             $table->string('nama_kategori', 50);
-            $table->string('deskripsi_kategori', 250);
+            $table->string('deskripsi_kategori', 500);
             $table->unsignedBigInteger('id_buku')->nullable();
             $table->foreign('id_buku')->references('id_buku')->on('buku')->onDelete('cascade');
             $table->timestamps();

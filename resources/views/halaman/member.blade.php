@@ -11,7 +11,7 @@
                     <div class="text-end">
                         <div class="text-right">
                             <a href="/add_member" class="btn btn-success" title="Add">
-                                <i class="bi bi-person-plus"></i>
+                                <i class="bi bi-plus"></i>
                             </a>
                         </div>
                     </div>

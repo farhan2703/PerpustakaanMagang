@@ -50,7 +50,7 @@ Route::get('/', function () {
     return view('auth.login');
 })->name('home');
 
-Route::group(['middleware' => ['permission:master_buku']], function () {
+Route::group(['middleware' => ['permission:Master Buku']], function () {
 // Buku routes
     Route::get('/tableBuku', [BukuuController::class, 'tableBuku'])->name('tableBuku');
     Route::post('/imporexceltbuku', [BukuuController::class, 'imporexceltbuku'])->name('imporexceltbuku');
@@ -71,7 +71,7 @@ Route::group(['middleware' => ['permission:master_buku']], function () {
 // Member dashboard route
 //     Route::get('/dashboard', [MemberController::class, 'dashboard'])->name('halaman.dashboard');
 // // });
-Route::group(['middleware' => ['permission:dashboard']], function () {
+Route::group(['middleware' => ['permission:Dashboard']], function () {
 Route::get('/dashboard', [MemberController::class, 'dashboard'])->name('halaman.dashboard');
 Route::get('/jumlah-buku-tersedia', [MemberController::class, 'jumlahbukutersedia'])->name('jumlah-buku-tersedia');
 Route::get('/jumlah-buku-dipinjam', [MemberController::class, 'jumlahBukuDipinjam'])->name('jumlah-buku-dipinjam');
@@ -79,7 +79,7 @@ Route::get('/total-buku', [MemberController::class, 'totalBuku'])->name('total-b
 Route::get('/chart-data', [MemberController::class, 'getChartData'])->name('chart-data');
 });
 //Route member
-Route::group(['middleware' => ['permission:member']], function () {
+Route::group(['middleware' => ['permission:Member']], function () {
 Route::get('/member', [MemberController::class, 'member'])->name('halaman.member');
 Route::get('/table', [MemberController::class, 'table'])->name('table');
 Route::get('/add_member', [MemberController::class, 'create'])->name('add_member');
@@ -90,7 +90,7 @@ Route::delete('/member/{id_member}/destroy', [MemberController::class, 'forcedel
 Route::get('/edit-profile', [MemberController::class, 'editProfile'])->name('edit.editprofile');
 });
 //Route admin
-Route::group(['middleware' => ['permission:admin']], function () {
+Route::group(['middleware' => ['permission:Admin']], function () {
 Route::get('/admin', [AdminController::class, 'admin'])->name('halaman.admin');
 Route::get('/tableAdmin', [AdminController::class, 'tableAdmin'])->name('tableAdmin');
 Route::get('/add_admin', [AdminController::class, 'create'])->name('add_admin');
@@ -101,7 +101,7 @@ Route::delete('/admin/{id}/destroy', [AdminController::class, 'forcedelete'])->n
 });
 
 
-Route::group(['middleware' => ['permission:peminjaman']], function () {
+Route::group(['middleware' => ['permission:Peminjaman']], function () {
 // Peminjaman routes
     Route::get('/tablePeminjaman', [PeminjamanPengembalianController::class, 'tablePeminjaman'])->name('tablePeminjaman');
     Route::get('/peminjaman', [PeminjamanPengembalianController::class, 'indexPeminjaman'])->name('halaman.peminjaman');
@@ -113,7 +113,7 @@ Route::group(['middleware' => ['permission:peminjaman']], function () {
     Route::put('/peminjaman/kembalikan/{id}', [PeminjamanPengembalianController::class, 'kembalikanBuku'])->name('peminjaman.kembalikan');
 });
 
-Route::group(['middleware' => ['permission:pengembalian']], function () {
+Route::group(['middleware' => ['permission:Pengembalian']], function () {
 // Pengembalian routes
     Route::get('/tablePengembalian', [PeminjamanPengembalianController::class, 'tablePengembalian'])->name('tablePengembalian');
     Route::get('/pengembalian', [PeminjamanPengembalianController::class, 'indexPengembalian'])->name('halaman.pengembalian');
@@ -130,7 +130,7 @@ Route::group(['middleware' => ['permission:pengembalian']], function () {
 // Rute untuk menyimpan data pengembalian baru
     Route::post('/pengembalian', [PeminjamanPengembalianController::class, 'storePengembalian'])->name('pengembalian.store');
 
-Route::group(['middleware' => ['permission:kategori_buku']], function () {
+Route::group(['middleware' => ['permission:Kategori Buku']], function () {
 // Kategori Buku routes
     Route::get('/tableKategori', [KategoriBukuController::class, 'tableKategori'])->name('tableKategori');
     Route::get('/kategoribuku', [KategoriBukuController::class, 'kategoribuku'])->name('halaman.kategoribuku');
@@ -144,13 +144,13 @@ Route::group(['middleware' => ['permission:kategori_buku']], function () {
 
 
 
-Route::group(['middleware' => ['permission:buku']], function () {
+Route::group(['middleware' => ['permission:Buku']], function () {
     Route::get('/bukumember/{id}', [BukuMemberController::class, 'detailmember'])->name('halaman.buku.detail');
     Route::get('/bukumember', [BukuMemberController::class, 'bukumember'])->name('halaman.bukumember');
     Route::get('/tableBukuMember', [BukuMemberController::class, 'tableBukuMember'])->name('tableBukuMember');
     });
     
-    Route::group(['middleware' => ['permission:peminjamanmember']], function () {
+    Route::group(['middleware' => ['permission:Peminjaman Member']], function () {
         // Peminjaman routes
         Route::get('/peminjaman-member', [MemberPeminjamanPengembalian::class, 'tablePeminjamanMember'])->middleware('auth');
         Route::get('/tablePeminjamanMember', [MemberPeminjamanPengembalian::class, 'tablePeminjamanMember'])->name('tablePeminjamanMember');
@@ -165,7 +165,7 @@ Route::group(['middleware' => ['permission:buku']], function () {
     });
     
     
-    Route::group(['middleware' => ['permission:pengembalianmember']], function () {
+    Route::group(['middleware' => ['permission:Pengembalian Member']], function () {
         // Peminjaman routes
         Route::get('/pengembalian-member', [MemberPeminjamanPengembalian::class, 'tablePengembalianMember'])->middleware('auth');
         Route::get('/tablePengembalianMember', [MemberPeminjamanPengembalian::class, 'tablePengembalianMember'])->name('tablePengembalianMember');
@@ -174,14 +174,14 @@ Route::group(['middleware' => ['permission:buku']], function () {
     });
 
     
-Route::group(['middleware' => ['permission:role']], function () {
+Route::group(['middleware' => ['permission:Role']], function () {
     Route::get('/role', [RoleController::class, 'role'])->name('halaman.role');
     Route::get('/tableRole', [RoleController::class, 'tableRole'])->name('tableRole');
     Route::get('/role/{id}/edit_role', [RoleController::class, 'edit'])->name('role.edit');
     Route::put('/role/{id}/edit_role', [RoleController::class, 'update'])->name('role.update');
     
     });
-Route::group(['middleware' => ['permission:datauser']], function () {
+Route::group(['middleware' => ['permission:Data User']], function () {
     Route::get('/datauser', [DataUserController::class, 'datauser'])->name('halaman.datauser');
     Route::get('/tableUser', [DataUserController::class, 'tableUser'])->name('tableUser');
     Route::get('/datauser/{id_member}/edit_datauser', [DataUserController::class, 'edit'])->name('datauser.edit');

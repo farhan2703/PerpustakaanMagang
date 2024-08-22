@@ -105,6 +105,20 @@ h6 {
     opacity: 1;
 }
 
+.dataTables_length {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.dataTables_length label {
+    margin: 0;
+    white-space: nowrap;
+}
+
+.dataTables_length select {
+    margin-left: 5px;
+}
 /*--------------------------------------------------------------
 # Override some default Bootstrap stylings
 --------------------------------------------------------------*/

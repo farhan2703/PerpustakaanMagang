@@ -68,8 +68,8 @@
 
                             <div class="form-group row mb-3">
                                 <div class="col-sm-9 offset-sm-3">
-                                    <button type="submit" class="btn btn-primary">Update</button>
                                     <a href="{{ route('halaman.admin') }}" class="btn btn-secondary ms-2">Cancel</a>
+                                    <button type="submit" class="btn btn-primary">Update</button>
                                 </div>
                             </div>
 

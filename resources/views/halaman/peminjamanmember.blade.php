@@ -11,7 +11,7 @@
                 {{-- <div class="container"> --}}
                     <div class="text-end">
                         <a href="{{ route('peminjamanmember.create') }}" class="btn btn-success" title="Add" style="margin-bottom:10px;">
-                            <i class="bi bi-journal-plus"></i>
+                            <i class="bi bi-plus"></i>
                         </a>
                     </div>
                     <h5>Daftar Peminjaman</h5>

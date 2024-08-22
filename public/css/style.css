@@ -71,6 +71,20 @@ h6 {
     border-radius: 50%; /* Membuat gambar menjadi lingkaran */
     object-fit: cover; /* Memastikan gambar menutupi area lingkaran tanpa distorsi */
 }
+.dataTables_length {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.dataTables_length label {
+    margin: 0;
+    white-space: nowrap;
+}
+
+.dataTables_length select {
+    margin-left: 5px;
+}
 
 /*--------------------------------------------------------------
 # Back to top button

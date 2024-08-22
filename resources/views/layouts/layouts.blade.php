@@ -62,11 +62,11 @@
         <ul class="d-flex align-items-center">
             <!-- Profile Dropdown -->
             <li class="nav-item dropdown pe-3">
-                <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-                    <img src="{{ asset('storage/' . $user->foto_profil) }}" alt="Profile" class="profile-img">
-                    <span class="d-none d-md-block dropdown-toggle ps-2">
-                        {{ $user->nama }}
-                        <small class="text-muted d-block">
+                <a class="nav-link nav-profile d-flex align-items-center" href="#" data-bs-toggle="dropdown">
+                    <img src="{{ asset('storage/' . $user->foto_profil)  }}" alt="Profile" class="profile-img rounded-circle" style="width: 40px; height: 40px;">
+                    <div class="d-flex flex-column flex-md-row align-items-center ps-2">
+                        <span class="fw-semibold me-2">{{ $user->nama }}   |</span>
+                        <small class="text-muted text-capitalize">
                             @php
                             $rolesArray = array_map('strtolower', $rolesArray); // Convert to lowercase
                             $currentRole = strtolower(session('currentRole', $rolesArray[0]));
@@ -79,8 +79,12 @@
                                 Admin, Member
                             @endif
                         </small>
-                    </span>
-                </a><!-- End Profile Image Icon -->
+                        <i class="bi bi-caret-down-fill ms-2"></i> <!-- Icon for dropdown -->
+                    </div>
+                </a>
+            
+            
+                <!-- End Profile Image Icon -->
     
                 <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
                     
@@ -150,7 +154,7 @@
 
 <ul class="sidebar-nav" id="sidebar-nav">
     @if ($currentRole === 'admin' || $currentRole === 'admin,member' || $currentRole === 'member')
-        @can('dashboard')
+        @can('Dashboard')
         <li class="nav-item">
             <a class="nav-link collapsed" href="{{ route('halaman.dashboard') }}">
                 <i class="bi bi-grid"></i>
@@ -163,7 +167,7 @@
     <li class="nav-heading">Buku</li>
 
     @if ($currentRole === 'admin' || $currentRole === 'admin,member')
-        @can('master_buku')
+        @can('Master Buku')
         <li class="nav-item">
             <a class="nav-link collapsed" href="{{ route('halaman.buku') }}">
                 <i class="bi bi-book"></i>
@@ -174,7 +178,7 @@
     @endif
     
     @if ($currentRole === 'member' || $currentRole === 'admin,member')
-        @can('buku')
+        @can('Buku')
         <li class="nav-item">
             <a class="nav-link collapsed" href="{{ route('halaman.bukumember') }}">
                 <i class="ri-book-2-line"></i>
@@ -185,7 +189,7 @@
     @endif
 
     @if ($currentRole === 'admin' || $currentRole === 'admin,member')
-        @can('kategori_buku')
+        @can('Kategori Buku')
         <li class="nav-item">
             <a class="nav-link collapsed" href="{{ route('halaman.kategoribuku') }}">
                 <i class="ri ri-bar-chart-horizontal-line"></i>
@@ -196,7 +200,7 @@
     @endif
 
     @if ($currentRole === 'admin' || $currentRole === 'admin,member')
-        @can('admin')
+        @can('Admin')
         <li class="nav-heading">Akun</li>
         <li class="nav-item">
             <a class="nav-link collapsed" href="{{ route('halaman.admin') }}">
@@ -206,7 +210,7 @@
         </li>
         @endcan
 
-        @can('member')
+        @can('Member')
         <li class="nav-item">
             <a class="nav-link collapsed" href="{{ route('halaman.member') }}">
                 <i class="bi bi-gem"></i>
@@ -219,7 +223,7 @@
     <li class="nav-heading">Transaksi</li>
 
     @if ($currentRole === 'admin' || $currentRole === 'admin,member')
-        @can('peminjaman')
+        @can('Peminjaman')
         <li class="nav-item">
             <a class="nav-link collapsed" href="{{ route('halaman.peminjaman') }}">
                 <i class="ri-stack-fill"></i>
@@ -230,7 +234,7 @@
     @endif
 
     @if ($currentRole === 'member' || $currentRole === 'admin,member')
-        @can('peminjamanmember')
+        @can('Peminjaman Member')
         <li class="nav-item">
             <a class="nav-link collapsed" href="{{ route('halaman.peminjamanmember') }}">
                 <i class="bx bx-archive-out"></i>
@@ -241,7 +245,7 @@
     @endif
 
     @if ($currentRole === 'admin' || $currentRole === 'admin,member')
-        @can('pengembalian')
+        @can('Pengembalian')
         <li class="nav-item">
             <a class="nav-link collapsed" href="{{ route('halaman.pengembalian') }}">
                 <i class="ri-history-line"></i>
@@ -252,7 +256,7 @@
     @endif
 
     @if ($currentRole === 'member' || $currentRole === 'admin,member')
-        @can('pengembalianmember')
+        @can('Pengembalian Member')
         <li class="nav-item">
             <a class="nav-link collapsed" href="{{ route('halaman.pengembalianmember') }}">
                 <i class="ri ri-arrow-go-back-fill"></i>
@@ -263,7 +267,7 @@
     @endif
 
     @if ($currentRole === 'admin,member')
-        @can('role')
+        @can('Role')
         <li class="nav-heading">Management</li>
         <li class="nav-item">
             <a class="nav-link collapsed" href="{{ route('halaman.role') }}">
@@ -273,7 +277,7 @@
         </li>
         @endcan
 
-        @can('datauser')
+        @can('Data User')
         <li class="nav-item">
             <a class="nav-link collapsed" href="{{ route('halaman.datauser') }}">
                 <i class="bi bi-key"></i>

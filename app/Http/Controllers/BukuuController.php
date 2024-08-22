@@ -45,11 +45,11 @@ class BukuuController extends Controller
                 // Buat tombol aksi untuk setiap buku
                 return '
                     <div class="d-flex align-items-center">
+                        <form action="/buku/' . $row->id_buku . '/edit_buku" method="GET" class="me-2">
+                            <button type="submit" class="btn btn-warning btn-xs"><i class="bi bi-pencil-square text-white"></i></button>
+                        </form>
                         <form action="/buku/' . $row->id_buku . '" method="GET" class="me-2">
                             <button type="submit" class="btn btn-secondary btn-xs"><i class="bi bi-info-circle"></i></button>
-                        </form>
-                        <form action="/buku/' . $row->id_buku . '/edit_buku" method="GET" class="me-2">
-                            <button type="submit" class="btn btn-warning btn-xs"><i class="bi bi-pencil-square"></i></button>
                         </form>
                         <form action="/buku/' . $row->id_buku . '/destroy" method="POST">
                             ' . csrf_field() . '

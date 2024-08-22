@@ -41,7 +41,7 @@ class DataUserController extends Controller
                 return '
                     <div class="d-flex align-items-center">
                         <form action="/datauser/' . $row->id_member . '/edit_datauser" method="GET" class="me-2">
-                            <button type="submit" class="btn btn-warning btn-xs"><i class="bi bi-pencil-square"></i></button>
+                            <button type="submit" class="btn btn-warning btn-xs"><i class="bi bi-pencil-square text-white"></i></button>
                         </form>
                         <form action="/datauser/' . $row->id_member . '/destroy" method="POST">
                             ' . csrf_field() . '
