@@ -41,7 +41,7 @@ class MemberPeminjamanPengembalian extends Controller
                 return '
                     <div class="d-flex align-items-center">
                         <form action="/peminjaman/' . $row->id . '/detail" method="GET" class="me-1">
-                            <button type="submit" class="btn btn-secondary btn-xs"><i class="bi bi-info-circle"></i></button>
+                            <button type="submit" class="btn btn-secondary btn-sm"><i class="bi bi-info-circle"></i></button>
                         </form>
                     </div>
                     
@@ -176,7 +176,7 @@ class MemberPeminjamanPengembalian extends Controller
         // Menyimpan data peminjaman
         PeminjamanPengembalian::create($data);
     
-        return redirect()->route('halaman.peminjamanmember')->with('success', 'Data berhasil ditambahkan!');
+        return redirect()->route('halaman.peminjamanmember')->with('success', 'Anda berhasil meminjam buku!');
     }
     
 
@@ -186,7 +186,7 @@ class MemberPeminjamanPengembalian extends Controller
         $peminjamanPengembalian = PeminjamanPengembalian::findOrFail($id);
         $peminjamanPengembalian->delete();
 
-        return redirect()->route('halaman.peminjaman')->with('success', 'Data berhasil dihapus!');
+        return redirect()->route('halaman.peminjaman')->with('success', 'Data anda berhasil dihapus!');
     }
     public function indexPengembalianmember()
     {
@@ -216,7 +216,7 @@ class MemberPeminjamanPengembalian extends Controller
                     return '
                         <div class="d-flex align-items-center">
                             <form action="/pengembalian/' . $row->id . '/detail" method="GET" class="mr-1">
-                                <button type="submit" class="btn btn-secondary btn-xs"><i class="bi bi-info-circle"></i></button>
+                                <button type="submit" class="btn btn-secondary btn-sm"><i class="bi bi-info-circle"></i></button>
                             </form>
                         </div>
                     ';

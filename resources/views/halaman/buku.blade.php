@@ -12,7 +12,7 @@
                         <i class="bi bi-upload text-white"></i> 
                     </a>
                 </div>
-                <div class="text-end mb-3">
+                <div class="text-end">
                   <div class="d-flex justify-content-end">
                       <a href="{{ route('addbuku') }}" class="btn btn-success me-2" title="Add">
                           <i class="bi bi-plus"></i>
@@ -54,9 +54,6 @@
                   </div>
               </div>
 
-              </div>
-              
-              <div class="card-body">
                 <div class="table-responsive">
                     <table id="bukuTable" class="table table-bordered table-responsive-md">
                         <thead class="table-light text-center">

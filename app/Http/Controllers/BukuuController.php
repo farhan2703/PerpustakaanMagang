@@ -46,15 +46,15 @@ class BukuuController extends Controller
                 return '
                     <div class="d-flex align-items-center">
                         <form action="/buku/' . $row->id_buku . '/edit_buku" method="GET" class="me-2">
-                            <button type="submit" class="btn btn-warning btn-xs"><i class="bi bi-pencil-square text-white"></i></button>
+                            <button type="submit" class="btn btn-warning btn-sm"><i class="bi bi-pencil-square text-white"></i></button>
                         </form>
                         <form action="/buku/' . $row->id_buku . '" method="GET" class="me-2">
-                            <button type="submit" class="btn btn-secondary btn-xs"><i class="bi bi-info-circle"></i></button>
+                            <button type="submit" class="btn btn-secondary btn-sm"><i class="bi bi-info-circle"></i></button>
                         </form>
                         <form action="/buku/' . $row->id_buku . '/destroy" method="POST">
                             ' . csrf_field() . '
                             ' . method_field('DELETE') . '
-                            <button type="submit" class="btn btn-danger btn-xs"><i class="bi bi-trash"></i></button>
+                            <button type="submit" class="btn btn-danger btn-sm"><i class="bi bi-trash"></i></button>
                         </form>
                     </div>
                 ';

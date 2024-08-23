@@ -31,16 +31,16 @@ class KategoriBukuController extends Controller
                     return '
                         <div class="d-flex align-items-center">
                             <form action="/kategoribuku/' . $row->id_kategori . '/edit_kategoribuku" method="GET" class="me-2">
-                                <button type="submit" class="btn btn-warning btn-xs"><i class="bi bi-pencil-square text-white"></i></button>
+                                <button type="submit" class="btn btn-warning btn-sm"><i class="bi bi-pencil-square text-white"></i></button>
                             </form>
                             <form action="/kategoribuku/' . $row->id_kategori . '" method="GET" class="me-2">
-                                <button type="submit" class="btn btn-secondary btn-xs"><i class="bi bi-info-circle"></i></button>
+                                <button type="submit" class="btn btn-secondary btn-sm"><i class="bi bi-info-circle"></i></button>
                             </form>
                             
                             <form action="/kategoribuku/' . $row->id_kategori . '/destroy" method="POST">
                                 ' . csrf_field() . '
                                 ' . method_field('DELETE') . '
-                                <button type="submit" class="btn btn-danger btn-xs"><i class="bi bi-trash"></i></button>
+                                <button type="submit" class="btn btn-danger btn-sm"><i class="bi bi-trash"></i></button>
                             </form>
                         </div>
                     ';
@@ -66,7 +66,7 @@ class KategoriBukuController extends Controller
             'deskripsi_kategori' => $request->input('deskripsi_kategori'),
         ]);
 
-        return redirect()->route('halaman.kategoribuku')->with('success', 'Buku berhasil ditambahkan!');
+        return redirect()->route('halaman.kategoribuku')->with('success', 'Kategori Buku berhasil ditambahkan!');
     }
 
         // Menampilkan form update kategori

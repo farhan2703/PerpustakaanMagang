@@ -26,7 +26,7 @@
                                         <th>idRole</th>
                                         <th>Nama</th>
                                         <th>Guard Name</th>
-                                        <th>Opsi</th>
+                                        <th>Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody></tbody>

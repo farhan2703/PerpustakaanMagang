@@ -16,12 +16,12 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        @if(session('success'))
+                        {{-- @if(session('success'))
                             <div class="alert alert-success alert-dismissible fade show">
                                 <strong>Success!</strong> {{ session('success') }}
                                 <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span><i class="mdi mdi-close"></i></span></button>
                             </div>
-                        @endif
+                        @endif --}}
 
                         <div class="table-responsive">
                             <table id="userTable" class="table table-bordered table-responsive-md">
@@ -32,7 +32,7 @@
                                         <th>No Telepon</th>
                                         <th>Email</th>
                                         <th>Role</th>
-                                        <th>Option</th>
+                                        <th>Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody></tbody>

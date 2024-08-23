@@ -12,7 +12,6 @@
                             <i class="bi bi-plus"></i>
                         </a>
                     </div>
-                    <h5>Daftar Peminjaman</h5>
                             <table id="peminjamanTable" class="table table-bordered table-responsive-md">
                                 <thead class="table-light text-center">
                                     <tr>
@@ -21,7 +20,7 @@
                                         <th>Nama Member</th>
                                         <th>Tanggal Peminjaman</th>
                                         <th>Status</th>
-                                        <th>Option</th>
+                                        <th>Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody></tbody>

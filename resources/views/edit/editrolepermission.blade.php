@@ -62,8 +62,8 @@
 
                     <!-- Submit and Cancel Buttons -->
                     <div class="form-group mb-0">
-                        <button type="submit" class="btn btn-primary">Update Role</button>
                         <button type="button" class="btn btn-light" onclick="window.location='{{ route('halaman.role') }}'">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Update Role</button>
                     </div>
                 </form>
             </div>

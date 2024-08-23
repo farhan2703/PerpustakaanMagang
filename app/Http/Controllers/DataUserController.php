@@ -39,14 +39,14 @@ class DataUserController extends Controller
             })
             ->addColumn('opsi', function ($row) {
                 return '
-                    <div class="d-flex align-items-center">
+                     <div class="d-flex justify-content-center align-items-center">
                         <form action="/datauser/' . $row->id_member . '/edit_datauser" method="GET" class="me-2">
-                            <button type="submit" class="btn btn-warning btn-xs"><i class="bi bi-pencil-square text-white"></i></button>
+                             <button type="submit" class="btn btn-warning btn-sm"><i class="bi bi-pencil-square text-white"></i></button>
                         </form>
                         <form action="/datauser/' . $row->id_member . '/destroy" method="POST">
                             ' . csrf_field() . '
                             ' . method_field('DELETE') . '
-                            <button type="submit" class="btn btn-danger btn-xs"><i class="bi bi-trash"></i></button>
+                            <button type="submit" class="btn btn-danger btn-sm"><i class="bi bi-trash"></i></button>
                         </form>
                     </div>
                 ';
@@ -79,7 +79,7 @@ class DataUserController extends Controller
         $roles = $request->input('roles');
         $member->syncRoles($roles);
 
-        return redirect()->route('halaman.datauser')->with('success', 'User roles updated successfully');
+        return redirect()->route('halaman.datauser')->with('success', 'Role akun tersebut berhasil diubah !');
     }
     public function destroy($id_member)
 {
@@ -90,7 +90,7 @@ class DataUserController extends Controller
     $member->delete();
 
     // Redirect dengan pesan sukses
-    return redirect()->route('halaman.datauser')->with('success', 'User deleted successfully');
+    return redirect()->route('halaman.datauser')->with('success', 'Akun tersebut berhasil dihapus !');
 }
 
 

@@ -33,7 +33,7 @@ class RoleController extends Controller
                     return '
                         <div class="d-flex align-items-center">
                             <form action="' . route('role.edit', $row->id) . '" method="GET" class="mr-1">
-                                <button type="submit" class="btn btn-warning btn-xs"><i class="bi bi-pencil-square text-white"></i></button>
+                                <button type="submit" class="btn btn-warning btn-sm"><i class="bi bi-pencil-square text-white"></i></button>
                             </form>
                         </div>
                     ';
@@ -73,7 +73,7 @@ class RoleController extends Controller
     // Update permissions
     $role->syncPermissions($request->input('permissions', []));
 
-    return redirect()->route('halaman.role')->with('success', 'Role updated successfully');
+    return redirect()->route('halaman.role')->with('success', 'Berhasil melakukan update permission');
 }
 
 

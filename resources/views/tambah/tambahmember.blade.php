@@ -77,8 +77,8 @@
 
                             <div class="form-group row mb-3">
                                 <div class="col-sm-9 offset-sm-3">
-                                    <button type="submit" class="btn btn-primary">Submit</button>
                                     <a href="{{ route('halaman.member') }}" class="btn btn-secondary ml-2">Cancel</a>
+                                    <button type="submit" class="btn btn-primary">Submit</button>
                                 </div>
                             </div>
 

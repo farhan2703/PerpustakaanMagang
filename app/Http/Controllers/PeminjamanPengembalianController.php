@@ -34,7 +34,7 @@ class PeminjamanPengembalianController extends Controller
                     return '
                         <div class="d-flex align-items-center">
                             <form action="/peminjaman/' . $row->id . '/edit" method="GET" class="mr-1">
-                                <button type="submit" class="btn btn-secondary btn-xs"><i class="bi bi-info-circle"></i></button>
+                                <button type="submit" class="btn btn-secondary btn-sm"><i class="bi bi-info-circle"></i></button>
                             </form>
                         </div>
                     ';

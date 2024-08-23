@@ -245,7 +245,7 @@ class MemberController extends Controller
 
         $member->save();
 
-        return redirect()->route('profile.edit')->with('success', 'Profile updated successfully');
+        return redirect()->route('profile.edit')->with('success', 'Edit Profile Anda Berhasil !');
     }
 
     

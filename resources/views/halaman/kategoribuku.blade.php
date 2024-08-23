@@ -12,8 +12,6 @@
                 <i class="bi bi-plus"></i>
             </a>
           </div>
-          <div class="card-body">
-
             <div class="table-responsive">
                 <table id="kategoriTable" class="table table-bordered table-responsive-md">
                     <thead class="table-light text-center">
@@ -23,7 +21,7 @@
                             <th>Deskripsi</th>
                             <th>Tanggal Dibuat</th>
                             <th>Tanggal Diperbarui</th>
-                            <th>Option</th>
+                            <th>Aksi</th>
                         </tr>
                     </thead>
                     <tbody></tbody>

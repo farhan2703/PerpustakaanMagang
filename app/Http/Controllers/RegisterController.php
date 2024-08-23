@@ -38,6 +38,6 @@ class RegisterController extends Controller
 
         $member->assignRole('Member');
 
-        return redirect()->route('login')->with('success', 'Registration successful. Please login.');
+        return redirect()->route('login')->with('success', 'Anda telah berhasil melakukan pendaftaran. Silahkan login.');
     }
 }

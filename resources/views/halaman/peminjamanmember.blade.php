@@ -14,8 +14,6 @@
                             <i class="bi bi-plus"></i>
                         </a>
                     </div>
-                    <h5>Daftar Peminjaman</h5>
-    
                         <!-- Hidden input to store user ID -->
                         <input type="hidden" id="user-id" value="{{ Auth::user()->nama }}">
                         <table id="peminjamanmemberTable" class="table table-bordered table-responsive-md">
@@ -26,7 +24,7 @@
                                     <th>Nama Member</th>
                                     <th>Tanggal Peminjaman</th>
                                     <th>Status</th>
-                                    <th>Option</th>
+                                    <th>Aksi</th>
                                 </tr>
                             </thead>
                             <tbody></tbody>

@@ -21,7 +21,7 @@
                                         <th>Nama</th>
                                         <th>No Telepon</th>
                                         <th>Email</th>
-                                        <th>Option</th>
+                                        <th>Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody></tbody>

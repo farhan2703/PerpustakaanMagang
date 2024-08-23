@@ -73,8 +73,8 @@
 
                             <!-- Tombol Submit dan Cancel -->
                             <div class="form-group mb-0">
-                                <button type="submit" class="btn btn-primary">Update Roles</button>
                                 <a href="{{ route('halaman.datauser') }}" class="btn btn-light">Cancel</a>
+                                <button type="submit" class="btn btn-primary">Update Roles</button>
                             </div>
                         </form>
 

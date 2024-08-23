@@ -27,7 +27,7 @@
                                   <th>Tanggal Peminjaman</th>
                                   <th>Tanggal Pengembalian</th>
                                   <th>Status</th>
-                                  <th>Option</th>
+                                  <th>Aksi</th>
                               </tr>
                           </thead>
                           <tbody></tbody>

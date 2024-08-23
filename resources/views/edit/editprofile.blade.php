@@ -77,13 +77,24 @@
                                 </div>
                                 <!-- Foto Profil -->
                                 <!-- Foto Profil -->
-                                <div class="form-group mb-3">
-                                    <label for="foto_profil">Foto Profil</label>
-                                    <input type="file" class="form-control-file" id="foto_profil" name="foto_profil">
+                                <div class="form-group mb-3 d-flex align-items-start">
+                                    <!-- Form Input Foto Profil -->
+                                    <div class="me-3">
+                                        <label for="foto_profil">Foto Profil: </label>
+                                        <input type="file" class="form-control-file" id="foto_profil" name="foto_profil">
+                                    </div>
+                                
+                                    <!-- Kotak Foto Profil -->
                                     @if($user->foto_profil)
-                                        <img src="{{ asset('storage/' . $user->foto_profil) }}" alt="Profile" class="img-thumbnail mt-2" style="width: 150px; height: 150px;">
+                                        <div>
+                                            <img src="{{ asset('storage/' . $user->foto_profil) }}" alt="Profile" class="img-thumbnail" style="width: 150px; height: 150px;">
+                                        </div>
                                     @endif
                                 </div>
+                                
+                                    <!-- Form Input Foto Profil -->
+                                    
+                                
 
                             
                                 <!-- Submit Button -->
