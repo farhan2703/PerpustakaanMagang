@@ -8,7 +8,7 @@
             <div class="col-lg-8 mx-auto">
 
                 <div class="card">
-                    <div class="card-header">
+                    <div class="card-header mb-3">
                         <h5 class="card-title">Tambah Admin Baru</h5>
                     </div>
                     <div class="card-body">
@@ -73,7 +73,7 @@
 
                             <div class="form-group row mb-3">
                                 <div class="col-sm-9 offset-sm-3">
-                                    <a href="{{ route('halaman.member') }}" class="btn btn-secondary ml-2">Cancel</a>
+                                    <a href="{{ route('halaman.admin') }}" class="btn btn-secondary ml-2">Cancel</a>
                                     <button type="submit" class="btn btn-primary">Submit</button>
                                 </div>
                             </div>

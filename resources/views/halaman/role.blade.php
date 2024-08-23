@@ -23,7 +23,7 @@
                                 <thead class="table-light text-center">
                                     <tr>
                                         <th>No</th>
-                                        <th>idRole</th>
+                                        <th>ID Role</th>
                                         <th>Nama</th>
                                         <th>Guard Name</th>
                                         <th>Aksi</th>

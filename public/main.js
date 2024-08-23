@@ -32,7 +32,8 @@ $(document).ready(function () {
                 name: "opsi",
                 orderable: false, // Menonaktifkan fitur pengurutan untuk kolom ini
                 searchable: false,
-                className: "text-center opsi-col", // Menambahkan kelas text-center untuk kolom opsi
+                className: "text-center opsi-col",
+                width: "90px", // Menambahkan kelas text-center untuk kolom opsi
             },
         ],
         columnDefs: [
@@ -74,7 +75,7 @@ $(document).ready(function () {
             {
                 data: "DT_RowIndex",
                 name: "DT_RowIndex",
-                width: "10px",
+                width: "2px",
                 orderable: false,
                 searchable: false,
                 className: "text-center", // Center align for the first column
@@ -87,7 +88,8 @@ $(document).ready(function () {
                 name: "opsi",
                 orderable: false,
                 searchable: false,
-                className: "text-center opsi-col", // Added class for the options column
+                className: "text-center opsi-col",
+                width: "90px", // Added class for the options column
             },
         ],
         columnDefs: [
@@ -147,6 +149,7 @@ $(document).ready(function () {
                 orderable: false,
                 searchable: false,
                 className: "text-center",
+                width: "125px",
             },
         ],
         columnDefs: [
@@ -199,7 +202,13 @@ $(document).ready(function () {
             { data: "status_ketersediaan", name: "status_ketersediaan" },
             { data: "stok", name: "stok" },
             { data: "kategori", name: "kategori" },
-            { data: "opsi", name: "opsi", orderable: false, searchable: false },
+            {
+                data: "opsi",
+                name: "opsi",
+                orderable: false,
+                searchable: false,
+                width: "50px",
+            },
         ],
         columnDefs: [
             { targets: 0, className: "text-center" }, // Menambahkan kelas text-center untuk kolom pertama
@@ -350,6 +359,7 @@ $(document).ready(function () {
                 name: "opsi",
                 orderable: false,
                 searchable: false,
+                width: "50px",
             },
         ],
         columnDefs: [
@@ -422,6 +432,7 @@ $(document).ready(function () {
                 name: "opsi",
                 orderable: false,
                 searchable: false,
+                width: "50px",
             },
         ],
 
@@ -580,6 +591,7 @@ $(document).ready(function () {
                 name: "opsi",
                 orderable: false,
                 searchable: false,
+                width: "50px",
             },
         ],
 
@@ -637,6 +649,7 @@ $(document).ready(function () {
                 name: "opsi",
                 orderable: false,
                 searchable: false,
+                width: "50px",
             },
         ],
         columnDefs: [
@@ -685,7 +698,13 @@ $(document).ready(function () {
             { data: "no_telepon", name: "no_telepon" },
             { data: "email", name: "email" },
             { data: "roles", name: "roles" },
-            { data: "opsi", name: "opsi", orderable: false, searchable: false },
+            {
+                data: "opsi",
+                name: "opsi",
+                orderable: false,
+                searchable: false,
+                width: "90px",
+            },
         ],
 
         columnDefs: [

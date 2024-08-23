@@ -32,7 +32,7 @@
                               <th>Stok</th>
                               <th>Kategori</th>
                               <th>Aksi</th>
-                          </tr>
+                          </tr>     
                       </thead>
                       <tbody></tbody>
                   </table>

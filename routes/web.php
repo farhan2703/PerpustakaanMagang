@@ -145,7 +145,7 @@ Route::group(['middleware' => ['permission:Kategori Buku']], function () {
 
 
 Route::group(['middleware' => ['permission:Buku']], function () {
-    Route::get('/bukumember/{id}', [BukuMemberController::class, 'detailmember'])->name('halaman.buku.detail');
+    Route::get('/bukumember/{id}', [BukuMemberController::class, 'detailmember'])->name('halaman.bukumember.detail');
     Route::get('/bukumember', [BukuMemberController::class, 'bukumember'])->name('halaman.bukumember');
     Route::get('/tableBukuMember', [BukuMemberController::class, 'tableBukuMember'])->name('tableBukuMember');
     });

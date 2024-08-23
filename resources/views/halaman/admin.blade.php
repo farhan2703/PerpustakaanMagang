@@ -14,7 +14,7 @@
                     </div>
 
                         <div class="table-responsive">
-                            <table id="adminTable" class="table table-bordered table-responsive-md">
+                            <table id="adminTable" class="table table-bordered table-responsive-md" >
                                 <thead class="table-light text-center">
                                     <tr>
                                         <th>No</th>

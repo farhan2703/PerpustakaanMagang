@@ -8,7 +8,7 @@
             <div class="col-lg-8 mx-auto">
 
                 <div class="card">
-                    <div class="card-header">
+                    <div class="card-header mb-3">
                         <h5 class="card-title">Tambah Peminjaman Buku</h5>
                     </div>
                     <div class="card-body">
@@ -40,12 +40,9 @@
                     <input type="hidden" name="member_id" value="{{ Auth::user()->id_member }}">
                 </div>
             </div>
-        
-            <div class="form-group row mb-3">
-                <div class="col-sm-9 offset-sm-3">
-                    <a href="{{ route('halaman.peminjamanmember') }}" class="btn btn-secondary ms-2">Cancel</a>
-                    <button type="submit" class="btn btn-primary">Tambah</button>
-                </div>
+            <div class="col-sm-9 offset-sm-3">
+                <a href="{{ route('halaman.peminjamanmember') }}" class="btn btn-secondary ms-2">Cancel</a>
+                <button type="submit" class="btn btn-primary">Tambah</button>
             </div>
         </form>
                     

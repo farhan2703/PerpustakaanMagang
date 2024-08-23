@@ -45,12 +45,10 @@
                     <input type="date" class="form-control" id="tanggal_peminjaman" name="tanggal_peminjaman" required>
                 </div>
             </div>
-
-            <div class="form-group row mb-3">
-                <div class="col-sm-9 offset-sm-3">
-                    <a href="{{ route('halaman.peminjaman') }}" class="btn btn-secondary ms-2">Cancel</a>
-                    <button type="submit" class="btn btn-primary">Tambah</button>
-                </div>
+            
+            <div class="col-sm-9 offset-sm-3">
+                <a href="{{ route('halaman.peminjaman') }}" class="btn btn-secondary ms-2">Cancel</a>
+                <button type="submit" class="btn btn-primary">Tambah</button>
             </div>
 
         </form>

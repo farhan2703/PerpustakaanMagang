@@ -4,7 +4,7 @@
 <section class="section">
     <div class="container">
         <div class="card">
-            <div class="card-header">
+            <div class="card-header mb-3">
                 <h4 class="card-title">Edit Role</h4>
             </div>
             <div class="card-body">
@@ -62,7 +62,7 @@
 
                     <!-- Submit and Cancel Buttons -->
                     <div class="form-group mb-0">
-                        <button type="button" class="btn btn-light" onclick="window.location='{{ route('halaman.role') }}'">Cancel</button>
+                        <button type="button" class="btn btn-secondary" onclick="window.location='{{ route('halaman.role') }}'">Cancel</button>
                         <button type="submit" class="btn btn-primary">Update Role</button>
                     </div>
                 </form>

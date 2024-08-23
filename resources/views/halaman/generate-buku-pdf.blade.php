@@ -25,7 +25,7 @@
     <tbody>
         @foreach ($buku as $b) 
         <tr>
-            <td>{{ $b-> id_buku}}</td>
+            <td>{{$loop->iteration}}</td>
             <td>'{{ $b->judul }}</td>
             <td>{{ $b->penulis }}</td>
             <td>{{ $b->penerbit }}</td>

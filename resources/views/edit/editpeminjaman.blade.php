@@ -6,7 +6,7 @@
   <div class="row">
     <div class="col-lg-8 offset-lg-2">
       <div class="card">
-        <div class="card-header bg-primary text-white">
+        <div class="card-header mb-3 bg-primary text-white">
           <h5>Detail Peminjaman Buku</h5>
         </div>
         <div class="card-body">

@@ -8,7 +8,7 @@
             <div class="col-lg-8 mx-auto">
 
                 <div class="card">
-                    <div class="card-header">
+                    <div class="card-header mb-3">
                         <h5 class="card-title">Edit Data User</h5>
                     </div>
                     <div class="card-body">
@@ -73,7 +73,7 @@
 
                             <!-- Tombol Submit dan Cancel -->
                             <div class="form-group mb-0">
-                                <a href="{{ route('halaman.datauser') }}" class="btn btn-light">Cancel</a>
+                                <a href="{{ route('halaman.datauser') }}" class="btn btn-secondary">Cancel</a>
                                 <button type="submit" class="btn btn-primary">Update Roles</button>
                             </div>
                         </form>
