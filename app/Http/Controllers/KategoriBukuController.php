@@ -1,11 +1,12 @@
 <?php
 
-
 namespace App\Http\Controllers;
 
 use App\Models\KategoriBuku;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Yajra\DataTables\DataTables;
 
 class KategoriBukuController extends Controller
@@ -23,10 +24,10 @@ class KategoriBukuController extends Controller
     public function tableKategori(Request $request)
     {
         if ($request->ajax()) {
-            $kategoribuku = KategoriBuku::select(['id_kategori', 'nama_kategori', 'deskripsi_kategori', 'created_at','updated_at'])->get();
+            $kategoribuku = KategoriBuku::select(['id_kategori', 'nama_kategori', 'deskripsi_kategori', 'created_at', 'updated_at'])->get();
 
             return DataTables::of($kategoribuku)
-                ->addIndexColumn() // Menambahkan indeks otomatis
+                ->addIndexColumn()
                 ->addColumn('opsi', function ($row) {
                     return '
                         <div class="d-flex align-items-center">
@@ -45,69 +46,99 @@ class KategoriBukuController extends Controller
                         </div>
                     ';
                 })
-                ->rawColumns(['opsi']) // Pastikan kolom ini dianggap sebagai HTML
+                ->rawColumns(['opsi'])
                 ->make(true);
         }
     }
+
     public function create()
     {
-        return view('tambah.tambahkategoribuku'); // Pastikan ada view tambahbuku.blade.php
+        return view('tambah.tambahkategoribuku');
     }
 
     public function store(Request $request)
     {
-        $request->validate([
-            'nama_kategori' => 'required|string|max:255',
-            'deskripsi_kategori' => 'required|string|max:255',
-        ]);
+        DB::beginTransaction();
 
-        KategoriBuku::create([
-            'nama_kategori' => $request->input('nama_kategori'),
-            'deskripsi_kategori' => $request->input('deskripsi_kategori'),
-        ]);
+        try {
+            $request->validate([
+                'nama_kategori' => 'required|string|max:255',
+                'deskripsi_kategori' => 'required|string|max:255',
+            ]);
 
-        return redirect()->route('halaman.kategoribuku')->with('success', 'Kategori Buku berhasil ditambahkan!');
+            KategoriBuku::create([
+                'nama_kategori' => $request->input('nama_kategori'),
+                'deskripsi_kategori' => $request->input('deskripsi_kategori'),
+            ]);
+
+            DB::commit();
+
+            return redirect()->route('halaman.kategoribuku')->with('success', 'Kategori Buku berhasil ditambahkan!');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error('Error storing category: ' . $e->getMessage());
+            return redirect()->back()->withErrors(['error' => 'Terjadi kesalahan saat menambahkan kategori buku.']);
+        }
     }
 
-        // Menampilkan form update kategori
-        public function edit($id_kategori)
-        {
-            $kategori = KategoriBuku::findOrFail($id_kategori);
-            return view('edit.editkategoribuku', compact('kategori'));
-        }
-    
-        // Menyimpan perubahan kategori
-        public function update(Request $request, $id_kategori)
-        {
+    public function edit($id_kategori)
+    {
+        $kategori = KategoriBuku::findOrFail($id_kategori);
+        return view('edit.editkategoribuku', compact('kategori'));
+    }
+
+    public function update(Request $request, $id_kategori)
+    {
+        DB::beginTransaction();
+
+        try {
             $request->validate([
                 'nama_kategori' => 'required|string|max:255',
                 'deskripsi_kategori' => 'required|string',
             ]);
-    
+
             $kategori = KategoriBuku::findOrFail($id_kategori);
             $kategori->update([
                 'nama_kategori' => $request->input('nama_kategori'),
                 'deskripsi_kategori' => $request->input('deskripsi_kategori'),
             ]);
-    
+
+            DB::commit();
+
             return redirect()->route('halaman.kategoribuku')->with('success', 'Kategori buku berhasil diperbarui!');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error('Error updating category: ' . $e->getMessage());
+            return redirect()->back()->withErrors(['error' => 'Terjadi kesalahan saat memperbarui kategori buku.']);
         }
+    }
 
     public function detail($id)
     {
-        $kategoriBuku = KategoriBuku::findOrFail($id); // Mengambil detail kategori buku berdasarkan id
-        return view('halaman.detail_kategoribuku', compact('kategoriBuku')); // Mengirim data kategori buku ke view
+        $kategoriBuku = KategoriBuku::findOrFail($id);
+        return view('halaman.detail_kategoribuku', compact('kategoriBuku'));
     }
+
     public function forcedelete($id)
     {
-        $kategoribuku = KategoriBuku::find($id);
+        DB::beginTransaction();
 
-        if (!$kategoribuku) {
-            return Redirect::route('halaman.kategoribuku')->with('error', 'Kategori Buku tidak ditemukan.');
+        try {
+            $kategoribuku = KategoriBuku::find($id);
+
+            if (!$kategoribuku) {
+                return Redirect::route('halaman.kategoribuku')->with('error', 'Kategori Buku tidak ditemukan.');
+            }
+
+            $kategoribuku->delete();
+
+            DB::commit();
+
+            return Redirect::route('halaman.kategoribuku')->with('success', 'Kategori Buku berhasil dihapus.');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error('Error deleting category: ' . $e->getMessage());
+            return Redirect::route('halaman.kategoribuku')->with('error', 'Terjadi kesalahan saat menghapus kategori buku.');
         }
-
-        $kategoribuku->delete();
-
-        return Redirect::route('halaman.kategoribuku')->with('success', 'Kategori Buku berhasil dihapus.');
     }
 }

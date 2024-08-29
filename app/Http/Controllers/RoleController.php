@@ -1,9 +1,8 @@
 <?php
-
 namespace App\Http\Controllers;
 
-use Illuminate\Contracts\Session\Session;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session as FacadesSession;
 use Spatie\Permission\Models\Permission;
@@ -45,72 +44,107 @@ class RoleController extends Controller
 
     public function edit($id)
     {
-        $role = PermissionRole::find($id);
+        DB::beginTransaction(); // Mulai transaksi sebelum try-catch
 
-        // Jika role tidak ditemukan, kembalikan respons error atau arahkan ke halaman lain
-        if (!$role) {
-            return redirect()->route('halaman.role')->with('error', 'Role tidak ditemukan.');
+        try {            
+            $role = PermissionRole::find($id);
+
+            if (!$role) {
+                DB::rollBack(); // Rollback jika terjadi error
+                return redirect()->route('halaman.role')->with('error', 'Role tidak ditemukan.');
+            }
+
+            $permissions = Permission::pluck('name', 'id');
+            $rolePermissions = $role->permissions->pluck('id')->toArray();
+
+            DB::commit(); // Commit transaksi jika sukses
+            return view('edit.editrolepermission', compact('role', 'permissions', 'rolePermissions'));
+        } catch (\Exception $e) {
+            DB::rollBack(); // Rollback jika terjadi error
+            Log::error('Edit Role Error: ' . $e->getMessage());
+            return redirect()->route('halaman.role')->with('error', 'Terjadi kesalahan saat mengedit role.');
         }
-
-        $permissions = Permission::pluck('name', 'id');
-        $rolePermissions = $role->permissions->pluck('id')->toArray();
-
-        return view('edit.editrolepermission', compact('role', 'permissions', 'rolePermissions'));
     }
 
     public function update(Request $request, $id)
-{
-    // Validasi hanya untuk permissions
-    $request->validate([
-        'permissions' => 'sometimes|array',
-    ]);
+    {
+        DB::beginTransaction(); // Mulai transaksi sebelum try-catch
 
-    $role = PermissionRole::findOrFail($id);
-    $role->name = $request->input('name', $role->name);
-    $role->guard_name = $request->input('guard_name', $role->guard_name);
-    $role->save();
+        try {
+            // Validasi hanya untuk permissions
+            $request->validate([
+                'permissions' => 'sometimes|array',
+            ]);
 
-    // Update permissions
-    $role->syncPermissions($request->input('permissions', []));
+            $role = PermissionRole::findOrFail($id);
+            $role->name = $request->input('name', $role->name);
+            $role->guard_name = $request->input('guard_name', $role->guard_name);
+            $role->save();
 
-    return redirect()->route('halaman.role')->with('success', 'Berhasil melakukan update permission');
-}
+            // Update permissions
+            $role->syncPermissions($request->input('permissions', []));
 
+            DB::commit(); // Commit transaksi jika sukses
+            return redirect()->route('halaman.role')->with('success', 'Berhasil melakukan update permission');
+        } catch (\Exception $e) {
+            DB::rollBack(); // Rollback jika terjadi error
+            Log::error('Update Role Error: ' . $e->getMessage());
+            return redirect()->route('halaman.role')->with('error', 'Terjadi kesalahan saat memperbarui role.');
+        }
+    }
 
     protected function authenticated(Request $request, $user)
     {
-        // Ambil semua role user
-        $roles = $user->getRoleNames()->toArray();
+        DB::beginTransaction(); // Mulai transaksi sebelum try-catch
 
-        // Tentukan role default berdasarkan peran yang dimiliki
-        if (in_array('admin', $roles) && in_array('member', $roles)) {
-            $defaultRole = 'admin,member';
-        } elseif (in_array('admin', $roles)) {
-            $defaultRole = 'admin';
-        } elseif (in_array('member', $roles)) {
-            $defaultRole = 'member';
-        } else {
-            $defaultRole = 'member'; // Default role jika tidak ada yang cocok
+        try {
+            // Ambil semua role user
+            $roles = $user->getRoleNames()->toArray();
+
+            // Tentukan role default berdasarkan peran yang dimiliki
+            if (in_array('admin', $roles) && in_array('member', $roles)) {
+                $defaultRole = 'admin,member';
+            } elseif (in_array('admin', $roles)) {
+                $defaultRole = 'admin';
+            } elseif (in_array('member', $roles)) {
+                $defaultRole = 'member';
+            } else {
+                $defaultRole = 'member'; // Default role jika tidak ada yang cocok
+            }
+
+            // Set session 'currentRole' ke role default
+            FacadesSession::put('currentRole', $defaultRole);
+
+            DB::commit(); // Commit transaksi jika sukses
+            return redirect()->intended('/home');
+        } catch (\Exception $e) {
+            DB::rollBack(); // Rollback jika terjadi error
+            Log::error('Authentication Error: ' . $e->getMessage());
+            return redirect()->route('login')->with('error', 'Terjadi kesalahan saat login.');
         }
-
-        // Set session 'currentRole' ke role default
-        FacadesSession::put('currentRole', $defaultRole);  
-
-        // Redirect ke halaman yang dimaksud
-        return redirect()->intended('/home');
     }
 
     public function switchRole($role)
     {
-        // Validasi role yang valid jika diperlukan
-        $validRoles = ['admin', 'member', 'admin,member'];
-        if (!in_array($role, $validRoles)) {
-            return redirect()->back()->withErrors('Invalid role');
+        DB::beginTransaction(); // Mulai transaksi sebelum try-catch
+
+        try {
+            // Validasi role yang valid jika diperlukan
+            $validRoles = ['admin', 'member', 'admin,member'];
+            if (!in_array($role, $validRoles)) {
+                DB::rollBack(); // Rollback jika role tidak valid
+                return redirect()->back()->withErrors('Invalid role');
+            }
+
+            // Set session untuk role
+            session(['currentRole' => $role]);
+
+            DB::commit(); // Commit transaksi jika sukses
+            return redirect()->back();
+        } catch (\Exception $e) {
+            DB::rollBack(); // Rollback jika terjadi error
+            Log::error('Switch Role Error: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Terjadi kesalahan saat mengganti role.');
         }
-
-        // Set session untuk role
-        session(['currentRole' => $role]);
-
-        return redirect()->back();
     }
 }

@@ -42,7 +42,8 @@
 
                             <div class="mb-3">
                                 <label for="stok" class="form-label">Stok</label>
-                                <input type="number" name="stok" class="form-control" id="stok" required>
+                                <input type="number" name="stok" class="form-control" id="stok" min="0" required>
+                                <div id="stok-error" class="text-danger mt-2"></div>
                             </div>
                             
                             <div class="mb-3">
@@ -68,6 +69,21 @@
         </div>
     </div>
 </section>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const stokInput = document.getElementById('stok');
+        const errorDiv = document.getElementById('stok-error');
+        
+        stokInput.addEventListener('input', function() {
+            if (stokInput.value < 0) {
+                errorDiv.textContent = 'Stok tidak boleh kurang dari 0.';
+            } else {
+                errorDiv.textContent = '';
+            }
+        });
+    });
+</script>
 
 <script src="{{ asset('assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 <script src="{{ asset('assets/js/main.js') }}"></script>

@@ -8,7 +8,12 @@
         <div class="card">
             <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
                 <h5>Halaman Profil </h5>
+                @if($user->foto_profil)
                 <img src="{{ asset('storage/' . $user->foto_profil) }}" alt="Profile" class="post-item clearfix" style="width: 150px; height: 150px;">
+                    @else
+                        <img src="{{ asset('assets/img/image.png') }}" alt="Profile" class="post-item clearfix" style="width: 150px; height: 125px;">
+                    @endif
+                {{-- <img src="{{ asset('storage/' . $user->foto_profil) }}" alt="Profile" class="post-item clearfix" style="width: 150px; height: 150px;"> --}}
                 <h2>{{ $user->nama }}</h2>
                 <h3>{{ $user->email }}</h3> <!-- Menampilkan nama role pengguna -->
             </div>

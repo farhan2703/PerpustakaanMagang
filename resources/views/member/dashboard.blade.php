@@ -1,5 +1,6 @@
 @extends('layouts.layouts')
 
+
 @section('main')
 <section class="section dashboard">
   <div class="row">

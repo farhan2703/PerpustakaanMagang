@@ -3,10 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Buku;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use App\Models\Member;
 use App\Models\PeminjamanPengembalian;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
@@ -19,26 +20,22 @@ class MemberController extends Controller
      */
     public function showLoginForm()
     {
-        return view('auth.member-login'); // Pastikan ada view member-login.blade.php di folder resources/views/auth
+        return view('auth.member-login');
     }
 
     /**
      * Proses login member.
      */
     public function login(Request $request)
-{
-    $credentials = $request->only('email', 'password');
+    {
+        $credentials = $request->only('email', 'password');
 
-    if (Auth::guard('member')->attempt($credentials)) {
-        // Authenticated
-        return redirect()->route('member.dashboard');
+        if (Auth::guard('member')->attempt($credentials)) {
+            return redirect()->route('member.dashboard');
+        }
+
+        return redirect()->back()->withErrors(['message' => 'Invalid credentials']);
     }
-
-    // If authentication fails
-    return redirect()->back()->withErrors(['message' => 'Invalid credentials']);
-}
-
-    
 
     /**
      * Menampilkan dashboard member.
@@ -47,28 +44,29 @@ class MemberController extends Controller
     {
         return view('member.dashboard');
     }
-    
+
     public function member(Request $request)
     {
         return view('halaman.member');
     }
+
     public function jumlahbukutersedia(Request $request)
     {
         $jumlahBukuTersedia = Buku::where('stok', '>', 0)->sum('stok');
         return response()->json(['jumlah' => $jumlahBukuTersedia]);
     }
+
     public function jumlahBukuDipinjam(Request $request)
     {
-    // Menghitung total stok buku yang dipinjam
-    $jumlahBukuDipinjam = PeminjamanPengembalian::where('status', 'Dalam Peminjaman')
-        ->join('buku', 'peminjaman_pengembalian.buku_id', '=', 'buku.id_buku')
-        ->count('buku.stok');
+        $jumlahBukuDipinjam = PeminjamanPengembalian::where('status', 'Dalam Peminjaman')
+            ->join('buku', 'peminjaman_pengembalian.buku_id', '=', 'buku.id_buku')
+            ->count('buku.stok');
 
-    return response()->json(['jumlah' => $jumlahBukuDipinjam]);
+        return response()->json(['jumlah' => $jumlahBukuDipinjam]);
     }
+
     public function totalBuku(Request $request)
     {
-        // Menghitung total jumlah buku dari yang tersedia dan yang dipinjam
         $jumlahBukuTersedia = Buku::where('stok', '>', 0)->sum('stok');
         $jumlahBukuDipinjam = PeminjamanPengembalian::where('status', 'Dalam Peminjaman')
             ->join('buku', 'peminjaman_pengembalian.buku_id', '=', 'buku.id_buku')
@@ -78,17 +76,14 @@ class MemberController extends Controller
 
         return response()->json(['total' => $totalBuku]);
     }
+
     public function getChartData(Request $request)
     {
-        // Menghitung total stok buku yang tersedia
         $jumlahBukuTersedia = Buku::where('stok', '>', 0)->sum('stok');
-
-        // Menghitung total buku yang dipinjam
         $jumlahBukuDipinjam = PeminjamanPengembalian::where('status', 'Dalam Peminjaman')
             ->join('buku', 'peminjaman_pengembalian.buku_id', '=', 'buku.id_buku')
             ->count('buku.stok');
 
-        // Menghitung total buku dari buku yang tersedia dan buku yang dipinjam
         $totalBuku = $jumlahBukuTersedia + $jumlahBukuDipinjam;
 
         return response()->json([
@@ -98,16 +93,15 @@ class MemberController extends Controller
         ]);
     }
 
-
     public function table(Request $request)
     {
         if ($request->ajax()) {
             $members = Member::role('Member')
-            ->with('roles')
-            ->select(['id_member', 'nama', 'no_telepon', 'email'])->get();
+                ->with('roles')
+                ->select(['id_member', 'nama', 'no_telepon', 'email'])->get();
 
             return DataTables::of($members)
-                ->addIndexColumn() // Menambahkan indeks otomatis
+                ->addIndexColumn()
                 ->addColumn('opsi', function ($row) {
                     return '
                         <div class="d-flex justify-content-center align-items-center">
@@ -122,10 +116,11 @@ class MemberController extends Controller
                         </div>
                     ';
                 })
-                ->rawColumns(['opsi']) // Pastikan kolom ini dianggap sebagai HTML
+                ->rawColumns(['opsi'])
                 ->make(true);
         }
     }
+
     public function create()
     {
         return view('tambah.tambahmember');
@@ -133,120 +128,147 @@ class MemberController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'nama' => 'required|string|max:255',
-            'no_telepon' => 'required|string|max:15',
-            'email' => 'required|string|max:255|unique:member,email', // Validasi untuk memastikan email unik di tabel 'member'
-            'password' => 'required|string|min:8',
-        ], [
-            'email.unique' => 'Email sudah digunakan. Silakan gunakan email lain.',
-        ]);
+        DB::beginTransaction();
 
-        $member = Member::create([
-            'nama' => $request->nama,
-            'no_telepon' => $request->no_telepon,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-        ]);
+        try {
+            $request->validate([
+                'nama' => 'required|string|max:255',
+                'no_telepon' => 'required|string|max:15',
+                'email' => 'required|string|max:255|unique:member,email',
+                'password' => 'required|string|min:8',
+            ], [
+                'email.unique' => 'Email sudah digunakan. Silakan gunakan email lain.',
+            ]);
 
-        $member->assignRole('Member');
+            $member = Member::create([
+                'nama' => $request->nama,
+                'no_telepon' => $request->no_telepon,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+            ]);
 
-        return redirect()->route('halaman.member')->with('success', 'Member berhasil ditambahkan!');
+            $member->assignRole('Member');
+
+            DB::commit();
+
+            return redirect()->route('halaman.member')->with('success', 'Member berhasil ditambahkan!');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->back()->withErrors(['error' => 'Terjadi kesalahan saat menambahkan member.']);
+        }
     }
 
     public function edit($id_member)
     {
-        $member = Member::findOrFail($id_member); // Menggunakan singular 'member' untuk variabel
+        $member = Member::findOrFail($id_member);
         return view('edit.editmember', compact('member'));
     }
 
     public function update(Request $request, $id_member)
     {
-        $request->validate([
-            'nama' => 'required|string|max:255',
-            'no_telepon' => 'required|string|max:15',
-            'email' => 'required|string|max:255|unique:member,email,' . $id_member . ',id_member', // Validasi untuk memastikan email unik di tabel 'member' kecuali untuk ID yang sedang diedit
-        ], [
-            'email.unique' => 'Email sudah digunakan. Silakan gunakan email lain.',
-        ]);
-    
-        $member = Member::findOrFail($id_member);
-    
-        // Update fields
-        $member->nama = $request->input('nama');
-        $member->no_telepon = $request->input('no_telepon');
-        $member->email = $request->input('email');
-    
-        // Cek apakah password diisi
-        if ($request->filled('password')) {
+        DB::beginTransaction();
+
+        try {
             $request->validate([
-                'password' => 'required|string|min:8',
+                'nama' => 'required|string|max:255',
+                'no_telepon' => 'required|string|max:15',
+                'email' => 'required|string|max:255|unique:member,email,' . $id_member . ',id_member',
+            ], [
+                'email.unique' => 'Email sudah digunakan. Silakan gunakan email lain.',
             ]);
-            $member->password = bcrypt($request->input('password'));
+
+            $member = Member::findOrFail($id_member);
+
+            $member->nama = $request->input('nama');
+            $member->no_telepon = $request->input('no_telepon');
+            $member->email = $request->input('email');
+
+            if ($request->filled('password')) {
+                $request->validate([
+                    'password' => 'required|string|min:8',
+                ]);
+                $member->password = bcrypt($request->input('password'));
+            }
+
+            $member->save();
+
+            DB::commit();
+
+            return redirect()->route('halaman.member')->with('success', 'Member berhasil diupdate!');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->back()->withErrors(['error' => 'Terjadi kesalahan saat mengupdate member.']);
         }
-    
-        $member->save();
-    
-        return redirect()->route('halaman.member')->with('success', 'Member berhasil diupdate!');
     }
 
     public function forcedelete($id_member)
     {
-        $member = Member::find($id_member);
-        
+        DB::beginTransaction();
 
-        if (!$member) {
-            return Redirect::route('halaman.member')->with('error', 'Member tidak ditemukan.');
+        try {
+            $member = Member::find($id_member);
+
+            if (!$member) {
+                return Redirect::route('halaman.member')->with('error', 'Member tidak ditemukan.');
+            }
+
+            $member->delete();
+
+            DB::commit();
+
+            return Redirect::route('halaman.member')->with('success', 'Member berhasil dihapus.');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return Redirect::route('halaman.member')->with('error', 'Terjadi kesalahan saat menghapus member.');
         }
-
-        $member->delete();
-
-        return Redirect::route('halaman.member')->with('success', 'Member berhasil dihapus.');
     }
-    
+
     public function editProfile()
     {
-        $user = Auth::user(); // Mengambil user yang sedang login
+        $user = Auth::user();
         return view('edit.editprofile', compact('user'));
     }
 
     public function updateProfile(Request $request)
-{
-        $member = Auth::user();
+    {
+        DB::beginTransaction();
 
-        // Validasi input
-        $request->validate([
-            'nama' => 'required|string|max:255',
-            'no_telepon' => 'required|string|max:15',
-            'email' => 'required|string|email|max:255|unique:member,email,' . $member->id_member . ',id_member',
-            'password' => 'nullable|string|min:8|confirmed',
-            'foto_profil' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-        ]);
+        try {
+            $member = Auth::user();
 
-        // Update data
-        $member->nama = $request->nama;
-        $member->no_telepon = $request->no_telepon;
-        $member->email = $request->email;
+            $request->validate([
+                'nama' => 'required|string|max:255',
+                'no_telepon' => 'required|string|max:15',
+                'email' => 'required|string|email|max:255|unique:member,email,' . $member->id_member . ',id_member',
+                'password' => 'nullable|string|min:8|confirmed',
+                'foto_profil' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            ]);
 
-        if ($request->filled('password')) {
-            $member->password = Hash::make($request->password);
-        }
+            $member->nama = $request->nama;
+            $member->no_telepon = $request->no_telepon;
+            $member->email = $request->email;
 
-        if ($request->hasFile('foto_profil')) {
-            // Hapus foto profil lama jika ada
-            if ($member->foto_profil && Storage::exists($member->foto_profil)) {
-                Storage::delete($member->foto_profil);
+            if ($request->filled('password')) {
+                $member->password = Hash::make($request->password);
             }
 
-            // Simpan foto profil baru
-            $path = $request->file('foto_profil')->store('uploads/profiles', 'public');
-            $member->foto_profil = $path;
+            if ($request->hasFile('foto_profil')) {
+                if ($member->foto_profil && Storage::exists($member->foto_profil)) {
+                    Storage::delete($member->foto_profil);
+                }
+
+                $path = $request->file('foto_profil')->store('profile_pictures', 'public');
+                $member->foto_profil = $path;
+            }
+
+            $member->save();
+
+            DB::commit();
+
+            return redirect()->route('editprofile')->with('success', 'Profil berhasil diperbarui!');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->back()->withErrors(['error' => 'Terjadi kesalahan saat memperbarui profil.']);
         }
-
-        $member->save();
-
-        return redirect()->route('profile.edit')->with('success', 'Edit Profile Anda Berhasil !');
     }
-
-    
 }

@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>Pages / Register - NiceAdmin Bootstrap Template</title>
+  <title>Halaman Register - Perpustakaan</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -47,61 +47,57 @@
                             <div class="d-flex justify-content-center py-4">
                                 <a href="{{ route('home') }}" class="logo d-flex align-items-center w-auto">
                                     <img src="assets/img/logo.png" alt="">
-                                    <span class="d-none d-lg-block">NiceAdmin</span>
+                                    <span class="d-none d-lg-block">Perpustakaan</span>
                                 </a>
                             </div><!-- End Logo -->
 
                             <div class="card mb-3">
                                 <div class="card-body">
                                     <div class="pt-4 pb-2">
-                                        <h5 class="card-title text-center pb-0 fs-4">Create an Account</h5>
-                                        <p class="text-center small">Enter your personal details to create account</p>
+                                        <h5 class="card-title text-center pb-0 fs-4">Buat Akun Perpustakaan </h5>
+                                        <p class="text-center small">Masukkan identitas Anda untuk membuat akun</p>
                                     </div>
                                     <form action="{{ route('register.submit') }}" method="POST" class="row g-3 needs-validation" novalidate>
                                         @csrf
                                         <div class="col-12">
-                                            <label for="yourName" class="form-label">Your Name</label>
+                                            <label for="yourName" class="form-label">Nama</label>
                                             <input type="text" name="name" class="form-control" id="yourName" required>
-                                            <div class="invalid-feedback">Please, enter your name!</div>
+                                            <div class="invalid-feedback">Mohon, masukkan nama Anda!</div>
                                         </div>
 
                                         <div class="col-12">
-                                            <label for="yourPhone" class="form-label">Your Phone Number</label>
+                                            <label for="yourPhone" class="form-label">Nomor Telephone</label>
                                             <input type="text" name="no_telepon" class="form-control" id="yourPhone" required>
-                                            <div class="invalid-feedback">Please enter your phone number!</div>
+                                            <div class="invalid-feedback">Mohon, masukkan nomor telephone Anda!</div>
                                         </div>
 
                                         <div class="col-12">
-                                            <label for="yourEmail" class="form-label">Your Email</label>
+                                            <label for="yourEmail" class="form-label">Email</label>
                                             <input type="email" name="email" class="form-control" id="yourEmail" required>
-                                            <div class="invalid-feedback">Please enter a valid Email address!</div>
+                                            <div class="invalid-feedback">Mohon, masukkan Email Anda!</div>
                                         </div>
 
                                         <div class="col-12">
                                             <label for="yourPassword" class="form-label">Password</label>
                                             <input type="password" name="password" class="form-control" id="yourPassword" required>
-                                            <div class="invalid-feedback">Please enter your password!</div>
+                                            <div class="invalid-feedback">Mohon, masukkan Password Anda!</div>
                                         </div>
 
                                         <div class="col-12">
                                             <label for="yourPasswordConfirmation" class="form-label">Confirm Password</label>
                                             <input type="password" name="password_confirmation" class="form-control" id="yourPasswordConfirmation" required>
-                                            <div class="invalid-feedback">Please confirm your password!</div>
+                                            <div class="invalid-feedback">Mohon, masukkan Password yang sama!</div>
                                         </div>
 
                                         <div class="col-12">
-                                            <button class="btn btn-primary w-100" type="submit">Create Account</button>
+                                            <button class="btn btn-primary w-100" type="submit">Buat Akun</button>
                                         </div>
                                         <div class="col-12">
-                                            <p class="small mb-0">Already have an account? <a href="{{ route('login') }}">Log in</a></p>
+                                            <p class="small mb-0">Sudah memiliki akun? <a href="{{ route('login') }}">Log in</a></p>
                                         </div>
                                     </form>
 
                                 </div>
-                            </div>
-
-                            <div class="credits">
-                                Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
                             </div>
                         </div>
                     </div>

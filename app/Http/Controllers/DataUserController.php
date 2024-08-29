@@ -1,17 +1,15 @@
 <?php
-
 namespace App\Http\Controllers;
-
 
 use App\Models\Member;
 use App\Models\Role;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Yajra\DataTables\Facades\DataTables;
 
 class DataUserController extends Controller
 {
-    //
     public function dashboard(Request $request)
     {
         return view('member.dashboard');
@@ -21,77 +19,100 @@ class DataUserController extends Controller
     {
         return view('halaman.datauser');
     }
-    public function tableUser(Request $request)
-{
-    if ($request->ajax()) {
-        $members = Member::whereHas('roles', function($query) {
-            $query->whereIn('name', ['Admin', 'Member']);
-        })
-        ->with('roles')
-        ->select(['id_member', 'nama', 'no_telepon', 'email'])
-        ->get();
 
-        return DataTables::of($members)
-            ->addIndexColumn() // Menambahkan indeks otomatis
-            ->addColumn('roles', function ($row) {
-                // Menggabungkan semua nama peran yang dimiliki oleh member
-                return $row->roles->pluck('name')->join(', ');
+    public function tableUser(Request $request)
+    {
+        if ($request->ajax()) {
+            $members = Member::whereHas('roles', function($query) {
+                $query->whereIn('name', ['Admin', 'Member']);
             })
-            ->addColumn('opsi', function ($row) {
-                return '
-                     <div class="d-flex justify-content-center align-items-center">
-                        <form action="/datauser/' . $row->id_member . '/edit_datauser" method="GET" class="me-1">
-                             <button type="submit" class="btn btn-warning btn-sm"><i class="bi bi-pencil-square text-white"></i></button>
-                        </form>
-                        <form action="/datauser/' . $row->id_member . '/destroy" method="POST">
-                            ' . csrf_field() . '
-                            ' . method_field('DELETE') . '
-                            <button type="submit" class="btn btn-danger btn-sm"><i class="bi bi-trash"></i></button>
-                        </form>
-                    </div>
-                ';
-            })
-            ->rawColumns(['opsi']) // Pastikan kolom ini dianggap sebagai HTML
-            ->make(true);
+            ->with('roles')
+            ->select(['id_member', 'nama', 'no_telepon', 'email'])
+            ->get();
+
+            return DataTables::of($members)
+                ->addIndexColumn()
+                ->addColumn('roles', function ($row) {
+                    return $row->roles->pluck('name')->join(', ');
+                })
+                ->addColumn('opsi', function ($row) {
+                    return '
+                         <div class="d-flex justify-content-center align-items-center">
+                            <form action="/datauser/' . $row->id_member . '/edit_datauser" method="GET" class="me-1">
+                                 <button type="submit" class="btn btn-warning btn-sm"><i class="bi bi-pencil-square text-white"></i></button>
+                            </form>
+                            <form action="/datauser/' . $row->id_member . '/destroy" method="POST">
+                                ' . csrf_field() . '
+                                ' . method_field('DELETE') . '
+                                <button type="submit" class="btn btn-danger btn-sm"><i class="bi bi-trash"></i></button>
+                            </form>
+                        </div>
+                    ';
+                })
+                ->rawColumns(['opsi'])
+                ->make(true);
+        }
     }
-}
+
     public function edit($id_member)
     {
-        // Cari member berdasarkan id_member
-        $member = Member::where('id_member', $id_member)->firstOrFail();
-        $roles = Role::all(); // Mendapatkan semua role
-        $memberRoles = $member->roles->pluck('name')->toArray(); // Mendapatkan role yang dimiliki oleh member saat ini
+        DB::beginTransaction(); // Mulai transaksi sebelum try-catch
 
-        return view('edit.editdatauser', compact('member', 'roles', 'memberRoles'));
+        try {
+            $member = Member::where('id_member', $id_member)->firstOrFail();
+            $roles = Role::all(); // Mendapatkan semua role
+            $memberRoles = $member->roles->pluck('name')->toArray();
+
+            DB::commit(); // Commit transaksi jika sukses
+            return view('edit.editdatauser', compact('member', 'roles', 'memberRoles'));
+        } catch (\Exception $e) {
+            DB::rollBack(); // Rollback jika terjadi error
+            Log::error('Edit Member Error: ' . $e->getMessage());
+            return redirect()->route('halaman.datauser')->with('error', 'Terjadi kesalahan saat mengedit data user.');
+        }
     }
 
     public function updateRole(Request $request, $id_member)
     {
-        // Cari member berdasarkan id_member
-        $member = Member::where('id_member', $id_member)->firstOrFail();
+        DB::beginTransaction(); // Mulai transaksi sebelum try-catch
 
-        // Validasi input
-        $request->validate([
-            'roles' => 'required|array' // Pastikan setidaknya satu role dipilih
-        ]);
+        try {
+            $member = Member::where('id_member', $id_member)->firstOrFail();
 
-        // Sinkronisasi role
-        $roles = $request->input('roles');
-        $member->syncRoles($roles);
+            // Validasi input
+            $request->validate([
+                'roles' => 'required|array' // Pastikan setidaknya satu role dipilih
+            ]);
 
-        return redirect()->route('halaman.datauser')->with('success', 'Role akun tersebut berhasil diubah !');
+            // Sinkronisasi role
+            $roles = $request->input('roles');
+            $member->syncRoles($roles);
+
+            DB::commit(); // Commit transaksi jika sukses
+            return redirect()->route('halaman.datauser')->with('success', 'Role akun tersebut berhasil diubah!');
+        } catch (\Exception $e) {
+            DB::rollBack(); // Rollback jika terjadi error
+            Log::error('Update Role Error: ' . $e->getMessage());
+            return redirect()->route('halaman.datauser')->with('error', 'Terjadi kesalahan saat memperbarui role.');
+        }
     }
+
     public function destroy($id_member)
-{
-    // Cari member berdasarkan id_member
-    $member = Member::where('id_member', $id_member)->firstOrFail();
+    {
+        DB::beginTransaction(); // Mulai transaksi sebelum try-catch
 
-    // Hapus member
-    $member->delete();
+        try {
+            $member = Member::where('id_member', $id_member)->firstOrFail();
 
-    // Redirect dengan pesan sukses
-    return redirect()->route('halaman.datauser')->with('success', 'Akun tersebut berhasil dihapus !');
-}
+            // Hapus member
+            $member->delete();
 
-
+            DB::commit(); // Commit transaksi jika sukses
+            return redirect()->route('halaman.datauser')->with('success', 'Akun tersebut berhasil dihapus!');
+        } catch (\Exception $e) {
+            DB::rollBack(); // Rollback jika terjadi error
+            Log::error('Delete Member Error: ' . $e->getMessage());
+            return redirect()->route('halaman.datauser')->with('error', 'Terjadi kesalahan saat menghapus akun.');
+        }
+    }
 }

@@ -4,16 +4,21 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Models\Admin;
 use App\Models\Member;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Session as FacadesSession;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 
 class AuthController extends Controller
 {
     public function showLoginForm()
     {
+        // Jika pengguna sudah login, arahkan ke dashboard
+        if (Auth::check()) {
+            return redirect()->route('halaman.dashboard');
+        }
+
         return view('auth.login');
     }
 
@@ -24,27 +29,40 @@ class AuthController extends Controller
             'password' => 'required',
         ]);
 
-        $user = Member::where('email', $request->email)->first();
+        try {
+            $user = Member::where('email', $request->email)->first();
 
-        if ($user && Hash::check($request->password, $user->password)) {
-            Auth::login($user);
-            return redirect()->route('halaman.dashboard');
+            if ($user && Hash::check($request->password, $user->password)) {
+                Auth::login($user);
+
+                // Panggil authenticated untuk mengatur role
+                $this->authenticated($request, $user);
+
+                return redirect()->route('halaman.dashboard');
+            }
+
+            return redirect()->back()->withErrors(['message' => 'Anda Gagal Melakukan Login']);
+        } catch (\Exception $e) {
+            // Log error atau tangani sesuai kebutuhan
+            Log::error('Login Error: ' . $e->getMessage());
+            return redirect()->back()->withErrors(['message' => 'Something went wrong during login']);
         }
-
-        return redirect()->back()->withErrors(['message' => 'Invalid credentials']);
     }
 
     public function logout(Request $request)
-    {   
-         // Hapus session currentRole saat logout
-         Session::forget('currentRole');
+    {
+        try {
+            Auth::logout();
 
-         Auth::logout();
- 
-         $request->session()->invalidate();
-         $request->session()->regenerateToken();
- 
-         return redirect('/');
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+
+            return redirect('/');
+        } catch (\Exception $e) {
+            // Log error atau tangani sesuai kebutuhan
+            Log::error('Logout Error: ' . $e->getMessage());
+            return redirect()->back()->withErrors(['message' => 'Logout failed']);
+        }
     }
 
     public function register(Request $request)
@@ -56,113 +74,48 @@ class AuthController extends Controller
             'password' => 'required|string|min:8|confirmed',
         ]);
 
-        $member = Member::create([
-            'nama' => $request->name,
-            'no_telepon' => $request->no_telepon,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            ]);
-            $member->assignRole('Member');
-        return redirect()->route('login')->with('success', 'Account created successfully. Please log in.');
+        try {
+            DB::transaction(function () use ($request) {
+                $member = Member::create([
+                    'nama' => $request->name,
+                    'no_telepon' => $request->no_telepon,
+                    'email' => $request->email,
+                    'password' => Hash::make($request->password),
+                ]);
+
+                $member->assignRole('Member');
+            });
+
+            return redirect()->route('login')->with('success', 'Akun berhasil dibuat! Silahkan melakukan Login.');
+        } catch (\Exception $e) {
+            // Log error atau tangani sesuai kebutuhan
+            Log::error('Registration Error: ' . $e->getMessage());
+            return redirect()->back()->withErrors(['message' => 'Anda Gagal pembuatan akun']);
+        }
     }
+
     protected function authenticated(Request $request, $user)
-{
-    // Ambil semua role user
-    $roles = $user->getRoleNames()->toArray();
+    {
+        // Set default role after successful login
+        $defaultRole = $this->determineDefaultRole($user);
+        Session::put('currentRole', $defaultRole);
 
-    // Tentukan role default berdasarkan peran yang dimiliki
-    if (in_array('admin', $roles) && in_array('member', $roles)) {
-        $defaultRole = 'admin,member';
-    } elseif (in_array('admin', $roles)) {
-        $defaultRole = 'admin';
-    } elseif (in_array('member', $roles)) {
-        $defaultRole = 'member';
-    } else {
-        $defaultRole = 'member'; // Default role jika tidak ada yang cocok
+        // Redirect ke dashboard setelah login
+        return redirect()->route('halaman.dashboard');
     }
 
-    // Set session 'currentRole' ke role default
-    Session::put('currentRole', $defaultRole);
+    protected function determineDefaultRole($user)
+    {
+        // Ambil semua role user
+        $roles = $user->getRoleNames()->toArray();
 
-    // Default redirect jika role tidak dikenali
-    return redirect()->route('home');
-}
-protected function determineDefaultRole($roles)
-{
-    if (in_array('admin', $roles) && in_array('member', $roles)) {
-        return 'admin,member';
-    } elseif (in_array('admin', $roles)) {
-        return 'admin';
-    } elseif (in_array('member', $roles)) {
-        return 'member';
-    } else {
-        return 'member'; // Default role jika tidak ada yang cocok
+        // Tentukan role default berdasarkan nama role
+        if (in_array('Admin', $roles)) {
+            return 'admin';
+        } elseif (in_array('Member', $roles)) {
+            return 'member';
+        } else {
+            return 'member'; // Default role jika tidak ada yang cocok
+        }
     }
-}
-
-    
-    // /**
-    //  * Menampilkan form login.
-    //  */
-    // public function showLoginForm()
-    // {
-    //     return view('auth.login'); // Pastikan ada view login.blade.php
-    // }
-
-    // /**
-    //  * Proses login.
-    //  */
-    // public function login(Request $request)
-    // {
-    //     $request->validate([
-    //         'email' => 'required|email',
-    //         'password' => 'required',
-    //     ]);
-
-    //     $credentials = $request->only('email', 'password');
-
-    //     // Cek di tabel Admin
-    //     if (Admin::where('email', $request->email)->exists() && Auth::guard('admin')->attempt($credentials)) {
-    //         return redirect()->route('admin.dashboard'); // Ganti dengan route admin dashboard
-    //     }
-
-    //     // Cek di tabel Member
-    //     if (Member::where('email', $request->email)->exists() && Auth::guard('member')->attempt($credentials)) {
-    //         return redirect()->route('member.dashboard'); // Ganti dengan route member dashboard
-    //     }
-
-    //     // Jika login gagal
-    //     return redirect()->back()->withErrors(['message' => 'Invalid credentials']);
-    // }
-
-    // /**
-    //  * Proses logout.
-    //  */
-    // public function logout(Request $request)
-    // {
-    //     // Logout dari guard yang sedang digunakan
-    //     Auth::guard('admin')->logout();
-    //     Auth::guard('member')->logout();
-
-    //     return redirect()->route('login'); // Pastikan route login sesuai
-    // }
-
-    // public function register(Request $request)
-    // {
-    //     $request->validate([
-    //         'name' => 'required|string|max:100',
-    //         'no_telepon' => 'required|string|max:20',
-    //         'email' => 'required|email|unique:members,email',
-    //         'password' => 'required|string|min:8|confirmed',
-    //     ]);
-
-    //     Member::create([
-    //         'nama' => $request->name,
-    //         'no_telepon' => $request->no_telepon,
-    //         'email' => $request->email,
-    //         'password' => Hash::make($request->password),
-    //     ]);
-
-    //     return redirect()->route('login')->with('success', 'Account created successfully. Please log in.');
-    // }
 }

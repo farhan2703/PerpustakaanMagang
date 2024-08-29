@@ -65,8 +65,12 @@
             <!-- Profile Dropdown -->
             <li class="nav-item dropdown pe-3">
                 <a class="nav-link nav-profile d-flex align-items-center" href="#" data-bs-toggle="dropdown">
-                    <img src="{{ asset('storage/' . $user->foto_profil)  }}" alt="Profile" class="profile-img rounded-circle" style="width: 40px; height: 40px;">
-                    <div class="d-flex flex-column flex-md-row align-items-center ps-2">
+                    @if($user->foto_profil)
+                        <img src="{{ asset('storage/' . $user->foto_profil) }}" alt="Profile" class="profile-img rounded-circle" style="width: 40px; height: 40px;">
+                    @else
+                        <img src="{{ asset('assets/img/image.png') }}" alt="Profile" class="profile-img rounded-circle" style="width: 40px; height: 40px;">
+                    @endif
+                        <div class="d-flex flex-column flex-md-row align-items-center ps-2">
                         <span class="fw-semibold me-2">{{ $user->nama }}   |</span>
                         <small class="text-muted text-capitalize">
                             @php

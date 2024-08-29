@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\BukuMemberController;
 use App\Http\Controllers\BukuuController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DataUserController;
 use App\Http\Controllers\KategoriBukuController;
 use App\Http\Controllers\MemberController;
@@ -16,39 +17,42 @@ use App\Models\Admin;
 use App\Models\Buku;
 use Illuminate\Contracts\Auth\UserProvider;
 use Illuminate\Contracts\Session\Session;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 
-// Route untuk menampilkan form login
-// Route untuk menampilkan form login
-Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
+Route::get('/', function () {
+    if (Auth::check()) {
+        return redirect()->route('halaman.dashboard');
+    }
+    return view('auth.login');
+})->name('home');
 
-// Route untuk mengirimkan form login
+// Rute untuk menampilkan form login
+Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('login.submit');
 
-// Route untuk menampilkan form register
+// Rute untuk menampilkan form register
 Route::get('/register', function () {
+    if (Auth::check()) {
+        return redirect()->route('halaman.dashboard');
+    }
     return view('sign.register');
 })->name('register');
-
-// Route untuk mengirimkan form register
 Route::post('/register', [AuthController::class, 'register'])->name('register.submit');
 
-
-// Route  logout admin
-
-Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-
+// Rute dashboard yang memerlukan autentikasi
+Route::middleware('auth')->group(function () {
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('halaman.dashboard');
+    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+});
 
 // Route untuk dashboard member
-Route::get('/headerbody', function () {
+Route::get('/dashboard', function () {
     return view('member.dashboard');
 })->name('halaman.dashboard')->middleware('auth');
 
 // Halaman utama
-Route::get('/', function () {
-    return view('auth.login');
-})->name('home');
 
 Route::group(['middleware' => ['permission:Master Buku']], function () {
 // Buku routes

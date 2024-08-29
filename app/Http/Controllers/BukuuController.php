@@ -10,6 +10,7 @@ use App\Models\Buku;
 use App\Models\KategoriBuku;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 use Barryvdh\DomPDF\Facade\Pdf;
 use PhpOffice\PhpSpreadsheet\Writer\Pdf as WriterPdf;
@@ -28,40 +29,39 @@ class BukuuController extends Controller
     }
 
     public function tableBuku(Request $request)
-    {if ($request->ajax()) {
-        $buku = Buku::select(['id_buku', 'judul', 'penulis', 'penerbit', 'tahun_terbit', 'status_ketersediaan', 'stok', 'kategori'])->get();
+    {
+        if ($request->ajax()) {
+            $buku = Buku::select(['id_buku', 'judul', 'penulis', 'penerbit', 'tahun_terbit', 'status_ketersediaan', 'stok', 'kategori'])->get();
 
-        return DataTables::of($buku)
-            ->addIndexColumn() // Menambahkan indeks otomatis
-            ->editColumn('status_ketersediaan', function ($row) {
-                // Menentukan status ketersediaan dan warna teks berdasarkan stok
-                if ($row->stok <= 0) {
-                    return '<span style="color: red;">Tidak Tersedia</span>';
-                } else {
-                    return '<span style="color: green;">Tersedia</span>';
-                }
-            })
-            ->addColumn('opsi', function ($row) {
-                // Buat tombol aksi untuk setiap buku
-                return '
-                    <div class="d-flex align-items-center">
-                        <form action="/buku/' . $row->id_buku . '/edit_buku" method="GET" class="me-1">
-                            <button type="submit" class="btn btn-warning btn-sm"><i class="bi bi-pencil-square text-white"></i></button>
-                        </form>
-                        <form action="/buku/' . $row->id_buku . '" method="GET" class="me-1">
-                            <button type="submit" class="btn btn-secondary btn-sm"><i class="bi bi-info-circle"></i></button>
-                        </form>
-                        <form action="/buku/' . $row->id_buku . '/destroy" method="POST">
-                            ' . csrf_field() . '
-                            ' . method_field('DELETE') . '
-                            <button type="submit" class="btn btn-danger btn-sm"><i class="bi bi-trash"></i></button>
-                        </form>
-                    </div>
-                ';
-            })
-            ->rawColumns(['status_ketersediaan', 'opsi']) // Pastikan kolom status_ketersediaan dan opsi dianggap sebagai HTML
-            ->make(true);
-    }
+            return DataTables::of($buku)
+                ->addIndexColumn()
+                ->editColumn('status_ketersediaan', function ($row) {
+                    if ($row->stok <= 0) {
+                        return '<span style="color: red;">Tidak Tersedia</span>';
+                    } else {
+                        return '<span style="color: green;">Tersedia</span>';
+                    }
+                })
+                ->addColumn('opsi', function ($row) {
+                    return '
+                        <div class="d-flex align-items-center">
+                            <form action="/buku/' . $row->id_buku . '/edit_buku" method="GET" class="me-1">
+                                <button type="submit" class="btn btn-warning btn-sm"><i class="bi bi-pencil-square text-white"></i></button>
+                            </form>
+                            <form action="/buku/' . $row->id_buku . '" method="GET" class="me-1">
+                                <button type="submit" class="btn btn-secondary btn-sm"><i class="bi bi-info-circle"></i></button>
+                            </form>
+                            <form action="/buku/' . $row->id_buku . '/destroy" method="POST">
+                                ' . csrf_field() . '
+                                ' . method_field('DELETE') . '
+                                <button type="submit" class="btn btn-danger btn-sm"><i class="bi bi-trash"></i></button>
+                            </form>
+                        </div>
+                    ';
+                })
+                ->rawColumns(['status_ketersediaan', 'opsi'])
+                ->make(true);
+        }
     }
 
     public function detail($id)
@@ -78,28 +78,38 @@ class BukuuController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'judul' => 'required|string|max:255',
-            'penulis' => 'required|string|max:255',
-            'penerbit' => 'required|string|max:255',
-            'tahun_terbit' => 'required|date',
-            'stok' => 'required|integer',
-            'kategori' => 'required|string|max:255',
-        ]);
+        DB::beginTransaction();
 
-        $status_ketersediaan = $request->stok > 0 ? 'Tersedia' : 'Tidak tersedia';
+        try {
+            $request->validate([
+                'judul' => 'required|string|max:255',
+                'penulis' => 'required|string|max:255',
+                'penerbit' => 'required|string|max:255',
+                'tahun_terbit' => 'required|date',
+                'stok' => 'required|integer',
+                'kategori' => 'required|string|max:255',
+            ]);
 
-        Buku::create([
-            'judul' => $request->input('judul'),
-            'penulis' => $request->input('penulis'),
-            'penerbit' => $request->input('penerbit'),
-            'tahun_terbit' => $request->input('tahun_terbit'),
-            'status_ketersediaan' => $status_ketersediaan,
-            'stok' => $request->input('stok'),
-            'kategori' => $request->input('kategori'),
-        ]);
+            $status_ketersediaan = $request->stok > 0 ? 'Tersedia' : 'Tidak tersedia';
 
-        return redirect()->route('halaman.buku')->with('success', 'Buku berhasil ditambahkan!');
+            Buku::create([
+                'judul' => $request->input('judul'),
+                'penulis' => $request->input('penulis'),
+                'penerbit' => $request->input('penerbit'),
+                'tahun_terbit' => $request->input('tahun_terbit'),
+                'status_ketersediaan' => $status_ketersediaan,
+                'stok' => $request->input('stok'),
+                'kategori' => $request->input('kategori'),
+            ]);
+
+            DB::commit();
+
+            return redirect()->route('halaman.buku')->with('success', 'Buku berhasil ditambahkan!');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error('Error storing book: ' . $e->getMessage());
+            return redirect()->back()->withErrors(['error' => 'Terjadi kesalahan saat menambahkan buku.']);
+        }
     }
 
     public function edit($id)
@@ -111,48 +121,69 @@ class BukuuController extends Controller
 
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'judul' => 'required|string|max:255',
-            'penulis' => 'required|string|max:255',
-            'penerbit' => 'required|string|max:255',
-            'tahun_terbit' => 'required|date',
-            'stok' => 'required|integer',
-            'kategori' => 'required|string|max:255',
-        ]);
+        DB::beginTransaction();
 
-        $status_ketersediaan = $request->stok > 0 ? 'Tersedia' : 'Tidak tersedia';
+        try {
+            $request->validate([
+                'judul' => 'required|string|max:255',
+                'penulis' => 'required|string|max:255',
+                'penerbit' => 'required|string|max:255',
+                'tahun_terbit' => 'required|date',
+                'stok' => 'required|integer',
+                'kategori' => 'required|string|max:255',
+            ]);
 
-        $buku = Buku::findOrFail($id);
-        $buku->update([
-            'judul' => $request->input('judul'),
-            'penulis' => $request->input('penulis'),
-            'penerbit' => $request->input('penerbit'),
-            'tahun_terbit' => $request->input('tahun_terbit'),
-            'status_ketersediaan' => $status_ketersediaan,
-            'stok' => $request->input('stok'),
-            'kategori' => $request->input('kategori'),
-        ]);
+            $status_ketersediaan = $request->stok > 0 ? 'Tersedia' : 'Tidak tersedia';
 
-        return redirect()->route('halaman.buku')->with('success', 'Buku berhasil diperbarui!');
+            $buku = Buku::findOrFail($id);
+            $buku->update([
+                'judul' => $request->input('judul'),
+                'penulis' => $request->input('penulis'),
+                'penerbit' => $request->input('penerbit'),
+                'tahun_terbit' => $request->input('tahun_terbit'),
+                'status_ketersediaan' => $status_ketersediaan,
+                'stok' => $request->input('stok'),
+                'kategori' => $request->input('kategori'),
+            ]);
+
+            DB::commit();
+
+            return redirect()->route('halaman.buku')->with('success', 'Buku berhasil diperbarui!');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error('Error updating book: ' . $e->getMessage());
+            return redirect()->back()->withErrors(['error' => 'Terjadi kesalahan saat memperbarui buku.']);
+        }
     }
 
     public function forcedelete($id)
     {
-        $buku = Buku::find($id);
+        DB::beginTransaction();
 
-        if (!$buku) {
-            return Redirect::route('halaman.buku')->with('error', 'Buku tidak ditemukan.');
+        try {
+            $buku = Buku::find($id);
+
+            if (!$buku) {
+                return Redirect::route('halaman.buku')->with('error', 'Buku tidak ditemukan.');
+            }
+
+            $buku->delete();
+
+            DB::commit();
+
+            return Redirect::route('halaman.buku')->with('success', 'Buku berhasil dihapus.');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error('Error deleting book: ' . $e->getMessage());
+            return Redirect::route('halaman.buku')->with('error', 'Terjadi kesalahan saat menghapus buku.');
         }
-
-        $buku->delete();
-
-        return Redirect::route('halaman.buku')->with('success', 'Buku berhasil dihapus.');
     }
 
     public function export_excel()
     {
         return Excel::download(new ExportBuku, 'data_buku.xlsx');
     }
+
     public function export_template()
     {
         return Excel::download(new ExportTemplate, 'templateexcel.xlsx');
@@ -175,7 +206,13 @@ class BukuuController extends Controller
         $data = $request->file('file');
         $namaFile = $data->getClientOriginalName();
         $data->move('BukuData', $namaFile);
-        Excel::import(new ImportBuku, public_path('BukuData/' . $namaFile));
-        return redirect()->route('halaman.buku')->with('success', 'Buku berhasil diimpor.');
+
+        try {
+            Excel::import(new ImportBuku, public_path('BukuData/' . $namaFile));
+            return redirect()->route('halaman.buku')->with('success', 'Buku berhasil diimpor.');
+        } catch (\Exception $e) {
+            Log::error('Error importing books: ' . $e->getMessage());
+            return redirect()->back()->withErrors(['error' => 'Terjadi kesalahan saat mengimpor buku.']);
+        }
     }
 }
